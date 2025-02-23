@@ -1,0 +1,23 @@
+.root {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.root svg {
+  color: var(--color-primary);
+  opacity: 0.3;
+}
+
+.root h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  width: 25rem;
+}
+
+@media screen and (max-width: 600px) {
+  .root h2 {
+    width: 100%;
+  }
+}

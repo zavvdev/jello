@@ -15,7 +15,7 @@ export function useI18n(ns, options = {}) {
         setI18n(i18nInstance);
       })();
     }
-  }, [i18n]);
+  }, [i18n, lng, ns, options, setI18n]);
 
   return {
     t: i18n?.t || ((x) => x),

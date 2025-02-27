@@ -1,4 +1,4 @@
-import pg from "pg";
+var pg = require("pg");
 
 var { Pool } = pg;
 
@@ -27,6 +27,6 @@ async function transaction(executor) {
   }
 }
 
-export var db = {
+module.exports = {
   transaction,
 };

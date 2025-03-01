@@ -13,6 +13,9 @@ prettify:
 db-up:
 	docker compose up -d
 
+db-setup:
+	node -r dotenv/config ./scripts/database/setup.js dotenv_config_path=.env
+
 db-stop:
 	docker compose stop
 

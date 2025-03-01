@@ -63,6 +63,31 @@ function migrate() {
         BEFORE UPDATE ON users
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
     `);
+
+    // ====================
+    // Boards
+    // ====================
+
+    await client.query(`
+      CREATE TABLE boards (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(32) NOT NULL
+          CHECK (LENGTH(name) >= 2),
+        description VARCHAR(100) DEFAULT NULL,
+        color VARCHAR(7) NOT NULL
+          CHECK (color ~ '^#[0-9a-fA-F]{6}$'),
+        is_archived BOOL NOT NULL DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      DROP TRIGGER IF EXISTS update_boards_updated_at ON boards;
+      CREATE TRIGGER update_boards_updated_at
+        BEFORE UPDATE ON boards
+        FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+    `);
   });
 }
 

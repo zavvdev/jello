@@ -1,4 +1,5 @@
 var db = require("./index");
+var { color, username, email } = require("./validations");
 
 function clear() {
   return db.transaction(async (client) => {
@@ -54,13 +55,13 @@ function migrate() {
         id SERIAL PRIMARY KEY,
         username VARCHAR(16) NOT NULL UNIQUE
           CHECK (LENGTH(username) >= 2)
-          CHECK (username ~ '^[a-z0-9_]*$'),
+          CHECK (username ~ ${username()}),
         first_name VARCHAR(32) NOT NULL
           CHECK (LENGTH(first_name) >= 1),
         last_name VARCHAR(32) NOT NULL
           CHECK (LENGTH(last_name) >= 1),
         email VARCHAR(64) NOT NULL UNIQUE
-          CHECK (email ~ '^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,}$'),
+          CHECK (email ~ ${email()}),
         password VARCHAR(255) NOT NULL
           CHECK (LENGTH(password) >= 16),
         bio VARCHAR(255),
@@ -87,7 +88,7 @@ function migrate() {
           CHECK (LENGTH(name) >= 2),
         description VARCHAR(100) DEFAULT NULL,
         color VARCHAR(7) NOT NULL
-          CHECK (color ~ '^#[0-9a-fA-F]{6}$'),
+          CHECK (color ~ ${color()}),
         is_archived BOOL NOT NULL DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

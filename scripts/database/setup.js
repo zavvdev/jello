@@ -5,13 +5,13 @@ function clear() {
   return db.transaction(async (client) => {
     await client.query("DROP TABLE IF EXISTS users_boards_roles");
     await client.query("DROP TYPE IF EXISTS user_board_role");
-    await client.query("DROP TABLE IF EXISTS users");
-    await client.query("DROP TABLE IF EXISTS labels");
-    await client.query("DROP TABLE IF EXISTS boards");
     await client.query("DROP TABLE IF EXISTS tasks_labels");
     await client.query("DROP TABLE IF EXISTS task_comments");
+    await client.query("DROP TABLE IF EXISTS users");
+    await client.query("DROP TABLE IF EXISTS labels");
     await client.query("DROP TABLE IF EXISTS tasks");
     await client.query("DROP TABLE IF EXISTS lists");
+    await client.query("DROP TABLE IF EXISTS boards");
   });
 }
 
@@ -162,6 +162,30 @@ function migrate() {
       DROP TRIGGER IF EXISTS update_lists_updated_at ON lists;
       CREATE TRIGGER update_lists_updated_at
         BEFORE UPDATE ON lists
+        FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+    `);
+
+    // ====================
+    // Tasks
+    // ====================
+
+    await client.query(`
+      CREATE TABLE tasks (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(64) NOT NULL
+          CHECK (LENGTH(name) >= 1),
+        description TEXT DEFAULT NULL,
+        is_archived BOOL NOT NULL DEFAULT FALSE,
+        list_id INT NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      DROP TRIGGER IF EXISTS update_tasks_updated_at ON tasks;
+      CREATE TRIGGER update_tasks_updated_at
+        BEFORE UPDATE ON tasks
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
     `);
   });

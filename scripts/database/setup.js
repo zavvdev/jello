@@ -6,9 +6,9 @@ function clear() {
     await client.query("DROP TABLE IF EXISTS users_boards_roles");
     await client.query("DROP TYPE IF EXISTS user_board_role");
     await client.query("DROP TABLE IF EXISTS users");
+    await client.query("DROP TABLE IF EXISTS labels");
     await client.query("DROP TABLE IF EXISTS boards");
     await client.query("DROP TABLE IF EXISTS tasks_labels");
-    await client.query("DROP TABLE IF EXISTS labels");
     await client.query("DROP TABLE IF EXISTS task_comments");
     await client.query("DROP TABLE IF EXISTS tasks");
     await client.query("DROP TABLE IF EXISTS lists");
@@ -138,6 +138,30 @@ function migrate() {
       DROP TRIGGER IF EXISTS update_labels_updated_at ON labels;
       CREATE TRIGGER update_labels_updated_at
         BEFORE UPDATE ON labels
+        FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+    `);
+
+    // ====================
+    // Lists
+    // ====================
+
+    await client.query(`
+      CREATE TABLE lists (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(16) NOT NULL
+          CHECK (LENGTH(name) >= 1),
+        description VARCHAR(100) DEFAULT NULL,
+        is_archived BOOL NOT NULL DEFAULT FALSE,
+        board_id INT NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      DROP TRIGGER IF EXISTS update_lists_updated_at ON lists;
+      CREATE TRIGGER update_lists_updated_at
+        BEFORE UPDATE ON lists
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
     `);
   });

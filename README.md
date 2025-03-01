@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jello
 
-## Getting Started
+## Prerequisites
 
-First, run the development server:
+- Install Make
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Install Node.js
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Install Docker
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create `.env` file from `.env.example` and fill database variables
 
-## Learn More
+2. Make sure your Node.js version matches that one from `.nvmrc` file
 
-To learn more about Next.js, take a look at the following resources:
+3. Run `npm install`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Run `make db-up`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Run `make db-setup`
 
-## Deploy on Vercel
+6. Run either `make dev` to run app in dev mode or `make prod` to run in production mode.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`make dev` - run application in development mode
+
+`make prod` - run application in production mode
+
+`make analyze` - run application static analysis
+
+`make prettify` - apply prettier to files
+
+`make db-up` - create a database container from image
+
+`make db-setup` - execute initial database migrations
+
+`make db-stop` - stop database container
+
+`make db-start` - start stopped database container
+
+`make db-down` - shutdown database container and remove all related data
+
+`make db-exec id=container-id` - get access to container command line
+
+`make db-sc` - show running containers

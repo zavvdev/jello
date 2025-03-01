@@ -2,20 +2,32 @@ var db = require("./index");
 
 function clear() {
   return db.transaction(async (client) => {
+    await client.query("DROP TABLE IF EXISTS users_boards_roles");
+    await client.query("DROP TYPE IF EXISTS user_board_role");
     await client.query("DROP TABLE IF EXISTS users");
     await client.query("DROP TABLE IF EXISTS boards");
-    await client.query("DROP TABLE IF EXISTS labels");
-    await client.query("DROP TABLE IF EXISTS lists");
-    await client.query("DROP TABLE IF EXISTS tasks");
-    await client.query("DROP TABLE IF EXISTS task_comments");
-    await client.query("DROP TABLE IF EXISTS users_boards_roles");
     await client.query("DROP TABLE IF EXISTS tasks_labels");
-    await client.query("DROP TYPE IF EXISTS user_board_role");
+    await client.query("DROP TABLE IF EXISTS labels");
+    await client.query("DROP TABLE IF EXISTS task_comments");
+    await client.query("DROP TABLE IF EXISTS tasks");
+    await client.query("DROP TABLE IF EXISTS lists");
   });
 }
 
 function migrate() {
   return db.transaction(async (client) => {
+    // ====================
+    // Types
+    // ====================
+
+    await client.query(`
+      CREATE TYPE user_board_role AS ENUM (
+        'owner',
+        'admin',
+        'member'
+      );
+    `);
+
     // ====================
     // Functions
     // ====================
@@ -87,6 +99,21 @@ function migrate() {
       CREATE TRIGGER update_boards_updated_at
         BEFORE UPDATE ON boards
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+    `);
+
+    // ====================
+    // Users-Boards-Roles
+    // ====================
+
+    await client.query(`
+      CREATE TABLE users_boards_roles (
+        user_id INT NOT NULL,
+        board_id INT NOT NULL,
+        role user_board_role NOT NULL,
+        PRIMARY KEY (user_id, board_id),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE
+      );
     `);
   });
 }

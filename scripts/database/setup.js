@@ -4,7 +4,6 @@ var { color, username, email } = require("./validations");
 function clear() {
   return db.transaction(async (client) => {
     await client.query("DROP TABLE IF EXISTS users_boards_roles");
-    await client.query("DROP TYPE IF EXISTS user_board_role");
     await client.query("DROP TABLE IF EXISTS tasks_labels");
     await client.query("DROP TABLE IF EXISTS task_comments");
     await client.query("DROP TABLE IF EXISTS users");
@@ -22,6 +21,7 @@ function migrate() {
     // ====================
 
     await client.query(`
+      DROP TYPE IF EXISTS user_board_role;
       CREATE TYPE user_board_role AS ENUM (
         'owner',
         'admin',
@@ -201,6 +201,29 @@ function migrate() {
         FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
         FOREIGN KEY (label_id) REFERENCES labels(id) ON DELETE CASCADE
       );
+    `);
+
+    // ====================
+    // Task Comments
+    // ====================
+
+    await client.query(`
+      CREATE TABLE task_comments (
+        id SERIAL PRIMARY KEY,
+        body TEXT NOT NULL
+          CHECK (LENGTH(body) >= 1),
+        author_id INT REFERENCES users(id) ON DELETE SET NULL,
+        task_id INT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      DROP TRIGGER IF EXISTS update_task_comments_updated_at ON task_comments;
+      CREATE TRIGGER update_task_comments_updated_at
+        BEFORE UPDATE ON task_comments
+        FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
     `);
   });
 }

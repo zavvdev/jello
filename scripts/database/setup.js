@@ -188,6 +188,20 @@ function migrate() {
         BEFORE UPDATE ON tasks
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
     `);
+
+    // ====================
+    // Tasks-Labels
+    // ====================
+
+    await client.query(`
+      CREATE TABLE tasks_labels (
+        task_id INT NOT NULL,
+        label_id INT NOT NULL,
+        PRIMARY KEY (task_id, label_id),
+        FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+        FOREIGN KEY (label_id) REFERENCES labels(id) ON DELETE CASCADE
+      );
+    `);
   });
 }
 

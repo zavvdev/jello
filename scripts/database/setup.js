@@ -3,14 +3,27 @@ var { color, username, email } = require("./validations");
 
 function clear() {
   return db.transaction(async (client) => {
-    await client.query("DROP TABLE IF EXISTS users_boards_roles");
-    await client.query("DROP TABLE IF EXISTS tasks_labels");
-    await client.query("DROP TABLE IF EXISTS task_comments");
-    await client.query("DROP TABLE IF EXISTS users");
-    await client.query("DROP TABLE IF EXISTS labels");
-    await client.query("DROP TABLE IF EXISTS tasks");
-    await client.query("DROP TABLE IF EXISTS lists");
-    await client.query("DROP TABLE IF EXISTS boards");
+    await client.query(`
+      DROP TRIGGER IF EXISTS update_users_updated_at ON users;
+      DROP TRIGGER IF EXISTS update_boards_updated_at ON boards;
+      DROP TRIGGER IF EXISTS update_labels_updated_at ON labels;
+      DROP TRIGGER IF EXISTS update_lists_updated_at ON lists;
+      DROP TRIGGER IF EXISTS update_tasks_updated_at ON tasks;
+      DROP TRIGGER IF EXISTS update_task_comments_updated_at ON task_comments;
+
+      DROP FUNCTION IF EXISTS update_updated_at();
+
+      DROP TABLE IF EXISTS users_boards_roles;
+      DROP TABLE IF EXISTS tasks_labels;
+      DROP TABLE IF EXISTS task_comments;
+      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS labels;
+      DROP TABLE IF EXISTS tasks;
+      DROP TABLE IF EXISTS lists;
+      DROP TABLE IF EXISTS boards;
+
+      DROP TYPE IF EXISTS user_board_role;
+    `);
   });
 }
 
@@ -21,7 +34,6 @@ function migrate() {
     // ====================
 
     await client.query(`
-      DROP TYPE IF EXISTS user_board_role;
       CREATE TYPE user_board_role AS ENUM (
         'owner',
         'admin',
@@ -34,7 +46,6 @@ function migrate() {
     // ====================
 
     await client.query(`
-      DROP FUNCTION IF EXISTS update_updated_at();
       CREATE OR REPLACE FUNCTION update_updated_at()
       RETURNS trigger
       LANGUAGE plpgsql
@@ -71,7 +82,6 @@ function migrate() {
     `);
 
     await client.query(`
-      DROP TRIGGER IF EXISTS update_users_updated_at ON users;
       CREATE TRIGGER update_users_updated_at
         BEFORE UPDATE ON users
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
@@ -96,7 +106,6 @@ function migrate() {
     `);
 
     await client.query(`
-      DROP TRIGGER IF EXISTS update_boards_updated_at ON boards;
       CREATE TRIGGER update_boards_updated_at
         BEFORE UPDATE ON boards
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
@@ -135,7 +144,6 @@ function migrate() {
     `);
 
     await client.query(`
-      DROP TRIGGER IF EXISTS update_labels_updated_at ON labels;
       CREATE TRIGGER update_labels_updated_at
         BEFORE UPDATE ON labels
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
@@ -159,7 +167,6 @@ function migrate() {
     `);
 
     await client.query(`
-      DROP TRIGGER IF EXISTS update_lists_updated_at ON lists;
       CREATE TRIGGER update_lists_updated_at
         BEFORE UPDATE ON lists
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
@@ -183,7 +190,6 @@ function migrate() {
     `);
 
     await client.query(`
-      DROP TRIGGER IF EXISTS update_tasks_updated_at ON tasks;
       CREATE TRIGGER update_tasks_updated_at
         BEFORE UPDATE ON tasks
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
@@ -220,7 +226,6 @@ function migrate() {
     `);
 
     await client.query(`
-      DROP TRIGGER IF EXISTS update_task_comments_updated_at ON task_comments;
       CREATE TRIGGER update_task_comments_updated_at
         BEFORE UPDATE ON task_comments
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();

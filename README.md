@@ -20,7 +20,9 @@
 
 5. Run `make db-setup`
 
-6. Run either `make dev` to run app in dev mode or `make prod` to run in production mode.
+6. Run `make db-migrate`
+
+7. Run either `make dev` to run app in dev mode or `make prod` to run in production mode.
 
 ## Scripts
 
@@ -35,6 +37,8 @@
 `make db-up` - create a database container from image
 
 `make db-setup` - execute initial database migrations
+
+`make db-migrate` - execute database migrations
 
 `make db-stop` - stop database container
 

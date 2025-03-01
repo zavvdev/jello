@@ -16,6 +16,9 @@ db-up:
 db-setup:
 	node -r dotenv/config ./scripts/database/setup.js dotenv_config_path=.env
 
+db-migrate:
+	node -r dotenv/config ./scripts/database/migrate.js dotenv_config_path=.env
+
 db-stop:
 	docker compose stop
 

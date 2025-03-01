@@ -116,6 +116,30 @@ function migrate() {
         FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE
       );
     `);
+
+    // ====================
+    // Labels
+    // ====================
+
+    await client.query(`
+      CREATE TABLE labels (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(16) NOT NULL
+          CHECK (LENGTH(name) >= 1),
+        color VARCHAR(7) NOT NULL
+          CHECK (color ~ ${color()}),
+        board_id INT NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      DROP TRIGGER IF EXISTS update_labels_updated_at ON labels;
+      CREATE TRIGGER update_labels_updated_at
+        BEFORE UPDATE ON labels
+        FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+    `);
   });
 }
 

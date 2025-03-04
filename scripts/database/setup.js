@@ -13,6 +13,8 @@ function clear() {
 
       DROP FUNCTION IF EXISTS update_updated_at();
 
+      DROP TABLE IF EXISTS sessions;
+      DROP TABLE IF EXISTS revoked_tokens;
       DROP TABLE IF EXISTS users_boards_roles;
       DROP TABLE IF EXISTS tasks_labels;
       DROP TABLE IF EXISTS task_comments;
@@ -229,6 +231,31 @@ function migrate() {
       CREATE TRIGGER update_task_comments_updated_at
         BEFORE UPDATE ON task_comments
         FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+    `);
+
+    // ====================
+    // Sessions
+    // ====================
+
+    await client.query(`
+      CREATE TABLE sessions (
+        id SERIAL PRIMARY KEY,
+        user_id INT REFERENCES users(id) ON DELETE CASCADE,
+        token TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        expires_at TIMESTAMP NOT NULL
+      );
+    `);
+
+    // ====================
+    // Revoked Tokens
+    // ====================
+
+    await client.query(`
+      CREATE TABLE revoked_tokens (
+        token TEXT NOT NULL PRIMARY KEY,
+        revoked_at TIMESTAMP NOT NULL
+      );
     `);
   });
 }

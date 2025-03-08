@@ -1,9 +1,7 @@
 import "server-only";
 
-import * as R from "remeda";
 import { db } from "~/infra/database";
 import { createDtoSchema, existsDtoSchema } from "./schemas";
-import { UserSchema } from "~/entity/user";
 
 export class UsersRepo {
   /**
@@ -34,13 +32,6 @@ export class UsersRepo {
         validDto.password,
       ],
     );
-
-    var user = await this.#client.query(
-      `SELECT * FROM users WHERE username = $1`,
-      [validDto.username],
-    );
-
-    return UserSchema.validateSync(R.omit(user.rows[0], ["password"]));
   }
 
   async exists(dto) {

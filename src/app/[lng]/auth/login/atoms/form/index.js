@@ -1,13 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
 import { loginAction } from "~/app/[lng]/auth/login/actions";
 import { NAMESPACES } from "~/app/i18n/config";
 import { useI18n } from "~/app/i18n/hooks/useI18n";
+import { PRIVATE_ROUTES } from "~/app/routes";
 
 export function Form() {
   var { t } = useI18n(NAMESPACES.auth);
   var { 0: state, 1: formAction, 2: pending } = useActionState(loginAction);
+  var router = useRouter();
 
   var handleSubmit = (e) => {
     e.preventDefault();
@@ -16,6 +19,10 @@ export function Form() {
       formAction(formData);
     });
   };
+
+  if (state?.success) {
+    return router.push(PRIVATE_ROUTES.dashboard());
+  }
 
   return (
     <form action={formAction} onSubmit={handleSubmit}>

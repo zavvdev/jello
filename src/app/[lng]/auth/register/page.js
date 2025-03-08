@@ -10,7 +10,7 @@ export default async function Register({ params }) {
 
   return (
     <main>
-      <Image src="/static/logo.svg" alt="Jello" width={100} height={100} />
+      <Image src="/assets/logo.svg" alt="Jello" width={100} height={100} />
       <h1>{t("register.title")}</h1>
       <p>{t("register.subtitle")}</p>
       <Form />

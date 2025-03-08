@@ -1,8 +1,6 @@
-import { getI18nFromParams } from "~/app/i18n";
-import { NAMESPACES } from "~/app/i18n/config";
+import { redirect } from "next/navigation";
+import { PRIVATE_ROUTES } from "~/app/routes";
 
-export default async function Home({ params }) {
-  var { t } = await getI18nFromParams(params)(NAMESPACES.common);
-
-  return <h1>{t("hello")}</h1>;
+export default async function Home() {
+  redirect(PRIVATE_ROUTES.dashboard());
 }

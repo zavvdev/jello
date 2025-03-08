@@ -16,11 +16,21 @@ export async function middleware(request) {
   var lang = getLangFromPathname(pathname);
 
   try {
-    // I18n
+    // Auth
 
-    if (pathname.includes("/static/")) {
-      return;
-    }
+    // TODO: Next is crushing here
+
+    // var session = await getSession();
+
+    // if (!isPrivateRoute(pathname) && session) {
+    //   return NextResponse.redirect(appUrl(PRIVATE_ROUTES.dashboard(), lang));
+    // }
+    //
+    // if (isPrivateRoute(pathname) && !session) {
+    //   throw new Error("unauthorized");
+    // }
+
+    // I18n
 
     var pathnameHasLocale = Object.values(LOCALES).some(
       (locale) =>

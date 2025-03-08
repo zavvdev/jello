@@ -18,6 +18,15 @@ export class UsersRepo {
     this.#client = client;
   }
 
+  /**
+   * @param {{
+   *  username: string,
+   *  first_name: string,
+   *  last_name: string,
+   *  email: string,
+   *  password: string
+   * }} dto
+   */
   async create(dto) {
     var validDto = createDtoSchema.validateSync(dto, { strings: true });
 
@@ -39,18 +48,21 @@ export class UsersRepo {
     );
   }
 
+  /**
+   * @param {{ username: string, email: string }} dto
+   */
   async exists(dto) {
     var { username, email } = existsDtoSchema.validateSync(dto, {
       strings: true,
     });
 
     var existsByUsername = await this.#client.query(
-      `SELECT * FROM users WHERE username = $1`,
+      `SELECT id FROM users WHERE username = $1`,
       [username],
     );
 
     var existsByEmail = await this.#client.query(
-      `SELECT * FROM users WHERE email = $1`,
+      `SELECT id FROM users WHERE email = $1`,
       [email],
     );
 
@@ -60,6 +72,10 @@ export class UsersRepo {
     };
   }
 
+  /**
+   * @param {{ usernameOrEmail: string, password: string }} dto
+   * @returns {Promise<{ id: number } | null>}
+   */
   async getByCredentials(dto) {
     var { usernameOrEmail, password } = getByCredentialsDtoSchema.validateSync(
       dto,
@@ -67,7 +83,7 @@ export class UsersRepo {
     );
 
     var result = await this.#client.query(
-      `SELECT * FROM users WHERE username = $1 OR email = $1`,
+      `SELECT id, password FROM users WHERE username = $1 OR email = $1`,
       [usernameOrEmail],
     );
 
@@ -77,7 +93,7 @@ export class UsersRepo {
       return null;
     }
 
-    return user;
+    return { id: user.id };
   }
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { loginAction } from "~/app/[lng]/auth/login/actions";
 import { NAMESPACES } from "~/app/i18n/config";
 import { useI18n } from "~/app/i18n/hooks/useI18n";
@@ -20,9 +20,11 @@ export function Form() {
     });
   };
 
-  if (state?.success) {
-    return router.push(PRIVATE_ROUTES.dashboard());
-  }
+  useEffect(() => {
+    if (state?.success) {
+      router.push(PRIVATE_ROUTES.dashboard());
+    }
+  }, [state?.success, router]);
 
   return (
     <form action={formAction} onSubmit={handleSubmit}>

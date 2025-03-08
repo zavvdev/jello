@@ -1,5 +1,9 @@
 import { DEFAULT_LOCALE } from "~/app/i18n/config";
 
+var PRIVATE_ROUTE_PREFIX = "u";
+
+var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
+
 export var PUBLIC_ROUTES = {
   auth: {
     register: () => "/auth/register",
@@ -8,7 +12,7 @@ export var PUBLIC_ROUTES = {
 };
 
 export var PRIVATE_ROUTES = {
-  dashboard: () => "/",
+  dashboard: () => prvt("/dashboard"),
 };
 
 /**
@@ -17,4 +21,12 @@ export var PRIVATE_ROUTES = {
  */
 export function appUrl(pathname, lang = DEFAULT_LOCALE) {
   return `${process.env.APP_URL}${lang ? `/${lang}` : ""}${pathname}`;
+}
+
+/**
+ * @param {string} pathname
+ */
+export function isPrivateRoute(pathname) {
+  var paths = pathname.split("/").filter(Boolean);
+  return paths[0] === PRIVATE_ROUTE_PREFIX || paths[1] === PRIVATE_ROUTE_PREFIX;
 }

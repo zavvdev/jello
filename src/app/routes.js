@@ -7,6 +7,10 @@ export var PUBLIC_ROUTES = {
   },
 };
 
+export var PRIVATE_ROUTES = {
+  dashboard: () => "/",
+};
+
 /**
  * @param {string} pathname
  * @param {string?} lang

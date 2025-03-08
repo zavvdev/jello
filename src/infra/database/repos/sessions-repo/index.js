@@ -14,14 +14,16 @@ export class SessionsRepo {
   }
 
   async create(dto) {
-    var validDto = createDtoSchema.validateSync(dto, { strings: true });
+    var { user_id, token } = createDtoSchema.validateSync(dto, {
+      strings: true,
+    });
 
     await this.#client.query(
       `INSERT INTO sessions (
           user_id,
           token
        ) VALUES ($1, $2)`,
-      [validDto.user_id, validDto.token],
+      [user_id, token],
     );
   }
 }

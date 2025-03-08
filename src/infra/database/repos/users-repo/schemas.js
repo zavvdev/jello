@@ -16,3 +16,8 @@ export var existsDtoSchema = t.object({
   username: t.string().required(),
   email: t.string().email().required(),
 });
+
+export var getByCredentialsDtoSchema = t.object({
+  usernameOrEmail: t.string().required(),
+  password: t.string().required(),
+});

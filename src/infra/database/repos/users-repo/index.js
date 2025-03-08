@@ -1,7 +1,12 @@
 import "server-only";
 
 import { db } from "~/infra/database";
-import { createDtoSchema, existsDtoSchema } from "./schemas";
+import { comparePasswords } from "~/infra/encryption/password";
+import {
+  createDtoSchema,
+  existsDtoSchema,
+  getByCredentialsDtoSchema,
+} from "./schemas";
 
 export class UsersRepo {
   /**
@@ -53,6 +58,26 @@ export class UsersRepo {
       byUsername: existsByUsername.rows.length > 0,
       byEmail: existsByEmail.rows.length > 0,
     };
+  }
+
+  async getByCredentials(dto) {
+    var { usernameOrEmail, password } = getByCredentialsDtoSchema.validateSync(
+      dto,
+      { strings: true },
+    );
+
+    var result = await this.#client.query(
+      `SELECT * FROM users WHERE username = $1 OR email = $1`,
+      [usernameOrEmail],
+    );
+
+    var user = result.rows[0];
+
+    if (!user || !(await comparePasswords(password, user.password))) {
+      return null;
+    }
+
+    return user;
   }
 }
 

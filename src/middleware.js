@@ -18,6 +18,10 @@ export async function middleware(request) {
   try {
     // I18n
 
+    if (pathname.includes("/static/")) {
+      return;
+    }
+
     var pathnameHasLocale = Object.values(LOCALES).some(
       (locale) =>
         pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { reportCriticalAppError } from "~/domain/utilities/error-reports";
+import { reportCriticalAppError } from "~/domain/utilities/error-handling";
 import { NAMESPACES } from "~/app/i18n/config";
 import { useI18n } from "~/app/i18n/hooks/useI18n";
 import { Icons } from "~/app/components/icons";

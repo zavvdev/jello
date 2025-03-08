@@ -21,15 +21,17 @@ async function query(text, params) {
 }
 
 /**
- * @param {(client: import("pg").Client) => Promise<void>} executor
+ * @template T
+ * @param {(client: import("pg").Client) => Promise<T>} executor
  * @param {(error: any) => void} onError
  */
 async function transaction(executor, onError) {
   try {
     var client = await pool.connect();
     await client.query("BEGIN");
-    await executor(client);
+    var result = await executor(client);
     await client.query("COMMIT");
+    return result;
   } catch (e) {
     await client.query("ROLLBACK");
     onError?.(e);

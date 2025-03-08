@@ -1,7 +1,10 @@
 import { DEFAULT_LOCALE } from "~/app/i18n/config";
 
 export var PUBLIC_ROUTES = {
-  auth: () => "/auth",
+  auth: {
+    register: () => "/auth/register",
+    login: () => "/auth/login",
+  },
 };
 
 /**

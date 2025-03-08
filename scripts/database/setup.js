@@ -1,5 +1,6 @@
 var db = require("./index");
 var { color, username, email } = require("./validations");
+var { sessionExpirationTime } = require("./config");
 
 function clear() {
   return db.transaction(async (client) => {
@@ -243,7 +244,7 @@ function migrate() {
         user_id INT REFERENCES users(id) ON DELETE CASCADE,
         token TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        expires_at TIMESTAMP NOT NULL
+        expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP + INTERVAL '${sessionExpirationTime}'
       );
     `);
 

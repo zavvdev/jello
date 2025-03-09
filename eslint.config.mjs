@@ -33,9 +33,9 @@ var config = [
           groups: ["builtin", "external", "type", "internal"],
           pathGroups: [
             {
-              pattern: "~/entity",
+              pattern: "~/entity/**",
               group: "internal",
-              position: "before",
+              position: "after",
             },
             {
               pattern: "~/infra/**",
@@ -48,9 +48,9 @@ var config = [
               position: "after",
             },
             {
-              pattern: "~/app",
+              pattern: "~/app/**",
               group: "internal",
-              position: "before",
+              position: "after",
             },
           ],
         },

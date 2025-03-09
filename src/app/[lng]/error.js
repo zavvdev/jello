@@ -12,6 +12,10 @@ export default function Error({ error }) {
 
   useEffect(() => {
     reportCriticalAppError(error);
+    if (error.message === "unauthorized") {
+      // TODO: Does not redirect to login first time
+      fetch("/api/session/destroy");
+    }
   }, [error]);
 
   return (

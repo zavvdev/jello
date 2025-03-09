@@ -1,7 +1,6 @@
 import "server-only";
 
-import { hashPassword } from "~/infra/encryption/password";
-import { usersRepo } from "~/infra/database/repos/users-repo";
+import { usersRepo } from "~/infra/repos/users-repo";
 import { handleKnownError as _ } from "~/domain/utilities/error-handling";
 import { REGISTER_ERROR_KEYS as ERROR_KEYS } from "./config";
 
@@ -32,14 +31,12 @@ export async function register({
         throw new Error(ERROR_KEYS.usernameExists);
       }
 
-      var hashedPassword = await hashPassword(password);
-
       await usersRepo.create({
         username,
         first_name: firstName,
         last_name: lastName,
         email,
-        password: hashedPassword,
+        password,
       });
     },
     "domain/register",

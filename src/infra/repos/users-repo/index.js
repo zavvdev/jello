@@ -1,7 +1,7 @@
 import "server-only";
 
 import { db } from "~/infra/database";
-import { comparePasswords } from "~/infra/encryption/password";
+import { comparePasswords, hashPassword } from "~/infra/encryption/password";
 import {
   createDtoSchema,
   existsDtoSchema,
@@ -29,6 +29,7 @@ export class UsersRepo {
    */
   async create(dto) {
     var validDto = createDtoSchema.validateSync(dto, { strings: true });
+    var hashedPassword = await hashPassword(validDto.password);
 
     await this.#client.query(
       `INSERT INTO users (
@@ -43,7 +44,7 @@ export class UsersRepo {
         validDto.first_name,
         validDto.last_name,
         validDto.email,
-        validDto.password,
+        hashedPassword,
       ],
     );
   }

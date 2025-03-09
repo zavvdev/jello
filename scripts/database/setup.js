@@ -255,7 +255,7 @@ function migrate() {
     await client.query(`
       CREATE TABLE revoked_tokens (
         token TEXT NOT NULL PRIMARY KEY,
-        revoked_at TIMESTAMP NOT NULL
+        revoked_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       );
     `);
   });

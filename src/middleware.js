@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { DEFAULT_LOCALE, LOCALES } from "~/app/i18n/config";
-import { appUrl } from "~/app/routes";
+import {
+  appUrl,
+  isPrivateRoute,
+  PRIVATE_ROUTES,
+  PUBLIC_ROUTES,
+} from "~/app/routes";
 import { getLangFromPathname } from "~/app/i18n/utils";
 
 export const config = {
@@ -18,17 +24,15 @@ export async function middleware(request) {
   try {
     // Auth
 
-    // TODO: Next is crushing here
+    var token = (await cookies()).get(process.env.COOKIE_NAME)?.value;
 
-    // var session = await getSession();
+    if (!isPrivateRoute(pathname) && token) {
+      return NextResponse.redirect(appUrl(PRIVATE_ROUTES.dashboard(), lang));
+    }
 
-    // if (!isPrivateRoute(pathname) && session) {
-    //   return NextResponse.redirect(appUrl(PRIVATE_ROUTES.dashboard(), lang));
-    // }
-    //
-    // if (isPrivateRoute(pathname) && !session) {
-    //   throw new Error("unauthorized");
-    // }
+    if (isPrivateRoute(pathname) && !token) {
+      return NextResponse.redirect(appUrl(PUBLIC_ROUTES.auth.login(), lang));
+    }
 
     // I18n
 

@@ -7,6 +7,6 @@ export var UserSchema = t.object({
   last_name: t.string().required(),
   email: t.string().email().required(),
   bio: t.string().nullable(),
-  created_at: t.string().required(),
-  updated_at: t.string().required(),
+  created_at: t.date().required(),
+  updated_at: t.date().required(),
 });

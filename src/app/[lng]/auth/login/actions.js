@@ -1,21 +1,16 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { errorReporterService } from "~/infra/services/error-reporter-service";
 import { login } from "~/domain/features/auth/login";
-import { COOKIE_CONFIG } from "~/domain/features/auth/login/config";
 
 export async function loginAction(_, formData) {
   try {
     var { usernameOrEmail, password } = Object.fromEntries(formData);
 
-    var { token } = await login({
+    await login({
       usernameOrEmail,
       password,
     });
-
-    var cookieStore = await cookies();
-    cookieStore.set(COOKIE_CONFIG(token));
 
     return {
       success: true,

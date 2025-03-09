@@ -33,3 +33,12 @@ export var getByCredentialsDtoSchema = {
     id: t.number().required(),
   }),
 };
+
+// Get by session token
+
+export var getBySessionTokenDtoSchema = {
+  request: t.object({
+    token: t.string().required(),
+  }),
+  response: UserSchema,
+};

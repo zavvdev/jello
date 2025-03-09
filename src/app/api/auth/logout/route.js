@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { sessionsRepo } from "~/infra/repositories/public/sessions";
+import { sessionsRepo } from "~/infra/repositories/sessions";
 import { PUBLIC_ROUTES } from "~/app/routes";
 
 export async function GET() {

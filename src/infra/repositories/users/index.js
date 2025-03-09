@@ -6,6 +6,7 @@ import {
   createDtoSchema,
   existsDtoSchema,
   getByCredentialsDtoSchema,
+  getBySessionTokenDtoSchema,
 } from "./schemas";
 
 export class UsersRepo {
@@ -18,15 +19,6 @@ export class UsersRepo {
     this.#client = client;
   }
 
-  /**
-   * @param {{
-   *  username: string,
-   *  first_name: string,
-   *  last_name: string,
-   *  email: string,
-   *  password: string
-   * }} dto
-   */
   async create(dto) {
     var validDto = createDtoSchema.request.validateSync(dto, { strict: true });
     var hashedPassword = await hashPassword(validDto.password);
@@ -49,9 +41,6 @@ export class UsersRepo {
     );
   }
 
-  /**
-   * @param {{ username: string, email: string }} dto
-   */
   async exists(dto) {
     var { username, email } = existsDtoSchema.request.validateSync(dto, {
       strict: true,
@@ -76,10 +65,6 @@ export class UsersRepo {
     );
   }
 
-  /**
-   * @param {{ usernameOrEmail: string, password: string }} dto
-   * @returns {Promise<{ id: number } | null>}
-   */
   async getByCredentials(dto) {
     var { usernameOrEmail, password } =
       getByCredentialsDtoSchema.request.validateSync(dto, { strict: true });
@@ -99,6 +84,49 @@ export class UsersRepo {
       { id: user.id },
       { strict: true },
     );
+  }
+
+  async getBySessionToken(dto) {
+    var { token } = getBySessionTokenDtoSchema.request.validateSync(dto, {
+      strict: true,
+    });
+
+    var revoked = await db.query(
+      "SELECT token from revoked_tokens WHERE token = $1",
+      [token],
+    );
+
+    if (revoked.rows.length > 0) {
+      return null;
+    }
+
+    var session = await db.query(
+      "SELECT user_id FROM sessions WHERE token = $1 AND expires_at > NOW()",
+      [token],
+    );
+
+    var userId = session.rows[0]?.user_id;
+
+    if (!userId) {
+      return null;
+    }
+
+    var result = await db.query(
+      `SELECT
+        id, first_name, last_name, username, email, bio, created_at, updated_at
+        FROM users WHERE id = $1`,
+      [userId],
+    );
+
+    var user = result.rows[0];
+
+    if (!user) {
+      return null;
+    }
+
+    return getBySessionTokenDtoSchema.response.validateSync(result.rows[0], {
+      strict: true,
+    });
   }
 }
 

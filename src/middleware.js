@@ -21,27 +21,33 @@ export const config = {
 export async function middleware(request) {
   var { pathname } = request.nextUrl;
   var lang = getLangFromPathname(pathname);
+  var cookieToken = (await cookies()).get(process.env.COOKIE_NAME)?.value;
 
   if (pathname.startsWith("/api")) {
     if (PUBLIC_API_ROUTES.includes(pathname)) {
       return NextResponse.next();
     }
 
-    // TODO: Get token from cookies. Get token from request headers.
-    // If request headers have an Auth token, attach it to the request.
-    // If request headers don't have an Auth token, attach the cookie token to the request.
-    // In protected routes read Authentication header for token.
+    // Cookies are not available for /api/* routes
+
+    var headerToken = request.headers.get("Authorization");
+    var nextHeaders = new Headers(request.headers);
+    nextHeaders.set("Authorization", headerToken || cookieToken || "");
+
+    return NextResponse.next({
+      request: {
+        headers: nextHeaders,
+      },
+    });
   } else {
     try {
       // Auth
 
-      var token = (await cookies()).get(process.env.COOKIE_NAME)?.value;
-
-      if (!isPrivateRoute(pathname) && token) {
+      if (!isPrivateRoute(pathname) && cookieToken) {
         return NextResponse.redirect(appUrl(PRIVATE_ROUTES.dashboard(), lang));
       }
 
-      if (isPrivateRoute(pathname) && !token) {
+      if (isPrivateRoute(pathname) && !cookieToken) {
         return NextResponse.redirect(appUrl(PUBLIC_ROUTES.auth.login(), lang));
       }
 

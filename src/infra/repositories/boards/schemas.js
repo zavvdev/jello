@@ -5,7 +5,7 @@ import { BoardSchema } from "~/entity/board";
 
 export var getAllDtoSchema = {
   request: t.object({
-    withArchived: t.boolean().nullable(),
+    userId: t.number().required(),
   }),
   response: t.array().of(BoardSchema).required(),
 };

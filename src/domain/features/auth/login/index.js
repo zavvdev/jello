@@ -1,7 +1,7 @@
 import "server-only";
 
-import { usersRepo } from "~/infra/repos/users-repo";
-import { sessionsRepo } from "~/infra/repos/sessions-repo";
+import { usersRepo } from "~/infra/repositories/public/users";
+import { sessionsRepo } from "~/infra/repositories/public/sessions";
 import { handleKnownError as _ } from "~/domain/utilities/error-handling";
 import { LOGIN_ERROR_KEYS as ERROR_KEYS } from "./config";
 

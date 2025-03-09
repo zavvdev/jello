@@ -1,4 +1,4 @@
-import { boardsRepo } from "~/infra/repos/private/boards-repo";
+import { boardsRepo } from "~/infra/repositories/private/boards";
 import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
 

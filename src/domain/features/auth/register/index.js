@@ -1,6 +1,6 @@
 import "server-only";
 
-import { usersRepo } from "~/infra/repos/users-repo";
+import { usersRepo } from "~/infra/repositories/public/users";
 import { handleKnownError as _ } from "~/domain/utilities/error-handling";
 import { REGISTER_ERROR_KEYS as ERROR_KEYS } from "./config";
 

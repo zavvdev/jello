@@ -1,7 +1,8 @@
 import "server-only";
 
 import { db } from "~/infra/database";
-import { AuthMiddleware } from "~/infra/repos/private/auth-middleware";
+import { AuthMiddleware } from "~/infra/middlewares/auth";
+import { getAllDtoSchema } from "./schemas";
 
 export class BoardsRepo extends AuthMiddleware {
   /**
@@ -14,14 +15,19 @@ export class BoardsRepo extends AuthMiddleware {
     this.#client = client;
   }
 
-  async getAll(user) {
+  async getAll(user, dto = { withArchived: false }) {
+    var { withArchived } = getAllDtoSchema.request.validateSync(dto, {
+      strict: true,
+    });
+
     var result = await this.#client.query(
       `SELECT * FROM boards l 
        INNER JOIN users_boards_roles r ON l.id = r.board_id
-       WHERE r.user_id = $1`,
-      [user.id],
+       WHERE r.user_id = $1 AND l.archived = $2`,
+      [user.id, withArchived],
     );
-    return result.rows;
+
+    return getAllDtoSchema.response.validateSync(result.rows, { strict: true });
   }
 }
 

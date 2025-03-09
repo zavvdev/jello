@@ -3,7 +3,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { createSessionToken } from "~/infra/encryption/session";
 import { db } from "~/infra/database";
-import { createDtoSchema } from "./schemas";
+import { createDtoSchema, destroyDtoSchema } from "./schemas";
 import { COOKIE_CONFIG } from "./config";
 
 export class SessionsRepo {
@@ -20,8 +20,8 @@ export class SessionsRepo {
    * @param {{ user_id: number }} dto
    */
   async create(dto) {
-    var { user_id } = createDtoSchema.validateSync(dto, {
-      strings: true,
+    var { user_id } = createDtoSchema.request.validateSync(dto, {
+      strict: true,
     });
 
     var token = createSessionToken();
@@ -41,7 +41,11 @@ export class SessionsRepo {
   /**
    * @param {string} token
    */
-  async destroy(token) {
+  async destroy(dto) {
+    var { token } = destroyDtoSchema.request.validateSync(dto, {
+      strict: true,
+    });
+
     await db.transaction(async (client) => {
       var sessionTokenResult = await client.query(
         `SELECT token FROM sessions WHERE token = $1`,

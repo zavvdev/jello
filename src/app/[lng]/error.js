@@ -14,7 +14,7 @@ export default function Error({ error }) {
     reportCriticalAppError(error);
     if (error.message === "unauthorized") {
       // TODO: Does not redirect to login first time
-      fetch("/api/session/destroy");
+      fetch("/api/auth/logout");
     }
   }, [error]);
 

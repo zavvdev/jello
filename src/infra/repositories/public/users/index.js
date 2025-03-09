@@ -28,7 +28,7 @@ export class UsersRepo {
    * }} dto
    */
   async create(dto) {
-    var validDto = createDtoSchema.validateSync(dto, { strings: true });
+    var validDto = createDtoSchema.request.validateSync(dto, { strict: true });
     var hashedPassword = await hashPassword(validDto.password);
 
     await this.#client.query(
@@ -53,8 +53,8 @@ export class UsersRepo {
    * @param {{ username: string, email: string }} dto
    */
   async exists(dto) {
-    var { username, email } = existsDtoSchema.validateSync(dto, {
-      strings: true,
+    var { username, email } = existsDtoSchema.request.validateSync(dto, {
+      strict: true,
     });
 
     var existsByUsername = await this.#client.query(
@@ -67,10 +67,13 @@ export class UsersRepo {
       [email],
     );
 
-    return {
-      byUsername: existsByUsername.rows.length > 0,
-      byEmail: existsByEmail.rows.length > 0,
-    };
+    return existsDtoSchema.response.validateSync(
+      {
+        byUsername: existsByUsername.rows.length > 0,
+        byEmail: existsByEmail.rows.length > 0,
+      },
+      { strict: true },
+    );
   }
 
   /**
@@ -78,10 +81,8 @@ export class UsersRepo {
    * @returns {Promise<{ id: number } | null>}
    */
   async getByCredentials(dto) {
-    var { usernameOrEmail, password } = getByCredentialsDtoSchema.validateSync(
-      dto,
-      { strings: true },
-    );
+    var { usernameOrEmail, password } =
+      getByCredentialsDtoSchema.request.validateSync(dto, { strict: true });
 
     var result = await this.#client.query(
       `SELECT id, password FROM users WHERE username = $1 OR email = $1`,
@@ -94,7 +95,10 @@ export class UsersRepo {
       return null;
     }
 
-    return { id: user.id };
+    return getByCredentialsDtoSchema.response.validateSync(
+      { id: user.id },
+      { strict: true },
+    );
   }
 }
 

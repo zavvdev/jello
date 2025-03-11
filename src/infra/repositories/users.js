@@ -2,12 +2,6 @@ import "server-only";
 
 import { db } from "~/infra/database";
 import { comparePasswords, hashPassword } from "~/infra/encryption/password";
-import {
-  createDtoSchema,
-  existsDtoSchema,
-  getByCredentialsDtoSchema,
-  getBySessionTokenDtoSchema,
-} from "./schemas";
 
 export class UsersRepo {
   /**
@@ -19,9 +13,17 @@ export class UsersRepo {
     this.#client = client;
   }
 
-  async create(dto) {
-    var validDto = createDtoSchema.request.validateSync(dto, { strict: true });
-    var hashedPassword = await hashPassword(validDto.password);
+  /**
+   * @param {{
+   *  username: string;
+   *  first_name: string;
+   *  last_name: string;
+   *  email: string;
+   *  password: string;
+   * }} param0
+   */
+  async create({ username, first_name, last_name, email, password }) {
+    var hashedPassword = await hashPassword(password);
 
     await this.#client.query(
       `INSERT INTO users (
@@ -31,21 +33,17 @@ export class UsersRepo {
           email, 
           password
        ) VALUES ($1, $2, $3, $4, $5)`,
-      [
-        validDto.username,
-        validDto.first_name,
-        validDto.last_name,
-        validDto.email,
-        hashedPassword,
-      ],
+      [username, first_name, last_name, email, hashedPassword],
     );
   }
 
-  async exists(dto) {
-    var { username, email } = existsDtoSchema.request.validateSync(dto, {
-      strict: true,
-    });
-
+  /**
+   * @param {{
+   *  username: string;
+   *  email: string;
+   * }} param0
+   */
+  async exists({ username, email }) {
     var existsByUsername = await this.#client.query(
       `SELECT id FROM users WHERE username = $1`,
       [username],
@@ -56,19 +54,22 @@ export class UsersRepo {
       [email],
     );
 
-    return existsDtoSchema.response.validateSync(
-      {
-        byUsername: existsByUsername.rows.length > 0,
-        byEmail: existsByEmail.rows.length > 0,
-      },
-      { strict: true },
-    );
+    return {
+      byUsername: existsByUsername.rows.length > 0,
+      byEmail: existsByEmail.rows.length > 0,
+    };
   }
 
-  async getByCredentials(dto) {
-    var { usernameOrEmail, password } =
-      getByCredentialsDtoSchema.request.validateSync(dto, { strict: true });
-
+  /**
+   * @param {{
+   *  usernameOrEmail: string;
+   *  password: string;
+   * }} param0
+   * @returns {Promise<{
+   *  id: number;
+   * }>}
+   */
+  async getByCredentials({ usernameOrEmail, password }) {
     var result = await this.#client.query(
       `SELECT id, password FROM users WHERE username = $1 OR email = $1`,
       [usernameOrEmail],
@@ -80,17 +81,25 @@ export class UsersRepo {
       return null;
     }
 
-    return getByCredentialsDtoSchema.response.validateSync(
-      { id: user.id },
-      { strict: true },
-    );
+    return { id: user.id };
   }
 
-  async getBySessionToken(dto) {
-    var { token } = getBySessionTokenDtoSchema.request.validateSync(dto, {
-      strict: true,
-    });
-
+  /**
+   * @param {{
+   *  token: string;
+   * }} param0
+   * @returns {Promise<{
+   *  id: number;
+   *  first_name: string;
+   *  last_name: string;
+   *  username: string;
+   *  email: string;
+   *  bio: string | null;
+   *  created_at: string;
+   *  updated_at: string;
+   * }>}
+   */
+  async getBySessionToken({ token }) {
     var revoked = await db.query(
       "SELECT token from revoked_tokens WHERE token = $1",
       [token],
@@ -124,9 +133,7 @@ export class UsersRepo {
       return null;
     }
 
-    return getBySessionTokenDtoSchema.response.validateSync(result.rows[0], {
-      strict: true,
-    });
+    return result.rows[0];
   }
 }
 

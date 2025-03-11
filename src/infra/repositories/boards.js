@@ -1,7 +1,6 @@
 import "server-only";
 
 import { db } from "~/infra/database";
-import { getAllDtoSchema } from "./schemas";
 
 export class BoardsRepo {
   /**
@@ -13,19 +12,29 @@ export class BoardsRepo {
     this.#client = client;
   }
 
-  async getActive(dto) {
-    var { userId } = getAllDtoSchema.request.validateSync(dto, {
-      strict: true,
-    });
-
+  /**
+   * @param {{
+   *  user_id: number;
+   * }} param0
+   * @returns {Promise<{
+   *  id: number;
+   *  name: string;
+   *  description: string | null;
+   *  color: string;
+   *  is_archived: false;
+   *  created_at: string;
+   *  updated_at: string;
+   * }>}
+   */
+  async getActive({ user_id }) {
     var result = await this.#client.query(
       `SELECT * FROM boards l 
        INNER JOIN users_boards_roles r ON l.id = r.board_id
        WHERE r.user_id = $1`,
-      [userId],
+      [user_id],
     );
 
-    return getAllDtoSchema.response.validateSync(result.rows, { strict: true });
+    return result.rows;
   }
 }
 

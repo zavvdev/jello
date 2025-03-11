@@ -1,7 +1,8 @@
 "use server";
 
 import { errorReporterService } from "~/infra/services/error-reporter-service";
-import { register } from "~/domain/features/auth/register";
+import { query } from "~/app/utilities/query";
+import { API_ROUTES } from "~/app/api/config";
 
 export async function registerAction(_, formData) {
   try {
@@ -11,10 +12,10 @@ export async function registerAction(_, formData) {
       throw new Error("passwords_not_match");
     }
 
-    await register({
+    await query(API_ROUTES.auth.register(), "POST", {
+      first_name: data.firstName,
+      last_name: data.lastName,
       username: data.username,
-      firstName: data.firstName,
-      lastName: data.lastName,
       email: data.email,
       password: data.password,
     });

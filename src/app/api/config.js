@@ -11,11 +11,6 @@ export var API_ROUTES = {
   },
 };
 
-export var PUBLIC_API_ROUTES = [
-  API_ROUTES.auth.login(),
-  API_ROUTES.auth.register(),
-];
-
 export var API_AUTH_HEADER = process.env.API_AUTH_HEADER;
 
 export var API_MESSAGES = {
@@ -29,10 +24,9 @@ export var API_MESSAGES = {
 
 export var API_VALIDATION_MESSAGES = {
   required: "required",
-  invalidEmail: "invalid_email",
+  invalid: "invalid",
   lengthInsufficient: "length_insufficient",
   lengthExceeded: "length_exceeded",
-  notAllowedSymbols: "not_allowed_symbols",
   typeString: "type_string",
 };
 

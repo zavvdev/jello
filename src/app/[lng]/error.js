@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { reportCriticalAppError } from "~/domain/utilities/error-handling";
 import { NAMESPACES } from "~/app/i18n/config";
 import { useI18n } from "~/app/i18n/hooks/useI18n";
 import { Icons } from "~/app/components/icons";
 import styles from "~/app/styles/error.module.css";
+import { reportCriticalAppError } from "~/app/utilities/error-handling";
 
 export default function Error({ error }) {
   var { t } = useI18n(NAMESPACES.common);

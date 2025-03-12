@@ -22,11 +22,11 @@ export var validateBody = (schema) =>
       return E.right(validBody);
     } catch (e) {
       return E.left({
+        status: 400,
         message: API_MESSAGES.validationError,
         data: {
           [e.path]: e.message,
         },
-        status: 400,
       });
     }
   });

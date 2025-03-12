@@ -25,7 +25,7 @@ var postSchema = {
     username: usernameSchema.required(T.required),
     email: t
       .string()
-      .email(T.invalidEmail)
+      .email(T.invalid)
       .required(T.required)
       .typeError(T.typeString),
     password: t

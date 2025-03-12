@@ -23,6 +23,7 @@ export async function registerAction(_, formData) {
     return {
       success: true,
       message: undefined,
+      extra: undefined,
     };
   } catch (error) {
     errorReporterService.report({
@@ -32,6 +33,7 @@ export async function registerAction(_, formData) {
     return {
       success: false,
       message: error.message,
+      extra: error.response?.data,
     };
   }
 }

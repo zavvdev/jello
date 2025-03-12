@@ -1,16 +1,15 @@
 "use server";
 
 import { errorReporterService } from "~/infra/services/error-reporter-service";
-import { login } from "~/domain/features/auth/login";
 
 export async function loginAction(_, formData) {
   try {
-    var { usernameOrEmail, password } = Object.fromEntries(formData);
+    Object.fromEntries(formData);
 
-    await login({
-      usernameOrEmail,
-      password,
-    });
+    // await login({
+    //   usernameOrEmail,
+    //   password,
+    // });
 
     return {
       success: true,

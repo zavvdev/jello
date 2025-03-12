@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { startTransition, useActionState } from "react";
 import { registerAction } from "~/app/[lng]/auth/register/actions";
+import { Error } from "~/app/components/atoms/error";
+import { ErrorEntries } from "~/app/components/atoms/error-entries";
 import { NAMESPACES } from "~/app/i18n/config";
 import { useI18n } from "~/app/i18n/hooks/useI18n";
 import { PUBLIC_ROUTES } from "~/app/routes";
 
 export function Form() {
-  var { t } = useI18n(NAMESPACES.auth);
+  var { t, isLoading } = useI18n(NAMESPACES.auth);
   var { 0: state, 1: formAction, 2: pending } = useActionState(registerAction);
 
   var handleSubmit = (e) => {
@@ -19,9 +21,11 @@ export function Form() {
     });
   };
 
+  var isSuccess = state?.success === true;
+
   return (
     <>
-      {state?.success ? (
+      {isSuccess && (
         <div>
           <p>
             {t("register.success.title")}{" "}
@@ -30,15 +34,24 @@ export function Form() {
             </Link>
           </p>
         </div>
-      ) : (
+      )}
+      {!isSuccess && !isLoading && (
         <form action={formAction} onSubmit={handleSubmit}>
           {state?.success === false && (
-            <p>
-              {t([
-                `register.error.${state.message}`,
-                "register.error.fallback",
-              ])}
-            </p>
+            <>
+              <Error>
+                {t([
+                  `register.error.${state.message}`,
+                  "register.error.fallback",
+                ])}
+              </Error>
+              <ErrorEntries
+                map={state?.extra}
+                render={(key, value) =>
+                  t(`register.validation_error.${key}.${value}`)
+                }
+              />
+            </>
           )}
           <div>
             <label htmlFor="firstName">{t("register.first_name")}</label>

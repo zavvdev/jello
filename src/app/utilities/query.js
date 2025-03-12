@@ -3,17 +3,17 @@ import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { API_AUTH_HEADER, API_MESSAGES, apiRoute } from "~/app/api/config";
-import { PUBLIC_ROUTES } from "../routes";
+import { PUBLIC_ROUTES } from "~/app/routes";
 
 class QueryError extends Error {
   /**
    * @param {string} message
-   * @param {(object | undefined)} extra
+   * @param {(object | undefined)} response
    */
-  constructor(message, extra = {}) {
+  constructor(message, response = {}) {
     super(message);
     this.name = "QueryError";
-    this.extra = extra || {};
+    this.response = response || {};
   }
 }
 
@@ -26,12 +26,16 @@ export async function query(route, method, body) {
   var cookieStore = await cookies();
 
   try {
+    var token = cookieStore.get(process.env.COOKIE_NAME)?.value;
+
     var res = await fetch(apiRoute(route), {
       method: method || "GET",
       body: body ? JSON.stringify(body) : undefined,
-      headers: {
-        [API_AUTH_HEADER]: cookieStore.get(process.env.COOKIE_NAME)?.value,
-      },
+      headers: token
+        ? {
+            [API_AUTH_HEADER]: token,
+          }
+        : {},
     });
 
     var data = await res.json();

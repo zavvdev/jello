@@ -47,7 +47,8 @@ export async function query(route, method, body) {
     }
   } catch (e) {
     if (e.message === API_MESSAGES.unauthorized) {
-      cookieStore.delete(process.env.COOKIE_NAME);
+      // TODO: Does not work. Redirect to /logout
+      // cookieStore.delete(process.env.COOKIE_NAME);
       redirect(PUBLIC_ROUTES.auth.login());
     }
     throw e;

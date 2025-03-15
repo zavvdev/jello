@@ -1,0 +1,15 @@
+{
+  "title": "Witamy ponownie!",
+  "username_or_email": "Nazwa użytkownika lub e-mail",
+  "password": "Hasło",
+  "submit": "Zaloguj się",
+  "submitting": "Logowanie...",
+  "register": {
+    "text": "Nie masz jeszcze konta?",
+    "link": "Zarejestruj się tutaj"
+  },
+  "error": {
+    "fallback": "Wystąpił błąd podczas logowania. Spróbuj ponownie później",
+    "user_not_found": "Nie znaleziono użytkownika o podanych danych"
+  }
+}

@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import { startTransition, useActionState } from "react";
-import { registerAction } from "~/app/[lng]/auth/register/actions";
+import { useTranslation } from "react-i18next";
+import { registerAction } from "~/app/[locale]/auth/register/actions";
 import { Error } from "~/app/components/atoms/error";
 import { ErrorEntries } from "~/app/components/atoms/error-entries";
-import { NAMESPACES } from "~/app/i18n/config";
-import { useI18n } from "~/app/i18n/hooks/useI18n";
 import { PUBLIC_ROUTES } from "~/app/routes";
 
 export function Form() {
-  var { t, isLoading } = useI18n(NAMESPACES.auth);
+  var { t } = useTranslation();
   var { 0: state, 1: formAction, 2: pending } = useActionState(registerAction);
 
   var handleSubmit = (e) => {
@@ -28,55 +27,44 @@ export function Form() {
       {isSuccess && (
         <div>
           <p>
-            {t("register.success.title")}{" "}
-            <Link href={PUBLIC_ROUTES.auth.login()}>
-              {t("register.success.link")}
-            </Link>
+            {t("success.title")}{" "}
+            <Link href={PUBLIC_ROUTES.auth.login()}>{t("success.link")}</Link>
           </p>
         </div>
       )}
-      {!isSuccess && !isLoading && (
+      {!isSuccess && (
         <form action={formAction} onSubmit={handleSubmit}>
           {state?.success === false && (
             <>
-              <Error>
-                {t([
-                  `register.error.${state.message}`,
-                  "register.error.fallback",
-                ])}
-              </Error>
+              <Error>{t([`error.${state.message}`, "error.fallback"])}</Error>
               <ErrorEntries
                 map={state?.extra}
-                render={(key, value) =>
-                  t(`register.validation_error.${key}.${value}`)
-                }
+                render={(key, value) => t(`validation_error.${key}.${value}`)}
               />
             </>
           )}
           <div>
-            <label htmlFor="firstName">{t("register.first_name")}</label>
+            <label htmlFor="firstName">{t("first_name")}</label>
             <input required type="text" id="firstName" name="firstName" />
           </div>
           <div>
-            <label htmlFor="lastName">{t("register.last_name")}</label>
+            <label htmlFor="lastName">{t("last_name")}</label>
             <input required type="text" id="lastName" name="lastName" />
           </div>
           <div>
-            <label htmlFor="username">{t("register.username")}</label>
+            <label htmlFor="username">{t("username")}</label>
             <input required type="text" id="username" name="username" />
           </div>
           <div>
-            <label htmlFor="email">{t("register.email")}</label>
+            <label htmlFor="email">{t("email")}</label>
             <input required type="email" id="email" name="email" />
           </div>
           <div>
-            <label htmlFor="password">{t("register.password")}</label>
+            <label htmlFor="password">{t("password")}</label>
             <input required type="password" id="password" name="password" />
           </div>
           <div>
-            <label htmlFor="confirmPassword">
-              {t("register.confirm_password")}
-            </label>
+            <label htmlFor="confirmPassword">{t("confirm_password")}</label>
             <input
               required
               type="password"
@@ -85,7 +73,7 @@ export function Form() {
             />
           </div>
           <button type="submit" disabled={pending}>
-            {pending ? t("register.submitting") : t("register.submit")}
+            {pending ? t("submitting") : t("submit")}
           </button>
         </form>
       )}

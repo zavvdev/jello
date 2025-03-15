@@ -1,0 +1,56 @@
+{
+  "title": "Witamy w Jello!",
+  "subtitle": "Zarejestruj się, aby kontynuować.",
+  "first_name": "Imię",
+  "last_name": "Nazwisko",
+  "username": "Nazwa użytkownika",
+  "email": "E-mail",
+  "password": "Hasło",
+  "confirm_password": "Potwierdź hasło",
+  "submit": "Zarejestruj",
+  "submitting": "Rejestrowanie...",
+  "login": {
+    "text": "Masz już konto?",
+    "link": "Zaloguj się tutaj"
+  },
+  "error": {
+    "fallback": "Wystąpił błąd podczas rejestracji. Spróbuj ponownie później",
+    "username_exists": "Użytkownik z tą nazwą już istnieje",
+    "email_exists": "Użytkownik z tym adresem e-mail już istnieje",
+    "passwords_not_match": "Hasła nie pasują do siebie",
+    "validation_error": "Nieprawidłowe dane. Sprawdź formularz i spróbuj ponownie"
+  },
+  "success": {
+    "title": "Rejestracja powiodła się. Teraz możesz się zalogować",
+    "link": "tutaj"
+  },
+  "validation_error": {
+    "first_name": {
+      "length_exceeded": "Imię jest za długie. Maksymalna długość to 32 znaki",
+      "required": "Imię jest wymagane",
+      "type_string": "Imię musi być ciągiem znaków"
+    },
+    "last_name": {
+      "length_exceeded": "Nazwisko jest za długie. Maksymalna długość to 32 znaki",
+      "required": "Nazwisko jest wymagane",
+      "type_string": "Nazwisko musi być ciągiem znaków"
+    },
+    "username": {
+      "length_exceeded": "Nazwa użytkownika jest za długa. Maksymalna długość to 16 znaków",
+      "length_insufficient": "Nazwa użytkownika jest za krótka. Minimalna długość to 2 znaki",
+      "invalid": "Nazwa użytkownika może zawierać tylko litery, cyfry i znaki podkreślenia",
+      "required": "Nazwa użytkownika jest wymagana",
+      "type_string": "Nazwa użytkownika musi być ciągiem znaków"
+    },
+    "email": {
+      "invalid": "Nieprawidłowy adres e-mail",
+      "required": "Adres e-mail jest wymagany",
+      "type_string": "Adres e-mail musi być ciągiem znaków"
+    },
+    "password": {
+      "length_insufficient": "Hasło jest za krótkie. Minimalna długość to 8 znaków",
+      "required": "Hasło jest wymagane",
+      "type_string": "Hasło musi być ciągiem znaków"
+    }
+  }
+}

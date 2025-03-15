@@ -4,53 +4,51 @@ import { initReactI18next } from "react-i18next/initReactI18next";
 import { DEFAULT_LOCALE, LOCALES } from "~/app/i18n/config";
 
 /**
- * @param {string} lng
- * @param {string} ns
+ * @param {string} locale
+ * @param {string[]} namespaces
+ * @param {import("i18next").i18n} i18nInstance
+ * @param {import("i18next").Resource} resources
  */
-async function initI18next(lng, ns) {
-  var i18nInstance = createInstance();
+export async function initI18n(locale, namespaces, i18nInstance, resources) {
+  i18nInstance = i18nInstance || createInstance();
 
-  await i18nInstance
-    .use(initReactI18next)
-    .use(
+  i18nInstance.use(initReactI18next);
+
+  if (!resources) {
+    i18nInstance.use(
       resourcesToBackend(
         (language, namespace) =>
           import(`./locales/${language}/${namespace}.json`),
       ),
-    )
-    .init({
-      supportedLngs: Object.values(LOCALES),
-      fallbackLng: DEFAULT_LOCALE,
-      lng,
-      ns,
-    });
+    );
+  }
 
-  return i18nInstance;
-}
+  var locales = Object.values(LOCALES);
 
-/**
- * @param {string} lng
- * @param {string | string[]} ns
- * @param {{ keyPrefix?: string }?} options
- */
-export async function getI18n(lng, ns, options = {}) {
-  var i18nextInstance = await initI18next(lng, ns);
+  await i18nInstance.init({
+    lng: locale,
+    resources,
+    fallbackLng: DEFAULT_LOCALE,
+    supportedLngs: locales,
+    defaultNS: namespaces[0],
+    fallbackNS: namespaces[0],
+    ns: namespaces,
+    preload: resources ? [] : locales,
+  });
+
   return {
-    t: i18nextInstance.getFixedT(
-      lng,
-      Array.isArray(ns) ? ns[0] : ns,
-      options.keyPrefix,
-    ),
-    i18n: i18nextInstance,
+    i18n: i18nInstance,
+    resources: { [locale]: i18nInstance.services.resourceStore.data[locale] },
+    t: i18nInstance.t,
   };
 }
 
 /**
- * @param {Promise<{ lng: string }>} params
+ * @param {Promise<{ locale: string }>} params
  */
 export function getI18nFromParams(params) {
-  return async (ns, options = {}) => {
-    var { lng } = await params;
-    return await getI18n(lng, ns, options);
+  return async (namespaces) => {
+    var { locale } = await params;
+    return await initI18n(locale, namespaces);
   };
 }

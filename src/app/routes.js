@@ -20,7 +20,7 @@ export var PRIVATE_ROUTES = {
  * @param {string?} lang
  */
 export function appUrl(pathname, lang = DEFAULT_LOCALE) {
-  return `${process.env.APP_URL}${lang ? `/${lang}` : ""}${pathname}`;
+  return `${process.env.APP_URL}/${lang}${pathname}`;
 }
 
 /**

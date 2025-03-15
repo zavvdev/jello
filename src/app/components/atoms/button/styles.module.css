@@ -1,0 +1,8 @@
+.root {
+  padding: 0.3rem 0.5rem;
+}
+
+.primary {
+  background-color: var(--color-primary);
+  color: white;
+}

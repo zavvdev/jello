@@ -2,7 +2,7 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { API_AUTH_HEADER, API_MESSAGES } from "~/app/api/config";
+import { API_MESSAGES } from "~/app/api/config";
 import { APP_LOGOUT_URL } from "~/app/routes";
 
 class QueryError extends Error {
@@ -33,7 +33,7 @@ export async function query(route, method, body) {
       body: body ? JSON.stringify(body) : undefined,
       headers: token
         ? {
-            [API_AUTH_HEADER]: token,
+            [process.env.API_AUTH_HEADER]: token,
           }
         : {},
     });

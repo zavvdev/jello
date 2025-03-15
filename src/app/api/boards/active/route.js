@@ -6,6 +6,7 @@ import { ERROR_RESPONSE, SUCCESS_RESPONSE } from "~/app/api/config";
  * @param {import("next/server").NextRequest} request
  */
 export async function GET(request) {
+  // TODO
   return withAuth(request, async (user) => {
     try {
       var boards = await boardsRepo.getActive({

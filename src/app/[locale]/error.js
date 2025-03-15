@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Icons } from "~/app/components/icons";
-import styles from "~/app/styles/error.module.css";
+import styles from "~/app/[locale]/error.module.css";
 import { reportCriticalAppError } from "~/app/utilities/error-handling";
 
 export default function Error({ error }) {

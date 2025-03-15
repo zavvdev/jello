@@ -1,5 +1,11 @@
 import styles from "./styles.module.css";
 
+/**
+ * @param {{
+ *  map: Record<string, string>;
+ *  render: (key: string, value: string) => React.ReactNode;
+ * }} param0
+ */
 export function ErrorEntries({ map, render }) {
   var entries = Object.entries(map || {});
 

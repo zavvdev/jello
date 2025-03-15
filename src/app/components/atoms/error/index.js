@@ -1,5 +1,20 @@
+import cx from "clsx";
 import styles from "./styles.module.css";
 
-export function Error({ children }) {
-  return <p className={styles.root}>{children}</p>;
+/**
+ * @param {{
+ *  children: React.ReactNode;
+ *  center?: boolean;
+ * }} param0
+ */
+export function Error({ children, center }) {
+  return (
+    <p
+      className={cx(styles.root, {
+        [styles.center]: center,
+      })}
+    >
+      {children}
+    </p>
+  );
 }

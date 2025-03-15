@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import { dir } from "i18next";
-import "~/app/styles/globals.css";
+import "~/app/[locale]/layout.css";
 import { NAMESPACES } from "~/app/i18n/config";
 import { getI18nFromParams } from "~/app/i18n";
 

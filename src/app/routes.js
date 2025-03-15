@@ -1,9 +1,7 @@
 import { DEFAULT_LOCALE } from "~/app/i18n/config";
 import { API_ROUTES } from "~/app/api/config";
 
-var PRIVATE_ROUTE_PREFIX = "u";
-
-var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
+// Public routes
 
 export var PUBLIC_ROUTES = {
   auth: {
@@ -13,9 +11,16 @@ export var PUBLIC_ROUTES = {
   },
 };
 
+// Private routes
+
+var PRIVATE_ROUTE_PREFIX = "u";
+var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
+
 export var PRIVATE_ROUTES = {
   dashboard: () => prvt("/dashboard"),
 };
+
+// Logout
 
 export var APP_LOGOUT_URL = {
   full: `${API_ROUTES.auth.logout.cookie()}?redirect_to=${makeFullAppUrl(PUBLIC_ROUTES.auth.login())}`,
@@ -23,6 +28,8 @@ export var APP_LOGOUT_URL = {
   base: API_ROUTES.auth.logout.cookie(),
   queryName: "redirect_to",
 };
+
+// Utils
 
 /**
  * @param {string} pathname

@@ -3,11 +3,14 @@
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { loginAction } from "~/app/[locale]/auth/login/actions";
 import { Error } from "~/app/components/atoms/error";
 import { PRIVATE_ROUTES } from "~/app/routes";
+import { Input } from "~/app/components/atoms/input";
+import { Button } from "~/app/components/atoms/button";
+import { loginAction } from "./actions";
+import styles from "./styles.module.css";
 
-export function Form() {
+export function LoginForm() {
   var { t } = useTranslation();
   var { 0: state, 1: formAction, 2: pending } = useActionState(loginAction);
   var router = useRouter();
@@ -27,26 +30,27 @@ export function Form() {
   }, [state?.success, router]);
 
   return (
-    <form action={formAction} onSubmit={handleSubmit}>
+    <form action={formAction} onSubmit={handleSubmit} className={styles.root}>
       {state?.success === false && (
-        <Error>{t([`error.${state.message}`, "error.fallback"])}</Error>
+        <Error center>{t([`error.${state.message}`, "error.fallback"])}</Error>
       )}
-      <div>
-        <label htmlFor="usernameForEmail">{t("username_or_email")}</label>
-        <input
-          required
-          type="text"
-          id="usernameForEmail"
-          name="usernameOrEmail"
-        />
-      </div>
-      <div>
-        <label htmlFor="password">{t("password")}</label>
-        <input required type="password" id="password" name="password" />
-      </div>
-      <button type="submit" disabled={pending}>
+      <Input
+        required
+        type="text"
+        id="usernameForEmail"
+        name="usernameOrEmail"
+        label={t("username_or_email")}
+      />
+      <Input
+        required
+        type="password"
+        id="password"
+        name="password"
+        label={t("password")}
+      />
+      <Button variant="primary" type="submit" disabled={pending}>
         {pending ? t("submitting") : t("submit")}
-      </button>
+      </Button>
     </form>
   );
 }

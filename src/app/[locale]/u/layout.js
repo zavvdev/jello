@@ -5,8 +5,6 @@ export default function AuthLayout({ children }) {
     <main>
       <div>{children}</div>
       <footer>
-        <br />
-        <br />
         <hr />
         <form action={APP_LOGOUT_URL.base} method="GET">
           <input

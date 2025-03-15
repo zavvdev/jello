@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.root input {
+  padding: 2px;
+}
+
+.root input:focus {
+  outline-color: var(--color-primary);
+}

@@ -1,7 +1,3 @@
-// API CONFIG
-
-export var API_AUTH_HEADER = process.env.API_AUTH_HEADER;
-
 // API ROUTES
 
 var makeApiUrl = (route) => `${process.env.APP_URL}/api${route}`;

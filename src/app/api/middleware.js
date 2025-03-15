@@ -12,13 +12,11 @@ import {
  */
 export async function withAuth(request, executor) {
   try {
-    var token = request.headers.get(API_AUTH_HEADER);
+    var token = request.headers.get(API_AUTH_HEADER) || "";
+    var user = await usersRepo.getBySessionToken({ token });
 
-    if (token) {
-      var user = await usersRepo.getBySessionToken({ token });
-      if (user) {
-        return await executor(UserSchema.validateSync(user, { strict: true }));
-      }
+    if (user) {
+      return await executor(UserSchema.validateSync(user, { strict: true }));
     } else {
       throw new Error();
     }

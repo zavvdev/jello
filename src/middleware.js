@@ -3,8 +3,8 @@ import { i18nRouter } from "next-i18n-router";
 import { cookies } from "next/headers";
 import { DEFAULT_LOCALE, LOCALES } from "~/app/i18n/config";
 import {
-  appUrl,
   isPrivateRoute,
+  makeFullAppUrl,
   PRIVATE_ROUTES,
   PUBLIC_ROUTES,
 } from "~/app/routes";
@@ -24,11 +24,15 @@ export async function middleware(request) {
   var cookieToken = (await cookies()).get(process.env.AUTH_COOKIE_NAME)?.value;
 
   if (!isPrivateRoute(pathname) && cookieToken) {
-    return NextResponse.redirect(appUrl(PRIVATE_ROUTES.dashboard(), lang));
+    return NextResponse.redirect(
+      makeFullAppUrl(PRIVATE_ROUTES.dashboard(), lang),
+    );
   }
 
   if (isPrivateRoute(pathname) && !cookieToken) {
-    return NextResponse.redirect(appUrl(PUBLIC_ROUTES.auth.login(), lang));
+    return NextResponse.redirect(
+      makeFullAppUrl(PUBLIC_ROUTES.auth.login(), lang),
+    );
   }
 
   return i18nRouter(request, {

@@ -100,6 +100,10 @@ export class UsersRepo {
    * }>}
    */
   async getBySessionToken({ token }) {
+    if (!token) {
+      return null;
+    }
+
     var revoked = await db.query(
       "SELECT token from revoked_tokens WHERE token = $1",
       [token],

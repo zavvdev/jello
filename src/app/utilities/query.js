@@ -2,8 +2,8 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { API_AUTH_HEADER, API_MESSAGES, apiRoute } from "~/app/api/config";
-import { PUBLIC_ROUTES } from "~/app/routes";
+import { API_AUTH_HEADER, API_MESSAGES } from "~/app/api/config";
+import { APP_LOGOUT_URL } from "~/app/routes";
 
 class QueryError extends Error {
   /**
@@ -28,7 +28,7 @@ export async function query(route, method, body) {
   try {
     var token = cookieStore.get(process.env.AUTH_COOKIE_NAME)?.value;
 
-    var res = await fetch(apiRoute(route), {
+    var res = await fetch(route, {
       method: method || "GET",
       body: body ? JSON.stringify(body) : undefined,
       headers: token
@@ -47,10 +47,9 @@ export async function query(route, method, body) {
     }
   } catch (e) {
     if (e.message === API_MESSAGES.unauthorized) {
-      // TODO: Does not work. Redirect to /logout
-      // cookieStore.delete(process.env.AUTH_COOKIE_NAME);
-      redirect(PUBLIC_ROUTES.auth.login());
+      redirect(APP_LOGOUT_URL.full);
+    } else {
+      throw e;
     }
-    throw e;
   }
 }

@@ -54,6 +54,8 @@ export class SessionsRepo {
         await client.query(`DELETE FROM sessions WHERE token = $1`, [
           sessionToken,
         ]);
+      } else {
+        throw new Error("session_not_found");
       }
     });
   }

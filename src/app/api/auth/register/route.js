@@ -6,7 +6,6 @@ import {
   SUCCESS_RESPONSE,
   API_VALIDATION_MESSAGES as T,
 } from "~/app/api/config";
-import { usernameSchema } from "~/app/api/schemas";
 import { Either as E, Task } from "~/app/utilities/fp";
 import { extractRequest, validateRequest } from "~/app/api/utilities";
 
@@ -22,7 +21,13 @@ var postSchema = {
       .max(32, T.lengthExceeded)
       .required(T.required)
       .typeError(T.typeString),
-    username: usernameSchema.required(T.required),
+    username: t
+      .string()
+      .min(2, T.lengthInsufficient)
+      .max(16, T.lengthExceeded)
+      .matches(/^[a-z0-9_]*$/, T.invalid)
+      .typeError(T.typeString)
+      .required(T.required),
     email: t
       .string()
       .email(T.invalid)

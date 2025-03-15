@@ -1,4 +1,5 @@
 import { DEFAULT_LOCALE } from "~/app/i18n/config";
+import { API_ROUTES } from "~/app/api/config";
 
 var PRIVATE_ROUTE_PREFIX = "u";
 
@@ -8,6 +9,7 @@ export var PUBLIC_ROUTES = {
   auth: {
     register: () => "/auth/register",
     login: () => "/auth/login",
+    logout: () => "/auth/logout",
   },
 };
 
@@ -15,11 +17,18 @@ export var PRIVATE_ROUTES = {
   dashboard: () => prvt("/dashboard"),
 };
 
+export var APP_LOGOUT_URL = {
+  full: `${API_ROUTES.auth.logout.cookie()}?redirect_to=${makeFullAppUrl(PUBLIC_ROUTES.auth.login())}`,
+  redirectUrl: makeFullAppUrl(PUBLIC_ROUTES.auth.login()),
+  base: API_ROUTES.auth.logout.cookie(),
+  queryName: "redirect_to",
+};
+
 /**
  * @param {string} pathname
  * @param {string?} lang
  */
-export function appUrl(pathname, lang = DEFAULT_LOCALE) {
+export function makeFullAppUrl(pathname, lang = DEFAULT_LOCALE) {
   return `${process.env.APP_URL}/${lang}${pathname}`;
 }
 

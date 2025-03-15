@@ -8,7 +8,7 @@ import {
 } from "~/app/api/config";
 import { usernameSchema } from "~/app/api/schemas";
 import { Either as E, Task } from "~/app/utilities/fp";
-import { extractBody, validateBody } from "~/app/api/utilities";
+import { extractRequest, validateRequest } from "~/app/api/utilities";
 
 var postSchema = {
   request: t.object({
@@ -77,8 +77,8 @@ export async function POST(request) {
   var success = E.chain(() => SUCCESS_RESPONSE({ status: 201 }));
   var terminate = E.chainLeft((error) => ERROR_RESPONSE(error));
 
-  var $registerUser = Task.of(extractBody(request))
-    .map(validateBody(postSchema.request))
+  var $registerUser = Task.of(extractRequest(request))
+    .map(validateRequest(postSchema.request))
     .map(checkExistance)
     .map(createUser)
     .map(success)

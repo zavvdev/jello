@@ -5,11 +5,11 @@ import { PUBLIC_ROUTES } from "~/app/routes";
 
 export async function GET() {
   var cookieStore = await cookies();
-  var token = cookieStore.get(process.env.COOKIE_NAME)?.value;
+  var token = cookieStore.get(process.env.AUTH_COOKIE_NAME)?.value;
 
   if (token) {
     await sessionsRepo.destroy(token);
-    cookieStore.delete(process.env.COOKIE_NAME);
+    cookieStore.delete(process.env.AUTH_COOKIE_NAME);
   }
 
   redirect(PUBLIC_ROUTES.auth.login());

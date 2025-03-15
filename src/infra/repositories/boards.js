@@ -30,7 +30,7 @@ export class BoardsRepo {
     var result = await this.#client.query(
       `SELECT * FROM boards l 
        INNER JOIN users_boards_roles r ON l.id = r.board_id
-       WHERE r.user_id = $1`,
+       WHERE r.user_id = $1 AND l.is_archived = false`,
       [user_id],
     );
 

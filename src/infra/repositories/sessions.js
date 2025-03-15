@@ -17,15 +17,20 @@ export class SessionsRepo {
    * @param {{
    *  user_id: number;
    * }} param0
+   * @returns {Promise<string>}
    */
   async create({ user_id }) {
+    var token = createSessionToken();
+
     await this.#client.query(
       `INSERT INTO sessions (
           user_id,
           token
        ) VALUES ($1, $2)`,
-      [user_id, createSessionToken()],
+      [user_id, token],
     );
+
+    return token;
   }
 
   /**

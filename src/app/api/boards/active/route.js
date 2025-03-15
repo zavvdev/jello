@@ -9,7 +9,7 @@ export async function GET(request) {
   return withAuth(request, async (user) => {
     try {
       var boards = await boardsRepo.getActive({
-        userId: user.id,
+        user_id: user.id,
       });
 
       return SUCCESS_RESPONSE({

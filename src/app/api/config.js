@@ -20,6 +20,7 @@ export var API_MESSAGES = {
   validationError: "validation_error",
   usernameExists: "username_exists",
   emailExists: "email_exists",
+  invalid_credentials: "invalid_credentials",
 };
 
 export var API_VALIDATION_MESSAGES = {

@@ -26,7 +26,7 @@ export async function query(route, method, body) {
   var cookieStore = await cookies();
 
   try {
-    var token = cookieStore.get(process.env.COOKIE_NAME)?.value;
+    var token = cookieStore.get(process.env.AUTH_COOKIE_NAME)?.value;
 
     var res = await fetch(apiRoute(route), {
       method: method || "GET",
@@ -48,7 +48,7 @@ export async function query(route, method, body) {
   } catch (e) {
     if (e.message === API_MESSAGES.unauthorized) {
       // TODO: Does not work. Redirect to /logout
-      // cookieStore.delete(process.env.COOKIE_NAME);
+      // cookieStore.delete(process.env.AUTH_COOKIE_NAME);
       redirect(PUBLIC_ROUTES.auth.login());
     }
     throw e;

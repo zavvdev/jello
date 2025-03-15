@@ -17,6 +17,7 @@ function clear() {
       DROP TABLE IF EXISTS sessions;
       DROP TABLE IF EXISTS revoked_tokens;
       DROP TABLE IF EXISTS users_boards_roles;
+      DROP TABLE IF EXISTS users_tasks;
       DROP TABLE IF EXISTS tasks_labels;
       DROP TABLE IF EXISTS task_comments;
       DROP TABLE IF EXISTS users;
@@ -209,6 +210,20 @@ function migrate() {
         PRIMARY KEY (task_id, label_id),
         FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
         FOREIGN KEY (label_id) REFERENCES labels(id) ON DELETE CASCADE
+      );
+    `);
+
+    // ====================
+    // Users-Tasks
+    // ====================
+
+    await client.query(`
+      CREATE TABLE users_tasks (
+        user_id INT NOT NULL,
+        task_id INT NOT NULL,
+        PRIMARY KEY (user_id, task_id),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
       );
     `);
 

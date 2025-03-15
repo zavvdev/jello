@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
+import { i18nRouter } from "next-i18n-router";
+import { cookies } from "next/headers";
 import { DEFAULT_LOCALE, LOCALES } from "~/app/i18n/config";
-import { appUrl } from "~/app/routes";
+import {
+  isPrivateRoute,
+  makeFullAppUrl,
+  PRIVATE_ROUTES,
+  PUBLIC_ROUTES,
+} from "~/app/routes";
 import { getLangFromPathname } from "~/app/i18n/utils";
 
 export const config = {
@@ -14,23 +21,22 @@ export const config = {
 export async function middleware(request) {
   var { pathname } = request.nextUrl;
   var lang = getLangFromPathname(pathname);
+  var cookieToken = (await cookies()).get(process.env.AUTH_COOKIE_NAME)?.value;
 
-  try {
-    // I18n
-
-    var pathnameHasLocale = Object.values(LOCALES).some(
-      (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+  if (!isPrivateRoute(pathname) && cookieToken) {
+    return NextResponse.redirect(
+      makeFullAppUrl(PRIVATE_ROUTES.dashboard(), lang),
     );
-
-    if (pathnameHasLocale) {
-      return;
-    }
-
-    request.nextUrl.pathname = `/${DEFAULT_LOCALE}${pathname}`;
-
-    return NextResponse.redirect(request.nextUrl);
-  } catch {
-    return NextResponse.redirect(appUrl("/", lang));
   }
+
+  if (isPrivateRoute(pathname) && !cookieToken) {
+    return NextResponse.redirect(
+      makeFullAppUrl(PUBLIC_ROUTES.auth.login(), lang),
+    );
+  }
+
+  return i18nRouter(request, {
+    locales: Object.values(LOCALES),
+    defaultLocale: DEFAULT_LOCALE,
+  });
 }

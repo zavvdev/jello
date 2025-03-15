@@ -1,0 +1,15 @@
+{
+  "title": "Welcome back!",
+  "username_or_email": "Username or email",
+  "password": "Password",
+  "submit": "Login",
+  "submitting": "Logging in...",
+  "register": {
+    "text": "Don't have an account yet?",
+    "link": "Register here"
+  },
+  "error": {
+    "fallback": "Unable to login. Please try again later",
+    "invalid_credentials": "Invalid username or password"
+  }
+}

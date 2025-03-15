@@ -4,7 +4,5 @@
     "description": "Tasks Manager"
   },
 
-  "critical_client_error": "Oops! Something went wrong. Please try again later.",
-
   "hello": "Hello, Jello!"
 }

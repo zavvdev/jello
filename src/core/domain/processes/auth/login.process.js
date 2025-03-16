@@ -1,7 +1,7 @@
 import { Either as E, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
-import { RESULT } from "~/core/domain/result";
+import { Result } from "~/core/domain/result";
 import { sessionsRepo } from "~/core/infrastructure/repositories/sessions.repositiry";
 
 /**
@@ -20,7 +20,7 @@ export async function loginProcess(dto) {
 
       if (!user?.id) {
         return E.left(
-          RESULT({
+          Result.of({
             message: MESSAGES.invalidCredentials,
           }),
         );
@@ -35,7 +35,7 @@ export async function loginProcess(dto) {
   var createSession = async (user) => {
     try {
       var token = await sessionsRepo.create({ user_id: user.id });
-      return E.right(RESULT({ data: { token } }));
+      return E.right(Result.of({ data: { token } }));
     } catch {
       return E.left();
     }

@@ -3,7 +3,7 @@ import { Either as E, Task } from "jello-fp";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { registerProcess } from "~/core/domain/processes/auth/register.process";
 import { User } from "~/core/entity/models/user";
-import { validateDto } from "~/core/gateway/validators";
+import { validate } from "~/core/gateway/validators";
 
 var dtoSchema = {
   request: User.schema
@@ -25,7 +25,7 @@ var dtoSchema = {
 };
 
 export async function registerController(dto) {
-  var $task = Task.of(validateDto(dtoSchema.request)(dto))
+  var $task = Task.of(() => validate(dtoSchema.request)(dto))
     .map(E.chain(registerProcess))
     .join();
 

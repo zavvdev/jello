@@ -1,7 +1,7 @@
-import { Either as E } from "jello-fp";
+import { Either as E, pipe } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
-import { RESULT } from "~/core/domain/result";
+import { Result } from "~/core/domain/result";
 import { User } from "~/core/entity/models/user";
 
 /**
@@ -12,21 +12,21 @@ import { User } from "~/core/entity/models/user";
 export async function authenticateProcess(dto) {
   try {
     var user = await usersRepo.getBySessionToken({ token: dto.session_token });
-    var userModel = User.of(user);
 
-    if (userModel.isRight) {
-      return E.right(
-        RESULT({
-          data: userModel.join(),
+    return pipe(
+      E.map((x) =>
+        Result.of({
+          data: x,
         }),
-      );
-    } else {
-      throw new Error();
-    }
+      ),
+      E.chainLeft(() => {
+        throw new Error();
+      }),
+    )(User.of(user));
   } catch {
     return E.left(
-      RESULT({
-        message: MESSAGES.unableToAuthenticate,
+      Result.of({
+        message: MESSAGES.unauthorized,
       }),
     );
   }

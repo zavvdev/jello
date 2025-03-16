@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
-import { reportCriticalAppError } from "~/core/domain/utilities/crash-report";
 import { Icons } from "~/app/components/icons";
 import styles from "~/app/[locale]/error.module.css";
 
 export default function Error({ error }) {
   useEffect(() => {
-    reportCriticalAppError(error);
+    // eslint-disable-next-line no-console
+    console.error(error);
   }, [error]);
 
   return (

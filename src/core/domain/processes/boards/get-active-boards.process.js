@@ -1,5 +1,5 @@
 import { Either as E } from "jello-fp";
-import { RESULT } from "~/core/domain/result";
+import { Result } from "~/core/domain/result";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
 
 /**
@@ -14,7 +14,7 @@ export async function getActiveBoardsProcess(dto) {
     });
 
     return E.right(
-      RESULT({
+      Result.of({
         data: boards,
       }),
     );

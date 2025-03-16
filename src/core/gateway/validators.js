@@ -1,38 +1,23 @@
 import { Either as E } from "jello-fp";
 import { MESSAGES } from "jello-messages";
-import { RESULT } from "~/core/domain/result";
+import { Result } from "~/core/domain/result";
 
-export var validateDto = (schema) => (dto) => async () => {
+export var validate = (schema) => async (data) => {
   try {
-    var validDto = await schema.validate(dto, {
+    var validData = await schema.validate(data, {
       strict: true,
     });
-    return E.right(validDto);
+    return E.right(validData);
   } catch (e) {
     return E.left(
-      RESULT({
+      Result.of({
         message: MESSAGES.validationError,
-        data: {
-          [e.path]: e.message,
-        },
-      }),
-    );
-  }
-};
-
-export var validateResultData = (schema) => async (result) => {
-  try {
-    await schema.validate(result?.data, {
-      strict: true,
-    });
-    return E.right(result);
-  } catch (e) {
-    return E.left(
-      RESULT({
-        message: MESSAGES.validationError,
-        data: {
-          [e.path]: e.message,
-        },
+        data:
+          e.path && e.message
+            ? {
+                [e.path]: e.message,
+              }
+            : null,
       }),
     );
   }

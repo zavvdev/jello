@@ -7,7 +7,6 @@ export var MESSAGES = {
   emailExists: "email_exists",
   invalidCredentials: "invalid_credentials",
   notFound: "not_found",
-  unableToAuthenticate: "unable_to_authenticate",
 };
 
 export var VALIDATION_MESSAGES = {

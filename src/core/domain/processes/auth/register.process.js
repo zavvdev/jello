@@ -1,6 +1,6 @@
 import { Either as E, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
-import { RESULT } from "~/core/domain/result";
+import { Result } from "~/core/domain/result";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
@@ -22,13 +22,13 @@ export async function registerProcess(dto) {
 
       if (isExists.byEmail) {
         return E.left(
-          RESULT({
+          Result.of({
             message: MESSAGES.emailExists,
           }),
         );
       } else if (isExists.byUsername) {
         return E.left(
-          RESULT({
+          Result.of({
             message: MESSAGES.usernameExists,
           }),
         );

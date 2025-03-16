@@ -7,10 +7,10 @@ import { Error } from "~/app/components/atoms/error";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import { Input } from "~/app/components/atoms/input";
 import { Button } from "~/app/components/atoms/button";
-import { loginAction } from "./actions";
+import { loginAction } from "../actions";
 import styles from "./styles.module.css";
 
-export function LoginForm() {
+export function Form() {
   var { t } = useTranslation();
   var { 0: state, 1: formAction, 2: pending } = useActionState(loginAction);
   var router = useRouter();

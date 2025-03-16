@@ -3,9 +3,9 @@ import { I18nProvider } from "~/app/i18n/provider";
 import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
 import { PUBLIC_ROUTES } from "~/app/routes";
-import { LoginForm } from "~/app/components/molecules/login-form";
-import { AuthHeader } from "~/app/components/atoms/auth-header";
 import styles from "./page.module.css";
+import { Form } from "./form";
+import { Header } from "../_components/header";
 
 var I18N_NAMESPACES = [NAMESPACES.login];
 
@@ -19,8 +19,8 @@ export default async function Login({ params }) {
       resources={resources}
     >
       <main className={styles.root}>
-        <AuthHeader title={t("title")} />
-        <LoginForm />
+        <Header title={t("title")} />
+        <Form />
         <p>
           {t("register.text")}{" "}
           <Link href={PUBLIC_ROUTES.auth.register()}>{t("register.link")}</Link>

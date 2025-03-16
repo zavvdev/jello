@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
  *  subtitle?: string;
  * }} param0
  */
-export function AuthHeader({ title, subtitle }) {
+export function Header({ title, subtitle }) {
   return (
     <div className={styles.root}>
       <Image src="/assets/logo.svg" alt="Jello" width={100} height={100} />

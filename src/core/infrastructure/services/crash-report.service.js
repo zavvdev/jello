@@ -1,4 +1,4 @@
-class ErrorReporterService {
+class CrashReportService {
   /**
    * @type {Console}
    */
@@ -26,4 +26,4 @@ class ErrorReporterService {
 }
 
 // Can be any external service that can report errors, like Sentry
-export var errorReporterService = new ErrorReporterService(console);
+export var crashReportService = new CrashReportService(console);

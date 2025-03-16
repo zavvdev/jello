@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { errorReporterService } from "~/infra/services/error-reporter-service";
 import { API_ROUTES } from "~/app/api/config";
 import { query } from "~/app/utilities/query";
 
@@ -28,10 +27,6 @@ export async function loginAction(_, formData) {
       message: undefined,
     };
   } catch (error) {
-    errorReporterService.report({
-      message: error.message,
-      error,
-    });
     return {
       success: false,
       message: error.message,

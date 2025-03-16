@@ -1,7 +1,7 @@
 import "server-only";
 
-import { db } from "~/infra/database";
-import { comparePasswords, hashPassword } from "~/infra/encryption/password";
+import { db } from "~/core/infrastructure/database";
+import { encryptionService } from "~/core/infrastructure/services/encryption.service";
 
 export class UsersRepo {
   /**
@@ -23,7 +23,7 @@ export class UsersRepo {
    * }} param0
    */
   async create({ username, first_name, last_name, email, password }) {
-    var hashedPassword = await hashPassword(password);
+    var hashedPassword = await encryptionService.hash(password);
 
     await this.#client.query(
       `INSERT INTO users (
@@ -77,7 +77,10 @@ export class UsersRepo {
 
     var user = result.rows[0];
 
-    if (!user || !(await comparePasswords(password, user.password))) {
+    if (
+      !user ||
+      !(await encryptionService.compareHashes(password, user.password))
+    ) {
       return null;
     }
 

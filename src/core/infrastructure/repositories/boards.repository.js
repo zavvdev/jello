@@ -1,6 +1,6 @@
 import "server-only";
 
-import { db } from "~/infra/database";
+import { db } from "~/core/infrastructure/database";
 
 export class BoardsRepo {
   /**

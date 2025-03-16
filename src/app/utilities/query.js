@@ -1,8 +1,8 @@
 import "server-only";
 
+import { MESSAGES } from "jello-messages";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { API_MESSAGES } from "~/app/api/config";
 import { APP_LOGOUT_URL } from "~/app/routes";
 
 class QueryError extends Error {
@@ -46,7 +46,7 @@ export async function query(route, method, body) {
       throw new QueryError(data.message, data);
     }
   } catch (e) {
-    if (e.message === API_MESSAGES.unauthorized) {
+    if (e.message === MESSAGES.unauthorized) {
       redirect(APP_LOGOUT_URL.full);
     } else {
       throw e;

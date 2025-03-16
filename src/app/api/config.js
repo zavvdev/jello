@@ -1,4 +1,4 @@
-// API ROUTES
+import { MESSAGES } from "jello-messages";
 
 var makeApiUrl = (route) => `${process.env.APP_URL}/api${route}`;
 
@@ -17,57 +17,56 @@ export var API_ROUTES = {
   },
 };
 
-// API MESSAGES
-
-export var API_MESSAGES = {
-  ok: "ok",
-  unexpectedError: "unexpected_error",
-  unauthorized: "unauthorized",
-  validationError: "validation_error",
-  usernameExists: "username_exists",
-  emailExists: "email_exists",
-  invalid_credentials: "invalid_credentials",
-  not_found: "not_found",
-};
-
-export var API_VALIDATION_MESSAGES = {
-  required: "required",
-  invalid: "invalid",
-  lengthInsufficient: "length_insufficient",
-  lengthExceeded: "length_exceeded",
-  typeString: "type_string",
-};
-
-// API RESPONSES
-
-export var SUCCESS_RESPONSE = ({ data, message, status } = {}) => {
-  return new Response(
+/**
+ * @param {{
+ *  status: number;
+ *  message: string;
+ *  data: any;
+ * }} options
+ */
+export var SUCCESS_RESPONSE = (options = {}) =>
+  new Response(
     JSON.stringify({
       success: true,
-      data: data || null,
-      message: message || API_MESSAGES.ok,
+      message: options.message || MESSAGES.ok,
+      data: options.data || null,
     }),
     {
-      status: status || 200,
+      status: options.status || 200,
       headers: {
         "Content-Type": "application/json",
       },
     },
   );
-};
 
-export var ERROR_RESPONSE = ({ data, message, status } = {}) => {
-  return new Response(
+/**
+ * @param {{
+ *  status: number;
+ *  message: string;
+ *  data: any;
+ * }} options
+ */
+export var ERROR_RESPONSE = (options = {}) =>
+  new Response(
     JSON.stringify({
       success: false,
-      data: data || null,
-      message: message || API_MESSAGES.unexpectedError,
+      message: options.message || MESSAGES.unexpectedError,
+      data: options.data || null,
     }),
     {
-      status: status || 500,
+      status: options.status || 500,
       headers: {
         "Content-Type": "application/json",
       },
     },
   );
+
+export var MESSAGE_STATUS_MAP = {
+  [MESSAGES.ok]: 200,
+  [MESSAGES.unauthorized]: 401,
+  [MESSAGES.validationError]: 400,
+  [MESSAGES.usernameExists]: 409,
+  [MESSAGES.emailExists]: 409,
+  [MESSAGES.invalidCredentials]: 400,
+  [MESSAGES.notFound]: 404,
 };

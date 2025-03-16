@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { reportCriticalAppError } from "~/core/domain/utilities/crash-report";
 import { Icons } from "~/app/components/icons";
 import styles from "~/app/[locale]/error.module.css";
-import { reportCriticalAppError } from "~/app/utilities/error-handling";
 
 export default function Error({ error }) {
   useEffect(() => {

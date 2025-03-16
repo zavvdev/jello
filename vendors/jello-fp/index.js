@@ -396,3 +396,9 @@ export var cond =
   (elseClause, ...ifClauses) =>
   (x) =>
     ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) || elseClause(x);
+
+export var log = (x) => {
+  // eslint-disable-next-line no-console
+  console.log("LOG:", x);
+  return x;
+};

@@ -1,0 +1,8 @@
+{
+  "name": "jello-fp",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "author": "Ihor ZAVIRIUKHA <ihor.zaviriukha@protonmail.com>",
+  "license": "MIT"
+}

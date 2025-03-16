@@ -1,7 +1,7 @@
 import "server-only";
 
-import { db } from "~/infra/database";
-import { createSessionToken } from "~/infra/encryption/session";
+import { db } from "~/core/infrastructure/database";
+import { encryptionService } from "~/core/infrastructure/services/encryption.service";
 
 export class SessionsRepo {
   /**
@@ -20,7 +20,7 @@ export class SessionsRepo {
    * @returns {Promise<string>}
    */
   async create({ user_id }) {
-    var token = createSessionToken();
+    var token = encryptionService.getUniqueId();
 
     await this.#client.query(
       `INSERT INTO sessions (

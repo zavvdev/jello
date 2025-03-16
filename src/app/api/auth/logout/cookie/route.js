@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import queryString from "query-string";
-import { errorReporterService } from "~/infra/services/error-reporter-service";
 import { API_ROUTES, ERROR_RESPONSE } from "~/app/api/config";
 
 /**
@@ -23,12 +22,7 @@ export async function GET(request) {
     var nextResponse = NextResponse.redirect(redirectUrl);
     nextResponse.cookies.delete(process.env.AUTH_COOKIE_NAME);
     return nextResponse;
-  } catch (e) {
-    errorReporterService.report({
-      message: e.message,
-      location: "api/auth/logout/cookie",
-      error: e,
-    });
+  } catch {
     return ERROR_RESPONSE();
   }
 }

@@ -1,23 +1,15 @@
-import { boardsRepo } from "~/infra/repositories/boards";
-import { withAuth } from "~/app/api/middleware";
-import { ERROR_RESPONSE, SUCCESS_RESPONSE } from "~/app/api/config";
+import { Task } from "jello-fp";
+import { getActiveBoardsController } from "~/core/gateway/controllers/boards/get-active-boards.controller";
+import { withSession } from "~/app/api/middleware";
+import { catch_, forward_ } from "~/app/api/utilities";
 
 /**
  * @param {import("next/server").NextRequest} request
  */
 export async function GET(request) {
-  // TODO
-  return withAuth(request, async (user) => {
-    try {
-      var boards = await boardsRepo.getActive({
-        user_id: user.id,
-      });
-
-      return SUCCESS_RESPONSE({
-        data: boards,
-      });
-    } catch {
-      return ERROR_RESPONSE();
-    }
+  return withSession(request, async (session_token) => {
+    var getBoards = () => getActiveBoardsController({ session_token });
+    var $task = Task.of(getBoards).map(forward_(200)).map(catch_()).join();
+    return await $task();
   });
 }

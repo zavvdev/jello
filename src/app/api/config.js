@@ -13,7 +13,7 @@ export var API_ROUTES = {
   },
 
   boards: {
-    getActive: () => makeApiUrl("/boards/active"),
+    getStarred: () => makeApiUrl("/boards/starred"),
   },
 };
 

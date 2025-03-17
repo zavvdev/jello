@@ -1,6 +1,7 @@
 import "server-only";
 
 import { db } from "~/core/infrastructure/database";
+import { SORT_ORDER } from "~/core/infrastructure/database/config";
 
 export class BoardsRepo {
   /**
@@ -16,22 +17,43 @@ export class BoardsRepo {
    * @param {{
    *  user_id: number;
    * }} param0
-   * @returns {Promise<{
-   *  id: number;
-   *  name: string;
-   *  description: string | null;
-   *  color: string;
-   *  is_archived: false;
-   *  created_at: string;
-   *  updated_at: string;
-   * }>}
    */
-  async getActive({ user_id }) {
+  async getStarred({ user_id }) {
     var result = await this.#client.query(
-      `SELECT * FROM boards l 
-       INNER JOIN users_boards_roles r ON l.id = r.board_id
-       WHERE r.user_id = $1 AND l.is_archived = false`,
+      `SELECT l.* FROM boards l
+       INNER JOIN users_starred_boards r ON l.id = r.board_id
+       WHERE r.user_id = $1`,
       [user_id],
+    );
+
+    return result.rows;
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  role: string;
+   *  is_archived: boolean;
+   *  search: string;
+   *  sort_by: "date" | "name";
+   *  sort_order: "asc" | "desc";
+   * }} param0
+   */
+  async getAll({ user_id, role, is_archived, search, sort_by, sort_order }) {
+    var orderQueryMap = {
+      date: "l.created_at",
+      name: "LOWER(l.name)",
+    };
+
+    var result = await this.#client.query(
+      `SELECT l.* FROM boards l
+       INNER JOIN users_boards_roles r ON l.id = r.board_id
+       WHERE r.user_id = $1
+       AND r.role = $2
+       AND l.is_archived = $3
+       AND l.name ILIKE '%$4%'
+       ORDER BY ${orderQueryMap[sort_by]} ${SORT_ORDER[sort_order]}`,
+      [user_id, role, is_archived, search],
     );
 
     return result.rows;

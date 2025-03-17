@@ -5,7 +5,7 @@ import { query } from "~/app/utilities/query";
 
 export default async function Dashboard({ params }) {
   var { t } = await getI18nFromParams(params)([NAMESPACES.common]);
-  var boards = await query(API_ROUTES.boards.getActive());
+  var boards = await query(API_ROUTES.boards.getStarred());
 
   return (
     <h1>

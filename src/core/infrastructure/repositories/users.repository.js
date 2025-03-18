@@ -79,7 +79,10 @@ export class UsersRepo {
 
     if (
       !user ||
-      !(await encryptionService.compareHashes(password, user.password))
+      !(await encryptionService.compareHashes(
+        password,
+        user.password,
+      ))
     ) {
       return null;
     }

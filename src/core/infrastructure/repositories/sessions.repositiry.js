@@ -48,9 +48,10 @@ export class SessionsRepo {
       var sessionToken = sessionTokenResult.rows[0]?.token;
 
       if (sessionToken) {
-        await client.query(`INSERT INTO revoked_tokens (token) VALUES ($1)`, [
-          sessionToken,
-        ]);
+        await client.query(
+          `INSERT INTO revoked_tokens (token) VALUES ($1)`,
+          [sessionToken],
+        );
         await client.query(`DELETE FROM sessions WHERE token = $1`, [
           sessionToken,
         ]);

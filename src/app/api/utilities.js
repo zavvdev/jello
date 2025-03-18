@@ -1,10 +1,14 @@
 import { Either as E } from "jello-fp";
-import { ERROR_RESPONSE, MESSAGE_STATUS_MAP, SUCCESS_RESPONSE } from "./config";
+import {
+  ERROR_RESPONSE,
+  MESSAGE_STATUS_MAP,
+  SUCCESS_RESPONSE,
+} from "./config";
 
 /**
  * @param {import("next/server").NextRequest} request
  */
-export var extractRequest = (request) => async () => {
+export var extractRequest = async (request) => {
   try {
     var res = await request.json();
     return E.right(res);

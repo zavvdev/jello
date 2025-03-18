@@ -13,7 +13,7 @@ import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
  * }} dto
  */
 export async function registerProcess(dto) {
-  var checkExistance = (body) => async () => {
+  var checkExistance = async (body) => {
     try {
       var isExists = await usersRepo.exists({
         username: dto.username,
@@ -49,6 +49,7 @@ export async function registerProcess(dto) {
     }
   };
 
-  var $task = Task.of(checkExistance(dto)).map(E.chain(createUser)).join();
-  return await $task();
+  var $task = Task.of(checkExistance).map(E.chain(createUser)).join();
+
+  return await $task(dto);
 }

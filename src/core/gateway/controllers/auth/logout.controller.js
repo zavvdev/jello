@@ -11,9 +11,9 @@ var dtoSchema = {
 };
 
 export async function logoutController(dto) {
-  var $task = Task.of(() => validate(dtoSchema.request)(dto))
+  var $task = Task.of(validate(dtoSchema.request))
     .map(E.chain(logoutProcess))
     .join();
 
-  return await $task();
+  return await $task(dto);
 }

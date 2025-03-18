@@ -2,6 +2,8 @@ import { Either as E } from "jello-fp";
 import { Result } from "~/core/domain/result";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
 
+export var sortableFields = ["date", "name"];
+
 /**
  * @param {{
  *  user_id: number;

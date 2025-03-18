@@ -1,5 +1,6 @@
+import * as t from "yup";
 import { Either as E } from "jello-fp";
-import { MESSAGES } from "jello-messages";
+import { MESSAGES, VALIDATION_MESSAGES as T } from "jello-messages";
 import { Result } from "~/core/domain/result";
 
 export var validate = (schema) => async (data) => {
@@ -22,3 +23,7 @@ export var validate = (schema) => async (data) => {
     );
   }
 };
+
+export var sortOrderSchema = t
+  .string()
+  .oneOf(["asc", "desc"], T.invalid);

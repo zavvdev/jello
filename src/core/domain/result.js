@@ -4,10 +4,10 @@ import * as t from "yup";
  * Result of some operation.
  */
 export var Result = {
-  schema: (data) =>
+  schema: (dataSchema) =>
     t.object({
       message: t.string().nullable(),
-      data,
+      data: dataSchema,
     }),
   of: (options = {}) => ({
     message: options.message || undefined,

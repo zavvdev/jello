@@ -12,7 +12,11 @@ import styles from "./styles.module.css";
 
 export function Form() {
   var { t } = useTranslation();
-  var { 0: state, 1: formAction, 2: pending } = useActionState(loginAction);
+  var {
+    0: state,
+    1: formAction,
+    2: pending,
+  } = useActionState(loginAction);
   var router = useRouter();
 
   var handleSubmit = (e) => {
@@ -30,9 +34,15 @@ export function Form() {
   }, [state?.success, router]);
 
   return (
-    <form action={formAction} onSubmit={handleSubmit} className={styles.root}>
+    <form
+      action={formAction}
+      onSubmit={handleSubmit}
+      className={styles.root}
+    >
       {state?.success === false && (
-        <Error center>{t([`error.${state.message}`, "error.fallback"])}</Error>
+        <Error center>
+          {t([`error.${state.message}`, "error.fallback"])}
+        </Error>
       )}
       <Input
         required

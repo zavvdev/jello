@@ -10,7 +10,13 @@ import styles from "./styles.module.css";
  *  variant?: "primary";
  * }} param0
  */
-export function Button({ children, type, disabled, onClick, variant }) {
+export function Button({
+  children,
+  type,
+  disabled,
+  onClick,
+  variant,
+}) {
   var rootClasses = cx(styles.root, {
     [styles.primary]: variant === "primary",
   });

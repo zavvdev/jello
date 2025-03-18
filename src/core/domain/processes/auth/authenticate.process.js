@@ -11,7 +11,9 @@ import { User } from "~/core/entity/models/user";
  */
 export async function authenticateProcess(dto) {
   try {
-    var user = await usersRepo.getBySessionToken({ token: dto.session_token });
+    var user = await usersRepo.getBySessionToken({
+      token: dto.session_token,
+    });
 
     return pipe(
       E.map((x) =>

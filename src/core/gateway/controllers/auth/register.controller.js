@@ -25,9 +25,9 @@ var dtoSchema = {
 };
 
 export async function registerController(dto) {
-  var $task = Task.of(() => validate(dtoSchema.request)(dto))
+  var $task = Task.of(validate(dtoSchema.request))
     .map(E.chain(registerProcess))
     .join();
 
-  return await $task();
+  return await $task(dto);
 }

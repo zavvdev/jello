@@ -7,7 +7,10 @@ import { Result } from "~/core/domain/result";
 
 var dtoSchema = {
   request: t.object({
-    usernameOrEmail: t.string().required(T.required).typeError(T.typeString),
+    usernameOrEmail: t
+      .string()
+      .required(T.required)
+      .typeError(T.typeString),
     password: t.string().required(T.required).typeError(T.typeString),
   }),
   response: Result.schema(
@@ -18,10 +21,10 @@ var dtoSchema = {
 };
 
 export async function loginController(dto) {
-  var $task = Task.of(() => validate(dtoSchema.request)(dto))
+  var $task = Task.of(validate(dtoSchema.request))
     .map(E.chain(loginProcess))
     .map(E.chain(validate(dtoSchema.response)))
     .join();
 
-  return await $task();
+  return await $task(dto);
 }

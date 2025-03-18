@@ -395,10 +395,11 @@ export var not = (x) => !x;
 export var cond =
   (elseClause, ...ifClauses) =>
   (x) =>
-    ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) || elseClause(x);
+    ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) ||
+    elseClause(x);
 
-export var log = (x) => {
+export var log = (label) => (x) => {
   // eslint-disable-next-line no-console
-  console.log("LOG:", x);
+  console.log(label || "LOG:", x);
   return x;
 };

@@ -1,16 +1,11 @@
 import "server-only";
 
 import pg from "pg";
+import { CONNECTION } from "./config";
 
 var { Pool } = pg;
 
-var pool = new Pool({
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-});
+var pool = new Pool(CONNECTION);
 
 /**
  * @param {string} text

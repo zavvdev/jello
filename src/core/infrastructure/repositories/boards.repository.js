@@ -39,7 +39,14 @@ export class BoardsRepo {
    *  sort_order: "asc" | "desc";
    * }} param0
    */
-  async getAll({ user_id, role, is_archived, search, sort_by, sort_order }) {
+  async getAll({
+    user_id,
+    role,
+    is_archived,
+    search,
+    sort_by,
+    sort_order,
+  }) {
     var orderQueryMap = {
       date: "l.created_at",
       name: "LOWER(l.name)",
@@ -49,11 +56,11 @@ export class BoardsRepo {
       `SELECT l.* FROM boards l
        INNER JOIN users_boards_roles r ON l.id = r.board_id
        WHERE r.user_id = $1
-       AND r.role = $2
+       AND r.role = COALESCE($2, r.role)
        AND l.is_archived = $3
-       AND l.name ILIKE '%$4%'
+       AND l.name ILIKE '%' || $4 || '%'
        ORDER BY ${orderQueryMap[sort_by]} ${SORT_ORDER[sort_order]}`,
-      [user_id, role, is_archived, search],
+      [user_id, role, is_archived, search || ""],
     );
 
     return result.rows;

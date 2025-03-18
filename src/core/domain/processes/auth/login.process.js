@@ -11,7 +11,7 @@ import { sessionsRepo } from "~/core/infrastructure/repositories/sessions.reposi
  * }} dto
  */
 export async function loginProcess(dto) {
-  var checkExistance = (body) => async () => {
+  var checkExistance = async (body) => {
     try {
       var user = await usersRepo.getByCredentials({
         usernameOrEmail: body.usernameOrEmail,
@@ -41,6 +41,9 @@ export async function loginProcess(dto) {
     }
   };
 
-  var $task = Task.of(checkExistance(dto)).map(E.chain(createSession)).join();
-  return await $task();
+  var $task = Task.of(checkExistance)
+    .map(E.chain(createSession))
+    .join();
+
+  return await $task(dto);
 }

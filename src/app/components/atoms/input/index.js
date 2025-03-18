@@ -11,7 +11,15 @@ import styles from "./styles.module.css";
  *  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
  * }} param0
  */
-export function Input({ label, name, id, required, type, value, onChange }) {
+export function Input({
+  label,
+  name,
+  id,
+  required,
+  type,
+  value,
+  onChange,
+}) {
   return (
     <div className={styles.root}>
       {label && <label htmlFor={id}>{label}</label>}

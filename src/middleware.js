@@ -13,7 +13,8 @@ import { getLangFromPathname } from "~/app/i18n/utils";
 export const config = {
   matcher: [
     {
-      source: "/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)",
+      source:
+        "/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)",
     },
   ],
 };
@@ -21,7 +22,9 @@ export const config = {
 export async function middleware(request) {
   var { pathname } = request.nextUrl;
   var lang = getLangFromPathname(pathname);
-  var cookieToken = (await cookies()).get(process.env.AUTH_COOKIE_NAME)?.value;
+  var cookieToken = (await cookies()).get(
+    process.env.AUTH_COOKIE_NAME,
+  )?.value;
 
   if (!isPrivateRoute(pathname) && cookieToken) {
     return NextResponse.redirect(

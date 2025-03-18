@@ -9,7 +9,9 @@ import { API_ROUTES, ERROR_RESPONSE } from "~/app/api/config";
 export async function GET(request) {
   try {
     var cookiesStore = await cookies();
-    var queryParams = queryString.parse(request.url.split("?")[1] || "");
+    var queryParams = queryString.parse(
+      request.url.split("?")[1] || "",
+    );
     var redirectUrl = queryParams.redirect_to;
 
     await fetch(API_ROUTES.auth.logout.root(), {

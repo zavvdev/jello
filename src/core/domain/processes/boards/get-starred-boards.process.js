@@ -1,4 +1,4 @@
-import { Either as E } from "jello-fp";
+import { Task } from "jello-fp";
 import { Result } from "~/core/domain/result";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
 
@@ -8,17 +8,9 @@ import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository
  * }} dto
  */
 export async function getStarredBoardsProcess(dto) {
-  try {
-    var boards = await boardsRepo.getStarred({
-      user_id: dto.user_id,
-    });
+  var $task = Task.of(boardsRepo.getStarred.bind(boardsRepo))
+    .map(Result.fromEither)
+    .join();
 
-    return E.right(
-      Result.of({
-        data: boards,
-      }),
-    );
-  } catch {
-    return E.left();
-  }
+  return await $task(dto);
 }

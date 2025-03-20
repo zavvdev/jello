@@ -1,5 +1,5 @@
 import * as t from "yup";
-import { Either as E, Task } from "jello-fp";
+import { compose, Either as E, mergeEach, Task } from "jello-fp";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { Board } from "~/core/entity/models/board";
 import {
@@ -39,30 +39,14 @@ export async function getBoardsController(dto) {
     sort_order: dto.sort_order ?? "desc",
   });
 
-  var $getParams = Task.of(validate(dtoSchema.request))
-    .map(E.map(assignDefaults))
-    .join();
+  var $getParams = Task.of(validate(dtoSchema.request)).map(
+    E.map(assignDefaults),
+  );
 
-  var $authenticate = Task.of(authenticate)
-    .map(E.map(mapUserId))
-    .join();
+  var $authenticate = Task.of(authenticate).map(E.map(mapUserId));
 
-  // TODO: Maybe we can create a helper function for such thing
-  var $combined = Task.of(async (dto) => {
-    var result = await Promise.all([
-      $authenticate(dto),
-      $getParams(dto),
-    ]);
-
-    if (result.every(E.isRight)) {
-      return E.right({ ...result[1].join(), ...result[0].join() });
-    } else {
-      return result.find(E.isLeft);
-    }
-  });
-
-  var $task = $combined
-    .map(E.chain(getBoardsProcess))
+  var $task = Task.run($authenticate, $getParams)
+    .map(E.chainAll(compose(getBoardsProcess, mergeEach)))
     .map(E.chain(validate(dtoSchema.response)))
     .join();
 

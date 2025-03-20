@@ -140,6 +140,18 @@ export class Task {
     return new Task(fn);
   }
 
+  static run(...tasks) {
+    return new Task(async (...args) => {
+      if (tasks.length === 1) {
+        return await tasks[0].runner(...args);
+      } else {
+        return await Promise.all(
+          tasks.map((task) => task.runner(...args)),
+        );
+      }
+    });
+  }
+
   map(fn) {
     return new Task(async (...args) => {
       const result = await this.runner(...args);
@@ -175,6 +187,13 @@ export class Either {
 
   static chain(fn) {
     return (x) => (x?.isRight ? fn(x.join()) : x);
+  }
+
+  static chainAll(fn) {
+    return (xs) =>
+      xs.every((x) => x.isRight)
+        ? fn(xs.map((x) => x.join()))
+        : xs.find((x) => x.isLeft);
   }
 
   static mapLeft(fn) {
@@ -403,3 +422,6 @@ export var log = (label) => (x) => {
   console.log(label || "LOG:", x);
   return x;
 };
+
+export var mergeEach = (xs) =>
+  xs.reduce((acc, x) => ({ ...acc, ...x }), {});

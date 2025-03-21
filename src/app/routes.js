@@ -17,7 +17,7 @@ var PRIVATE_ROUTE_PREFIX = "u";
 var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
 
 export var PRIVATE_ROUTES = {
-  dashboard: () => prvt("/dashboard"),
+  boards: () => prvt("/boards"),
 };
 
 // Logout

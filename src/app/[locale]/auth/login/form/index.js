@@ -12,12 +12,13 @@ import styles from "./styles.module.css";
 
 export function Form() {
   var { t } = useTranslation();
+  var router = useRouter();
+
   var {
     0: state,
     1: formAction,
     2: pending,
   } = useActionState(loginAction);
-  var router = useRouter();
 
   var handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ export function Form() {
 
   useEffect(() => {
     if (state?.success) {
-      router.push(PRIVATE_ROUTES.dashboard());
+      router.push(PRIVATE_ROUTES.boards());
     }
   }, [state?.success, router]);
 

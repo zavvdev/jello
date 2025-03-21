@@ -28,7 +28,7 @@ export async function middleware(request) {
 
   if (!isPrivateRoute(pathname) && cookieToken) {
     return NextResponse.redirect(
-      makeFullAppUrl(PRIVATE_ROUTES.dashboard(), lang),
+      makeFullAppUrl(PRIVATE_ROUTES.boards(), lang),
     );
   }
 

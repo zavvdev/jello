@@ -3,7 +3,7 @@ import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
 import { query } from "~/app/utilities/query";
 
-export default async function Dashboard({ params }) {
+export default async function Boards({ params }) {
   var { t } = await getI18nFromParams(params)([NAMESPACES.common]);
   var boards = await query(API_ROUTES.boards.getStarred());
 

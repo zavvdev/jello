@@ -1,4 +1,5 @@
 import { MESSAGES } from "jello-messages";
+import { MiddlewareError } from "jello-utils";
 import { ERROR_RESPONSE } from "~/app/api/config";
 
 /**
@@ -16,10 +17,13 @@ export async function withSession(request) {
       throw new Error();
     }
   } catch {
-    return ERROR_RESPONSE({
-      message: MESSAGES.unauthorized,
-      status: 401,
-    });
+    throw new MiddlewareError(
+      "Session Middleware Error",
+      ERROR_RESPONSE({
+        message: MESSAGES.unauthorized,
+        status: 401,
+      }),
+    );
   }
 }
 
@@ -31,7 +35,10 @@ export async function withRequestBody(request) {
     var body = await request.json();
     return body;
   } catch {
-    return ERROR_RESPONSE();
+    throw new MiddlewareError(
+      "Request Body Middleware Error",
+      ERROR_RESPONSE(),
+    );
   }
 }
 
@@ -40,6 +47,9 @@ export async function withQueryParams(request) {
     var { searchParams } = new URL(request.url);
     return searchParams;
   } catch {
-    return ERROR_RESPONSE();
+    throw new MiddlewareError(
+      "Query Params Middleware Error",
+      ERROR_RESPONSE(),
+    );
   }
 }

@@ -1,10 +1,7 @@
 import { Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { starBoardController } from "~/core/gateway/controllers/boards/star-board.controller";
-import {
-  applyMiddlewares,
-  withRequestBody,
-  withSession,
-} from "~/app/api/middleware";
+import { withRequestBody, withSession } from "~/app/api/middleware";
 import { catch_, forward_ } from "~/app/api/utilities";
 
 /**

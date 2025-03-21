@@ -1,10 +1,7 @@
 import { Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { getBoardsController } from "~/core/gateway/controllers/boards/get-boards.controller";
-import {
-  applyMiddlewares,
-  withQueryParams,
-  withSession,
-} from "~/app/api/middleware";
+import { withQueryParams, withSession } from "~/app/api/middleware";
 import { catch_, forward_ } from "~/app/api/utilities";
 
 /**

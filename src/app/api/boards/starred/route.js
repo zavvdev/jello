@@ -1,6 +1,7 @@
 import { Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { getStarredBoardsController } from "~/core/gateway/controllers/boards/get-starred-boards.controller";
-import { applyMiddlewares, withSession } from "~/app/api/middleware";
+import { withSession } from "~/app/api/middleware";
 import { catch_, forward_ } from "~/app/api/utilities";
 
 /**

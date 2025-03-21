@@ -1,7 +1,8 @@
 import { Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { logoutController } from "~/core/gateway/controllers/auth/logout.controller";
 import { catch_, forward_ } from "~/app/api/utilities";
-import { applyMiddlewares, withRequestBody } from "../../middleware";
+import { withRequestBody } from "~/app/api/middleware";
 
 /**
  * @param {import("next/server").NextRequest} request

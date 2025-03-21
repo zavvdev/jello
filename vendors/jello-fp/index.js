@@ -433,5 +433,3 @@ export var log = (label) => (x) => {
 
 export var mergeEach = (xs) =>
   xs.reduce((acc, x) => ({ ...acc, ...x }), {});
-
-export var toEitherTask = (x) => Task.of(async () => Either.right(x));

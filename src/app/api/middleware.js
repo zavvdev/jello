@@ -1,16 +1,6 @@
 import { MESSAGES } from "jello-messages";
 import { ERROR_RESPONSE } from "~/app/api/config";
 
-export var applyMiddlewares =
-  (request) =>
-  (...middlewares) =>
-  async (executor) => {
-    var result = await Promise.all(
-      middlewares.map((middleware) => middleware(request)),
-    );
-    return await executor(...result);
-  };
-
 /**
  * @param {Request} request
  * @param {(user: import("yup").InferType<typeof import("~/entity/user").UserSchema>) => any} executor

@@ -11,7 +11,7 @@ export async function withAuth(dto) {
     var result = await authenticateProcess(data);
 
     if (result.isRight) {
-      return result.join();
+      return result.join().data;
     } else {
       throw new Error();
     }

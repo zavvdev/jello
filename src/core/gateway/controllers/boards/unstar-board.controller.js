@@ -1,11 +1,10 @@
 import * as t from "yup";
-import { compose, Either as E, mergeEach, Task } from "jello-fp";
-import {
-  authenticate,
-  mapUserId,
-} from "~/core/gateway/authentication";
-import { validate } from "~/core/gateway/validators";
+import { applyMiddlewares } from "jello-utils";
 import { unstarBoardProcess } from "~/core/domain/processes/boards/unstar-board.process";
+import {
+  withAuth,
+  withRequestValidation,
+} from "~/core/gateway/middleware";
 
 var dtoSchema = {
   request: t
@@ -16,13 +15,13 @@ var dtoSchema = {
 };
 
 export async function unstarBoardController(dto) {
-  // TODO: Create middleware same as for api routes
-  var $authenticate = Task.of(authenticate).map(E.map(mapUserId));
-  var $validateRequest = Task.of(validate(dtoSchema.request));
-
-  var $task = Task.run($authenticate, $validateRequest)
-    .map(E.chainAll(compose(unstarBoardProcess, mergeEach)))
-    .join();
-
-  return await $task(dto);
+  return applyMiddlewares(dto)(
+    withAuth,
+    withRequestValidation(dtoSchema.request),
+  )(async (user, request) => {
+    return await unstarBoardProcess({
+      user_id: user.id,
+      board_id: request.board_id,
+    });
+  });
 }

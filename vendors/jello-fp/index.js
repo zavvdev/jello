@@ -430,6 +430,3 @@ export var log = (label) => (x) => {
   console.log(label || "LOG:", x);
   return x;
 };
-
-export var mergeEach = (xs) =>
-  xs.reduce((acc, x) => ({ ...acc, ...x }), {});

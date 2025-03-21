@@ -1,13 +1,13 @@
 import * as t from "yup";
 import { Either as E, Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { Board } from "~/core/entity/models/board";
 import { getStarredBoardsProcess } from "~/core/domain/processes/boards/get-starred-boards.process";
-import {
-  authenticate,
-  mapUserId,
-} from "~/core/gateway/authentication";
 import { Result } from "~/core/domain/result";
-import { validate } from "~/core/gateway/validators";
+import {
+  withAuth,
+  withResponseValidator,
+} from "~/core/gateway/middleware";
 
 var dtoSchema = {
   response: Result.schema(
@@ -16,11 +16,16 @@ var dtoSchema = {
 };
 
 export async function getStarredBoardsController(dto) {
-  var $task = Task.of(authenticate)
-    .map(E.map(mapUserId))
-    .map(E.chain(getStarredBoardsProcess))
-    .map(E.chain(validate(dtoSchema.response)))
-    .join();
+  return applyMiddlewares(dto)(
+    withAuth,
+    withResponseValidator(dtoSchema.response),
+  )(async (user, validateResponse) => {
+    var $task = Task.of(getStarredBoardsProcess)
+      .map(E.chain(validateResponse))
+      .join();
 
-  return await $task(dto);
+    return await $task({
+      user_id: user.id,
+    });
+  });
 }

@@ -140,6 +140,22 @@ export class Task {
     return new Task(fn);
   }
 
+  static wrap(x) {
+    return Task.of(async () => x);
+  }
+
+  static run(...tasks) {
+    return new Task(async (...args) => {
+      if (tasks.length === 1) {
+        return await tasks[0].runner(...args);
+      } else {
+        return await Promise.all(
+          tasks.map((task) => task.runner(...args)),
+        );
+      }
+    });
+  }
+
   map(fn) {
     return new Task(async (...args) => {
       const result = await this.runner(...args);
@@ -165,6 +181,10 @@ export class Either {
     return new Right(x);
   }
 
+  static async asyncRight(x) {
+    return new Right(x);
+  }
+
   static left(x) {
     return new Left(x);
   }
@@ -175,6 +195,13 @@ export class Either {
 
   static chain(fn) {
     return (x) => (x?.isRight ? fn(x.join()) : x);
+  }
+
+  static chainAll(fn) {
+    return (xs) =>
+      xs.every((x) => x.isRight)
+        ? fn(xs.map((x) => x.join()))
+        : xs.find((x) => x.isLeft);
   }
 
   static mapLeft(fn) {
@@ -395,10 +422,11 @@ export var not = (x) => !x;
 export var cond =
   (elseClause, ...ifClauses) =>
   (x) =>
-    ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) || elseClause(x);
+    ifClauses.find((ifClause) => ifClause[0](x))?.[1]?.(x) ||
+    elseClause(x);
 
-export var log = (x) => {
+export var log = (label) => (x) => {
   // eslint-disable-next-line no-console
-  console.log("LOG:", x);
+  console.log(label || "LOG:", x);
   return x;
 };

@@ -10,7 +10,12 @@ import styles from "./styles.module.css";
 export function Header({ title, subtitle }) {
   return (
     <div className={styles.root}>
-      <Image src="/assets/logo.svg" alt="Jello" width={100} height={100} />
+      <Image
+        src="/assets/logo.svg"
+        alt="Jello"
+        width={100}
+        height={100}
+      />
       <h1>{title}</h1>
       {subtitle && <p>{subtitle}</p>}
     </div>

@@ -11,7 +11,11 @@ var compat = new FlatCompat({
 
 var config = [
   { files: ["**/*.{js,mjs,cjs,jsx}"] },
-  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  {
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
+  },
   pluginJs.configs.recommended,
   reactCompiler.configs.recommended,
   ...compat.config({

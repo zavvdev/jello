@@ -49,3 +49,21 @@
 `make db-exec id=container-id` - get access to container command line
 
 `make db-sc` - show running containers
+
+## Data flow
+
+1. Next.js api routes responsible for accepting data from user, making any transformations related to Next.js ecosystem (for example, extrac token from cookies etc) and calling controllers from `core/gateway`.
+
+2. Controllers responsible for Authentication and Validation. Then they should delegate execution to processes from `core/domain`.
+
+3. Processes are functions that perform domain business logic. Responsible for Authorization and communication with repositories from `core/infrastructure`.
+
+4. Repositories are responsible for db CRUD operations.
+
+## Result value rules
+
+1. If any process from `core/domain` needs to return something, it should be wrapper into `Result`.
+
+2. If any controller from `core/gateway` needs to return something, it should be wrapper into `Result`.
+
+3. If process has no return value, you can omit Result and return an empty Either.

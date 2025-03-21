@@ -1,8 +1,8 @@
 import * as t from "yup";
-import { Either as E, Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
-import { validate } from "~/core/gateway/validators";
 import { logoutProcess } from "~/core/domain/processes/auth/logout.process";
+import { withRequestValidation } from "~/core/gateway/middleware";
 
 var dtoSchema = {
   request: t.object({
@@ -11,9 +11,7 @@ var dtoSchema = {
 };
 
 export async function logoutController(dto) {
-  var $task = Task.of(() => validate(dtoSchema.request)(dto))
-    .map(E.chain(logoutProcess))
-    .join();
-
-  return await $task();
+  return applyMiddlewares(dto)(
+    withRequestValidation(dtoSchema.request),
+  )(logoutProcess);
 }

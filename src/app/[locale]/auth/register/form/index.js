@@ -14,7 +14,11 @@ import { registerAction } from "../actions";
 
 export function Form() {
   var { t } = useTranslation();
-  var { 0: state, 1: formAction, 2: pending } = useActionState(registerAction);
+  var {
+    0: state,
+    1: formAction,
+    2: pending,
+  } = useActionState(registerAction);
 
   var handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +35,9 @@ export function Form() {
       {isSuccess && (
         <Success>
           {t("success.title")}{" "}
-          <Link href={PUBLIC_ROUTES.auth.login()}>{t("success.link")}</Link>
+          <Link href={PUBLIC_ROUTES.auth.login()}>
+            {t("success.link")}
+          </Link>
         </Success>
       )}
       {!isSuccess && (
@@ -47,7 +53,9 @@ export function Form() {
               </Error>
               <ErrorEntries
                 map={state?.extra}
-                render={(key, value) => t(`validation_error.${key}.${value}`)}
+                render={(key, value) =>
+                  t(`validation_error.${key}.${value}`)
+                }
               />
             </div>
           )}

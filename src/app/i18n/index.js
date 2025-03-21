@@ -9,7 +9,12 @@ import { DEFAULT_LOCALE, LOCALES } from "~/app/i18n/config";
  * @param {import("i18next").i18n} i18nInstance
  * @param {import("i18next").Resource} resources
  */
-export async function initI18n(locale, namespaces, i18nInstance, resources) {
+export async function initI18n(
+  locale,
+  namespaces,
+  i18nInstance,
+  resources,
+) {
   i18nInstance = i18nInstance || createInstance();
 
   i18nInstance.use(initReactI18next);
@@ -38,7 +43,9 @@ export async function initI18n(locale, namespaces, i18nInstance, resources) {
 
   return {
     i18n: i18nInstance,
-    resources: { [locale]: i18nInstance.services.resourceStore.data[locale] },
+    resources: {
+      [locale]: i18nInstance.services.resourceStore.data[locale],
+    },
     t: i18nInstance.t,
   };
 }

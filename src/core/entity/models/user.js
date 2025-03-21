@@ -36,3 +36,19 @@ export var User = {
   schema,
   of: castModel(schema)("User"),
 };
+
+var userRoles = ["owner", "admin", "member"];
+
+export var UserRole = {
+  Owner: userRoles[0],
+  Admin: userRoles[1],
+  Member: userRoles[2],
+  schema: t.string().oneOf(userRoles, T.invalid),
+  exists: (x) => userRoles.includes(x),
+  of: (x) =>
+    ({
+      [userRoles[0]]: userRoles[0],
+      [userRoles[1]]: userRoles[1],
+      [userRoles[2]]: userRoles[2],
+    })[x],
+};

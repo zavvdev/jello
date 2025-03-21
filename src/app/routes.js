@@ -17,7 +17,7 @@ var PRIVATE_ROUTE_PREFIX = "u";
 var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
 
 export var PRIVATE_ROUTES = {
-  dashboard: () => prvt("/dashboard"),
+  boards: () => prvt("/boards"),
 };
 
 // Logout
@@ -44,5 +44,8 @@ export function makeFullAppUrl(pathname, lang = DEFAULT_LOCALE) {
  */
 export function isPrivateRoute(pathname) {
   var paths = pathname.split("/").filter(Boolean);
-  return paths[0] === PRIVATE_ROUTE_PREFIX || paths[1] === PRIVATE_ROUTE_PREFIX;
+  return (
+    paths[0] === PRIVATE_ROUTE_PREFIX ||
+    paths[1] === PRIVATE_ROUTE_PREFIX
+  );
 }

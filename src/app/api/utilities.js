@@ -1,17 +1,9 @@
 import { Either as E } from "jello-fp";
-import { ERROR_RESPONSE, MESSAGE_STATUS_MAP, SUCCESS_RESPONSE } from "./config";
-
-/**
- * @param {import("next/server").NextRequest} request
- */
-export var extractRequest = (request) => async () => {
-  try {
-    var res = await request.json();
-    return E.right(res);
-  } catch {
-    return E.left();
-  }
-};
+import {
+  ERROR_RESPONSE,
+  MESSAGE_STATUS_MAP,
+  SUCCESS_RESPONSE,
+} from "./config";
 
 export var forward_ = (status) =>
   E.chain((gatewayResult = {}) => {

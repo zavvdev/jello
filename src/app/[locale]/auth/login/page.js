@@ -10,7 +10,8 @@ import { Header } from "../_components/header";
 var I18N_NAMESPACES = [NAMESPACES.login];
 
 export default async function Login({ params }) {
-  var { t, i18n, resources } = await getI18nFromParams(params)(I18N_NAMESPACES);
+  var { t, i18n, resources } =
+    await getI18nFromParams(params)(I18N_NAMESPACES);
 
   return (
     <I18nProvider
@@ -23,7 +24,9 @@ export default async function Login({ params }) {
         <Form />
         <p>
           {t("register.text")}{" "}
-          <Link href={PUBLIC_ROUTES.auth.register()}>{t("register.link")}</Link>
+          <Link href={PUBLIC_ROUTES.auth.register()}>
+            {t("register.link")}
+          </Link>
         </p>
       </main>
     </I18nProvider>

@@ -69,4 +69,7 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.emailExists]: 409,
   [MESSAGES.invalidCredentials]: 400,
   [MESSAGES.notFound]: 404,
+  [MESSAGES.boardNotFound]: 404,
+  [MESSAGES.alreadNotStarred]: 400,
+  [MESSAGES.alreadyStarred]: 400,
 };

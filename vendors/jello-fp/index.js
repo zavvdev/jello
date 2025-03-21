@@ -140,6 +140,10 @@ export class Task {
     return new Task(fn);
   }
 
+  static wrap(x) {
+    return Task.of(async () => x);
+  }
+
   static run(...tasks) {
     return new Task(async (...args) => {
       if (tasks.length === 1) {
@@ -174,6 +178,10 @@ export class Either {
   }
 
   static right(x) {
+    return new Right(x);
+  }
+
+  static async asyncRight(x) {
     return new Right(x);
   }
 
@@ -425,3 +433,5 @@ export var log = (label) => (x) => {
 
 export var mergeEach = (xs) =>
   xs.reduce((acc, x) => ({ ...acc, ...x }), {});
+
+export var toEitherTask = (x) => Task.of(async () => Either.right(x));

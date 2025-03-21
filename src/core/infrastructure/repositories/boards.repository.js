@@ -74,6 +74,74 @@ export class BoardsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   * }} param0
+   */
+  async starBoard({ user_id, board_id }) {
+    try {
+      await this.#client.query(
+        `INSERT INTO users_starred_boards (user_id, board_id)
+          VALUES ($1, $2)`,
+        [user_id, board_id],
+      );
+
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  async unstarBoard({ user_id, board_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM users_starred_boards
+          WHERE user_id = $1 AND board_id = $2`,
+        [user_id, board_id],
+      );
+
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   * }} param0
+   */
+  async getStarredBoardsCount({ user_id, board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT COUNT(*) FROM users_starred_boards
+          WHERE user_id = $1 AND board_id = $2`,
+        [user_id, board_id],
+      );
+
+      return E.right(parseInt(result.rows?.[0]?.count || "0"));
+    } catch {
+      return E.left();
+    }
+  }
+
+  async userHasBoard({ user_id, board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT COUNT(*) FROM users_boards_roles
+          WHERE user_id = $1 AND board_id = $2`,
+        [user_id, board_id],
+      );
+
+      return E.right(parseInt(result.rows?.[0]?.count || "0") > 0);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var boardsRepo = new BoardsRepo(db);

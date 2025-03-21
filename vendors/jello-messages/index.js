@@ -7,6 +7,9 @@ export var MESSAGES = {
   emailExists: "email_exists",
   invalidCredentials: "invalid_credentials",
   notFound: "not_found",
+  boardNotFound: "board_not_found",
+  alreadyStarred: "already_starred",
+  alreadNotStarred: "already_not_starred",
 };
 
 export var VALIDATION_MESSAGES = {

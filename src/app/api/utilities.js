@@ -5,18 +5,6 @@ import {
   SUCCESS_RESPONSE,
 } from "./config";
 
-/**
- * @param {import("next/server").NextRequest} request
- */
-export var extractRequest = async (request) => {
-  try {
-    var res = await request.json();
-    return E.right(res);
-  } catch {
-    return E.left();
-  }
-};
-
 export var forward_ = (status) =>
   E.chain((gatewayResult = {}) => {
     return SUCCESS_RESPONSE({

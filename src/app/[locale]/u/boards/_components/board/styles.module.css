@@ -1,0 +1,73 @@
+.root {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  max-width: 300px;
+  width: 300px;
+  height: 150px;
+  justify-content: space-between;
+  background-color: #fffefa;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.color {
+  width: 1rem;
+  height: 1rem;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.favoriteBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favoriteBtn svg {
+  width: 1rem;
+}
+
+.favoriteBtn:hover svg {
+  color: red;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.footer .footerBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #5b5b5b;
+  font-size: 0.9rem;
+  padding: 0 0.5rem;
+}
+
+.footer .footerBtn svg {
+  width: 1rem;
+}
+
+.footer .footerBtn:hover {
+  text-decoration: underline;
+  color: var(--color-primary);
+}
+
+.footer .footerBtn:hover svg {
+  color: var(--color-primary);
+}
+
+.footer .btnDelete:hover svg {
+  color: red;
+}

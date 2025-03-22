@@ -11,4 +11,5 @@ export var NAMESPACES = {
   common: "common",
   register: "register",
   login: "login",
+  boards: "boards",
 };

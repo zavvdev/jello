@@ -24,7 +24,8 @@ export class BoardsRepo {
       var result = await this.#client.query(
         `SELECT l.* FROM boards l
        INNER JOIN users_starred_boards r ON l.id = r.board_id
-       WHERE r.user_id = $1`,
+       WHERE r.user_id = $1
+       ORDER BY l.updated_at DESC`,
         [user_id],
       );
 

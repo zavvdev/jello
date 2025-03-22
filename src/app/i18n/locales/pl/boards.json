@@ -1,0 +1,8 @@
+{
+  "title": "Deski",
+  "starred": "Ulubione",
+  "error": {
+    "get_starred": "Błąd podczas pobierania ulubionych desek"
+  },
+  "open": "Otwórz"
+}

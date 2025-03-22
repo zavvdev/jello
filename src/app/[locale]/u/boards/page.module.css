@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.createBoard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.createBoard:hover {
+  color: var(--color-primary);
+}

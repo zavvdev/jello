@@ -1,17 +1,24 @@
 import * as t from "yup";
+import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { applyMiddlewares } from "jello-utils";
 import { starBoardProcess } from "~/core/domain/processes/boards/star-board.process";
 import {
   withAuth,
   withRequestValidation,
 } from "~/core/gateway/middleware";
+import { authSchema } from "../../schemas";
 
 var dtoSchema = {
-  request: t
-    .object({
-      board_id: t.number().required(),
-    })
-    .required(),
+  request: authSchema.concat(
+    t
+      .object({
+        board_id: t
+          .number()
+          .required(T.required)
+          .typeError(T.typeNumber),
+      })
+      .required(),
+  ),
 };
 
 export async function starBoardController(dto) {

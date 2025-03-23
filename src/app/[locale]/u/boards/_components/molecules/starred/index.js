@@ -1,6 +1,6 @@
 import { query } from "~/app/utilities/query";
 import { API_ROUTES } from "~/app/api/config";
-import { Error } from "~/app/components/atoms/error";
+import { Alert } from "~/app/components/atoms/error";
 import { Board } from "../../atoms/board";
 import { Section } from "../../atoms/section";
 
@@ -22,7 +22,7 @@ export async function Starred({ t }) {
           />
         ))
       ) : (
-        <Error>{t("error.get_starred")}</Error>
+        <Alert type="error">{t("error.get_starred")}</Alert>
       )}
     </Section>
   );

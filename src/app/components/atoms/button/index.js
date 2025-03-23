@@ -15,10 +15,11 @@ export function Button({
   type,
   disabled,
   onClick,
-  variant,
+  variant = "primary",
 }) {
   var rootClasses = cx(styles.root, {
     [styles.primary]: variant === "primary",
+    [styles.disabled]: disabled,
   });
 
   return (

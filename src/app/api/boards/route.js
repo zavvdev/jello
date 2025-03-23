@@ -18,7 +18,9 @@ export async function GET(request) {
       return await $task({
         session_token,
         role: searchParams.get("role"),
-        archived: searchParams.get("archived") === "true",
+        archived: ["true", "on"].includes(
+          searchParams.get("archived"),
+        ),
         search: searchParams.get("search"),
         sort_by: searchParams.get("sort_by"),
         sort_order: searchParams.get("sort_order"),

@@ -26,3 +26,6 @@ export var applyMiddlewares =
       throw error;
     }
   };
+
+export var removeEmptyValues = (obj) =>
+  Object.fromEntries(Object.entries(obj).filter((x) => !!x[1]));

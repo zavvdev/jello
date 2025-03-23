@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Error } from "~/app/components/atoms/error";
+import { Alert } from "~/app/components/atoms/error";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import { Input } from "~/app/components/atoms/input";
 import { Button } from "~/app/components/atoms/button";
@@ -41,9 +41,9 @@ export function Form() {
       className={styles.root}
     >
       {state?.success === false && (
-        <Error center>
+        <Alert type="error" center>
           {t([`error.${state.message}`, "error.fallback"])}
-        </Error>
+        </Alert>
       )}
       <Input
         required
@@ -59,7 +59,7 @@ export function Form() {
         name="password"
         label={t("password")}
       />
-      <Button variant="primary" type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending}>
         {pending ? t("submitting") : t("submit")}
       </Button>
     </form>

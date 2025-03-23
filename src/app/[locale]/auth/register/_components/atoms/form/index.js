@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { startTransition, useActionState } from "react";
 import { useTranslation } from "react-i18next";
-import { Error } from "~/app/components/atoms/error";
+import { Alert } from "~/app/components/atoms/error";
 import { ErrorEntries } from "~/app/components/atoms/error-entries";
 import { PUBLIC_ROUTES } from "~/app/routes";
 import { Input } from "~/app/components/atoms/input";
@@ -48,9 +48,9 @@ export function Form() {
         >
           {state?.success === false && (
             <div>
-              <Error center>
+              <Alert type="error" center>
                 {t([`error.${state.message}`, "error.fallback"])}
-              </Error>
+              </Alert>
               <ErrorEntries
                 map={state?.extra}
                 render={(key, value) =>
@@ -101,7 +101,7 @@ export function Form() {
             type="password"
             label={t("confirm_password")}
           />
-          <Button variant="primary" type="submit" disabled={pending}>
+          <Button type="submit" disabled={pending}>
             {pending ? t("submitting") : t("submit")}
           </Button>
         </form>

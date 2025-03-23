@@ -6,5 +6,20 @@
     "get_all": "Błąd podczas pobierania desek"
   },
   "open": "Otwórz",
-  "all": "Wszystkie"
+  "all": "Wszystkie",
+  "apply": "Zastosuj",
+  "search": "Szukaj",
+  "owner": "Właściciel",
+  "admin": "Administrator",
+  "member": "Członek",
+  "any": "Dowolny",
+  "archived": "Zarchiwizowane",
+  "name": "Nazwa",
+  "date": "Data",
+  "asc": "Rosnąco",
+  "desc": "Malejąco",
+  "sort_by": "Sortuj według",
+  "order_by": "Kolejność",
+  "sort_by_role": "Sortuj według roli",
+  "no_boards": "Brak desek"
 }

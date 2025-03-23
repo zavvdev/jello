@@ -7,7 +7,7 @@ import { Starred } from "./_components/molecules/starred";
 import styles from "./page.module.css";
 import { All } from "./_components/molecules/all";
 
-export default async function Boards({ params }) {
+export default async function Boards({ params, searchParams }) {
   var { t } = await getI18nFromParams(params)([NAMESPACES.boards]);
 
   return (
@@ -22,7 +22,7 @@ export default async function Boards({ params }) {
         </Link>
       </div>
       <Starred t={t} />
-      <All t={t} />
+      <All t={t} searchParams={await searchParams} />
     </div>
   );
 }

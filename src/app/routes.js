@@ -1,3 +1,4 @@
+import queryString from "query-string";
 import { DEFAULT_LOCALE } from "~/app/i18n/config";
 import { API_ROUTES } from "~/app/api/config";
 
@@ -17,7 +18,10 @@ var PRIVATE_ROUTE_PREFIX = "u";
 var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
 
 export var PRIVATE_ROUTES = {
-  boards: () => prvt("/boards"),
+  boards: (params) =>
+    prvt(
+      `/boards${params ? `?${queryString.stringify(params)}` : ""}`,
+    ),
   board: (id) => prvt(`/boards/${id}`),
   editBoard: (id) => prvt(`/boards/${id}/edit`),
   createBoard: () => prvt(`/boards/create`),

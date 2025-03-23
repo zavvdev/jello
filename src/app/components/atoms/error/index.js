@@ -5,13 +5,16 @@ import styles from "./styles.module.css";
  * @param {{
  *  children: React.ReactNode;
  *  center?: boolean;
+ *  type: "error" | "warn";
  * }} param0
  */
-export function Error({ children, center }) {
+export function Alert({ children, center, type }) {
   return (
     <p
       className={cx(styles.root, {
         [styles.center]: center,
+        [styles.error]: type === "error",
+        [styles.warn]: type === "warn",
       })}
     >
       {children}

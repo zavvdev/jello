@@ -4,8 +4,8 @@ import { NAMESPACES } from "~/app/i18n/config";
 import { I18nProvider } from "~/app/i18n/provider";
 import { PUBLIC_ROUTES } from "~/app/routes";
 import styles from "~/app/[locale]/auth/register/page.module.css";
-import { Form } from "./form";
-import { Header } from "../_components/header";
+import { Form } from "./_components/atoms/form";
+import { Header } from "../_components/atoms/header";
 
 var I18N_NAMESPACES = [NAMESPACES.register];
 

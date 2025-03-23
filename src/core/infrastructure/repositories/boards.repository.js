@@ -22,7 +22,7 @@ export class BoardsRepo {
   async getStarred({ user_id }) {
     try {
       var result = await this.#client.query(
-        `SELECT l.* FROM boards l
+        `SELECT l.*, TRUE AS is_favorite FROM boards l
        INNER JOIN users_starred_boards r ON l.id = r.board_id
        WHERE r.user_id = $1
        ORDER BY l.updated_at DESC`,
@@ -60,13 +60,18 @@ export class BoardsRepo {
       };
 
       var result = await this.#client.query(
-        `SELECT l.* FROM boards l
-       INNER JOIN users_boards_roles r ON l.id = r.board_id
-       WHERE r.user_id = $1
-       AND r.role = COALESCE($2, r.role)
-       AND l.is_archived = $3
-       AND l.name ILIKE '%' || $4 || '%'
-       ORDER BY ${orderQueryMap[sort_by]} ${SORT_ORDER[sort_order]}`,
+        `SELECT l.*, EXISTS (
+            SELECT 1 
+            FROM users_starred_boards usb 
+            WHERE usb.board_id = l.id
+            AND usb.user_id = $1
+         ) AS is_favorite FROM boards l
+         INNER JOIN users_boards_roles r ON l.id = r.board_id
+         WHERE r.user_id = $1
+         AND r.role = COALESCE($2, r.role)
+         AND l.is_archived = $3
+         AND l.name ILIKE '%' || $4 || '%'
+         ORDER BY ${orderQueryMap[sort_by]} ${SORT_ORDER[sort_order]}`,
         [user_id, role, is_archived, search || ""],
       );
 

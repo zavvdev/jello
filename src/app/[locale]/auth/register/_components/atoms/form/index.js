@@ -10,7 +10,7 @@ import { Input } from "~/app/components/atoms/input";
 import { Success } from "~/app/components/atoms/success";
 import { Button } from "~/app/components/atoms/button";
 import styles from "./styles.module.css";
-import { registerAction } from "../actions";
+import { registerAction } from "../../../actions";
 
 export function Form() {
   var { t } = useTranslation();

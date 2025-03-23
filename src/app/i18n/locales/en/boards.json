@@ -2,7 +2,9 @@
   "title": "Boards",
   "starred": "Favorites",
   "error": {
-    "get_starred": "Failed to get starred boards. Try again later."
+    "get_starred": "Failed to get starred boards. Try again later.",
+    "get_all": "Failed to get boards. Try again later."
   },
-  "open": "Open"
+  "open": "Open",
+  "all": "All"
 }

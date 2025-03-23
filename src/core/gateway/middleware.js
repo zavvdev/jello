@@ -4,6 +4,7 @@ import { Either as E } from "jello-fp";
 import { Result } from "~/core/domain/result";
 import { authenticateProcess } from "~/core/domain/processes/auth/authenticate.process";
 import { authSchema } from "./schemas";
+import { handleGatewayError } from "../domain/error-handling";
 
 export async function withAuth(dto) {
   try {
@@ -15,7 +16,8 @@ export async function withAuth(dto) {
     } else {
       throw new Error();
     }
-  } catch {
+  } catch (e) {
+    handleGatewayError(e, "withAuth middleware");
     throw new MiddlewareError(
       "Auth Middleware Error",
       E.left(
@@ -33,6 +35,7 @@ export function withRequestValidation(schema) {
       var data = schema.validateSync(dto, { strict: true });
       return data;
     } catch (e) {
+      handleGatewayError(e, "withRequestValidation middleware");
       throw new MiddlewareError(
         "Validation Middleware Error",
         E.left(
@@ -58,7 +61,8 @@ export function withResponseValidator(schema) {
         strict: true,
       });
       return E.right(validData);
-    } catch {
+    } catch (e) {
+      handleGatewayError(e, "withResponseValidator middleware");
       return E.left();
     }
   };

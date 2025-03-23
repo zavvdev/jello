@@ -21,6 +21,10 @@ var schema = t.object({
     .boolean()
     .required(T.required)
     .typeError(T.typeBoolean),
+  is_favorite: t
+    .boolean()
+    .required(T.required)
+    .typeError(T.typeBoolean),
   created_at: CreatedAt,
   updated_at: UpdatedAt,
 });

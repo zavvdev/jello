@@ -2,7 +2,9 @@
   "title": "Deski",
   "starred": "Ulubione",
   "error": {
-    "get_starred": "Błąd podczas pobierania ulubionych desek"
+    "get_starred": "Błąd podczas pobierania ulubionych desek",
+    "get_all": "Błąd podczas pobierania desek"
   },
-  "open": "Otwórz"
+  "open": "Otwórz",
+  "all": "Wszystkie"
 }

@@ -4,8 +4,8 @@ import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
 import { PUBLIC_ROUTES } from "~/app/routes";
 import styles from "./page.module.css";
-import { Form } from "./form";
-import { Header } from "../_components/header";
+import { Form } from "./_components/atoms/form";
+import { Header } from "../_components/atoms/header";
 
 var I18N_NAMESPACES = [NAMESPACES.login];
 

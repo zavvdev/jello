@@ -4,13 +4,14 @@ import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
 import { PUBLIC_ROUTES } from "~/app/routes";
 import styles from "./page.module.css";
-import { Form } from "./form";
-import { Header } from "../_components/header";
+import { Form } from "./_components/atoms/form";
+import { Header } from "../_components/atoms/header";
 
 var I18N_NAMESPACES = [NAMESPACES.login];
 
 export default async function Login({ params }) {
-  var { t, i18n, resources } = await getI18nFromParams(params)(I18N_NAMESPACES);
+  var { t, i18n, resources } =
+    await getI18nFromParams(params)(I18N_NAMESPACES);
 
   return (
     <I18nProvider
@@ -23,7 +24,9 @@ export default async function Login({ params }) {
         <Form />
         <p>
           {t("register.text")}{" "}
-          <Link href={PUBLIC_ROUTES.auth.register()}>{t("register.link")}</Link>
+          <Link href={PUBLIC_ROUTES.auth.register()}>
+            {t("register.link")}
+          </Link>
         </p>
       </main>
     </I18nProvider>

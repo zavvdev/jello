@@ -1,0 +1,25 @@
+{
+  "title": "Boards",
+  "starred": "Favorites",
+  "error": {
+    "get_starred": "Failed to get starred boards. Try again later.",
+    "get_all": "Failed to get boards. Try again later."
+  },
+  "open": "Open",
+  "all": "All",
+  "apply": "Apply",
+  "search": "Search",
+  "owner": "Owner",
+  "admin": "Admin",
+  "member": "Member",
+  "any": "Any",
+  "archived": "Archived",
+  "name": "Name",
+  "date": "Date",
+  "asc": "Ascending",
+  "desc": "Descending",
+  "sort_by": "Sort by",
+  "order_by": "Order",
+  "sort_by_role": "Sort by role",
+  "no_boards": "No boards found."
+}

@@ -1,7 +1,17 @@
 .root {
-  color: red;
+  padding: 1rem;
 }
 
 .center {
   text-align: center;
+}
+
+.error {
+  color: red;
+  background-color: #ffefef;
+}
+
+.warn {
+  color: orange;
+  background-color: #fff7e6;
 }

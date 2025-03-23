@@ -4,5 +4,9 @@
     "description": "Menedżer Zadań"
   },
 
-  "hello": "Cześć, Jello!"
+  "nav": {
+    "boards": "Tablice"
+  },
+
+  "logout": "Wyloguj"
 }

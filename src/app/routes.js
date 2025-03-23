@@ -1,3 +1,4 @@
+import queryString from "query-string";
 import { DEFAULT_LOCALE } from "~/app/i18n/config";
 import { API_ROUTES } from "~/app/api/config";
 
@@ -17,7 +18,13 @@ var PRIVATE_ROUTE_PREFIX = "u";
 var prvt = (route) => `/${PRIVATE_ROUTE_PREFIX}${route}`;
 
 export var PRIVATE_ROUTES = {
-  dashboard: () => prvt("/dashboard"),
+  boards: (params) =>
+    prvt(
+      `/boards${params ? `?${queryString.stringify(params)}` : ""}`,
+    ),
+  board: (id) => prvt(`/boards/${id}`),
+  editBoard: (id) => prvt(`/boards/${id}/edit`),
+  createBoard: () => prvt(`/boards/create`),
 };
 
 // Logout
@@ -44,5 +51,8 @@ export function makeFullAppUrl(pathname, lang = DEFAULT_LOCALE) {
  */
 export function isPrivateRoute(pathname) {
   var paths = pathname.split("/").filter(Boolean);
-  return paths[0] === PRIVATE_ROUTE_PREFIX || paths[1] === PRIVATE_ROUTE_PREFIX;
+  return (
+    paths[0] === PRIVATE_ROUTE_PREFIX ||
+    paths[1] === PRIVATE_ROUTE_PREFIX
+  );
 }

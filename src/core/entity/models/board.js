@@ -17,7 +17,14 @@ var schema = t.object({
     .matches(/^#[0-9a-fA-F]{6}$/, T.invalid)
     .required(T.required)
     .typeError(T.typeString),
-  is_archived: t.boolean().required(T.required).typeError(T.typeBoolean),
+  is_archived: t
+    .boolean()
+    .required(T.required)
+    .typeError(T.typeBoolean),
+  is_favorite: t
+    .boolean()
+    .required(T.required)
+    .typeError(T.typeBoolean),
   created_at: CreatedAt,
   updated_at: UpdatedAt,
 });

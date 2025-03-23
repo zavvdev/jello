@@ -1,13 +1,20 @@
 import * as t from "yup";
 import { Either as E, Task } from "jello-fp";
+import { applyMiddlewares } from "jello-utils";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
-import { validate } from "~/core/gateway/validators";
 import { loginProcess } from "~/core/domain/processes/auth/login.process";
 import { Result } from "~/core/domain/result";
+import {
+  withRequestValidation,
+  withResponseValidator,
+} from "~/core/gateway/middleware";
 
 var dtoSchema = {
   request: t.object({
-    usernameOrEmail: t.string().required(T.required).typeError(T.typeString),
+    usernameOrEmail: t
+      .string()
+      .required(T.required)
+      .typeError(T.typeString),
     password: t.string().required(T.required).typeError(T.typeString),
   }),
   response: Result.schema(
@@ -18,10 +25,14 @@ var dtoSchema = {
 };
 
 export async function loginController(dto) {
-  var $task = Task.of(() => validate(dtoSchema.request)(dto))
-    .map(E.chain(loginProcess))
-    .map(E.chain(validate(dtoSchema.response)))
-    .join();
+  return applyMiddlewares(dto)(
+    withRequestValidation(dtoSchema.request),
+    withResponseValidator(dtoSchema.response),
+  )(async (request, validateResponse) => {
+    var $task = Task.of(loginProcess)
+      .map(E.chain(validateResponse))
+      .join();
 
-  return await $task();
+    return await $task(request);
+  });
 }

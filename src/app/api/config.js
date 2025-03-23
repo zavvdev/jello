@@ -1,4 +1,5 @@
 import { MESSAGES } from "jello-messages";
+import queryString from "query-string";
 
 var makeApiUrl = (route) => `${process.env.APP_URL}/api${route}`;
 
@@ -13,7 +14,11 @@ export var API_ROUTES = {
   },
 
   boards: {
-    getActive: () => makeApiUrl("/boards/active"),
+    getAll: (searchParams) =>
+      makeApiUrl(
+        `/boards${searchParams ? `?${queryString.stringify(searchParams)}` : ""}`,
+      ),
+    getStarred: () => makeApiUrl("/boards/starred"),
   },
 };
 
@@ -69,4 +74,7 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.emailExists]: 409,
   [MESSAGES.invalidCredentials]: 400,
   [MESSAGES.notFound]: 404,
+  [MESSAGES.boardNotFound]: 404,
+  [MESSAGES.alreadNotStarred]: 400,
+  [MESSAGES.alreadyStarred]: 400,
 };

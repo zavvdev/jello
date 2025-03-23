@@ -4,5 +4,9 @@
     "description": "Tasks Manager"
   },
 
-  "hello": "Hello, Jello!"
+  "nav": {
+    "boards": "Boards"
+  },
+
+  "logout": "Logout"
 }

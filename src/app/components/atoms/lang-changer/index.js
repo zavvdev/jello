@@ -21,7 +21,9 @@ export function LangChanger() {
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     document.cookie = `${COOKIE_KEY}=${newLocale};expires=${date.toUTCString()};path=/`;
 
-    router.push(currentPathname.replace(`/${currentLocale}`, `/${newLocale}`));
+    router.push(
+      currentPathname.replace(`/${currentLocale}`, `/${newLocale}`),
+    );
     router.refresh();
   };
 

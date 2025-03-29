@@ -32,23 +32,25 @@ var schema = t.object({
   updated_at: UpdatedAt,
 });
 
+var ROLES = ["owner", "admin", "member"];
+
 export var User = {
   schema,
   of: castModel(schema)("User"),
+  canDeleteBoard: (role) => role === ROLES[0],
+  canEditBoard: (role) => [ROLES[0], ROLES[1]].includes(role),
 };
 
-var userRoles = ["owner", "admin", "member"];
-
 export var UserRole = {
-  Owner: userRoles[0],
-  Admin: userRoles[1],
-  Member: userRoles[2],
-  schema: t.string().oneOf(userRoles, T.invalid),
-  exists: (x) => userRoles.includes(x),
+  Owner: ROLES[0],
+  Admin: ROLES[1],
+  Member: ROLES[2],
+  schema: t.string().oneOf(ROLES, T.invalid),
+  exists: (x) => ROLES.includes(x),
   of: (x) =>
     ({
-      [userRoles[0]]: userRoles[0],
-      [userRoles[1]]: userRoles[1],
-      [userRoles[2]]: userRoles[2],
+      [ROLES[0]]: ROLES[0],
+      [ROLES[1]]: ROLES[1],
+      [ROLES[2]]: ROLES[2],
     })[x],
 };

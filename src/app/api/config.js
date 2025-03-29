@@ -21,6 +21,7 @@ export var API_ROUTES = {
     getStarred: () => makeApiUrl("/boards/starred"),
     star: () => makeApiUrl("/boards/star"),
     unstar: (id) => makeApiUrl(`/boards/star/${id}`),
+    delete: (id) => makeApiUrl(`/boards/${id}`),
   },
 };
 
@@ -79,4 +80,5 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.boardNotFound]: 404,
   [MESSAGES.alreadNotStarred]: 400,
   [MESSAGES.alreadyStarred]: 400,
+  [MESSAGES.unauthorizedAction]: 403,
 };

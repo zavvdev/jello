@@ -1,8 +1,10 @@
 import "server-only";
 
 import { Either as E } from "jello-fp";
+import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
 import { SORT_ORDER } from "~/core/infrastructure/database/config";
+import { Result } from "~/core/domain/result";
 
 export class BoardsRepo {
   /**
@@ -22,8 +24,9 @@ export class BoardsRepo {
   async getStarred({ user_id }) {
     try {
       var result = await this.#client.query(
-        `SELECT l.*, TRUE AS is_favorite FROM boards l
+        `SELECT l.*, r2.role, TRUE AS is_favorite FROM boards l
        INNER JOIN users_starred_boards r ON l.id = r.board_id
+       INNER JOIN users_boards_roles r2 ON l.id = r2.board_id
        WHERE r.user_id = $1
        ORDER BY l.updated_at DESC`,
         [user_id],
@@ -60,7 +63,7 @@ export class BoardsRepo {
       };
 
       var result = await this.#client.query(
-        `SELECT l.*, EXISTS (
+        `SELECT l.*, r.role, EXISTS (
             SELECT 1 
             FROM users_starred_boards usb 
             WHERE usb.board_id = l.id
@@ -144,6 +147,35 @@ export class BoardsRepo {
       );
 
       return E.right(parseInt(result.rows?.[0]?.count || "0") > 0);
+    } catch {
+      return E.left();
+    }
+  }
+
+  async destroy({ board_id }) {
+    try {
+      await this.#client.query(`DELETE FROM boards WHERE id = $1`, [
+        board_id,
+      ]);
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  async getUserRole({ user_id, board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT role FROM users_boards_roles
+          WHERE user_id = $1 AND board_id = $2`,
+        [user_id, board_id],
+      );
+
+      if (result.rows.length === 0) {
+        return E.left(Result.of({ message: MESSAGES.notFound }));
+      }
+
+      return E.right(result.rows?.[0]?.role);
     } catch {
       return E.left();
     }

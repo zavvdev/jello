@@ -10,6 +10,7 @@ export var MESSAGES = {
   boardNotFound: "board_not_found",
   alreadyStarred: "already_starred",
   alreadNotStarred: "already_not_starred",
+  unauthorizedAction: "unauthorized_action",
 };
 
 export var VALIDATION_MESSAGES = {

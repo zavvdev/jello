@@ -19,6 +19,8 @@ export var API_ROUTES = {
         `/boards${searchParams ? `?${queryString.stringify(searchParams)}` : ""}`,
       ),
     getStarred: () => makeApiUrl("/boards/starred"),
+    star: () => makeApiUrl("/boards/star"),
+    unstar: (id) => makeApiUrl(`/boards/star/${id}`),
   },
 };
 

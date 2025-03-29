@@ -1,0 +1,16 @@
+.root {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.root svg {
+  width: 1rem;
+}
+
+.root:hover svg {
+  color: red;
+}

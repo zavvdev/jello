@@ -22,23 +22,6 @@
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
-.favoriteBtn {
-  border: none;
-  background: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.favoriteBtn svg {
-  width: 1rem;
-}
-
-.favoriteBtn:hover svg {
-  color: red;
-}
-
 .footer {
   display: flex;
   align-items: center;

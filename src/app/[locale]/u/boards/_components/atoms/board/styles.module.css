@@ -50,7 +50,3 @@
 .footer .footerBtn:hover svg {
   color: var(--color-primary);
 }
-
-.footer .btnDelete:hover svg {
-  color: red;
-}

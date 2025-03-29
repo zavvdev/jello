@@ -1,9 +1,9 @@
-import cx from "clsx";
 import Link from "next/link";
 import { Icons } from "~/app/components/icons";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import styles from "./styles.module.css";
 import { StarButton } from "./_components/atoms/star-button";
+import { DeleteButton } from "./_components/atoms/delete-button";
 
 export function Board({
   t,
@@ -12,6 +12,8 @@ export function Board({
   color,
   description,
   isFavorite,
+  canDelete,
+  canEdit,
 }) {
   return (
     <div className={styles.root}>
@@ -33,15 +35,21 @@ export function Board({
         >
           {t("open")}
         </Link>
-        <Link
-          className={styles.footerBtn}
-          href={PRIVATE_ROUTES.editBoard(id)}
-        >
-          <Icons.Pencil />
-        </Link>
-        <button className={cx(styles.footerBtn, styles.btnDelete)}>
-          <Icons.Trash />
-        </button>
+        {canEdit && (
+          <Link
+            className={styles.footerBtn}
+            href={PRIVATE_ROUTES.editBoard(id)}
+          >
+            <Icons.Pencil />
+          </Link>
+        )}
+        {canDelete && (
+          <DeleteButton
+            confirmMessage={t("confirm.delete")}
+            boardId={id}
+            className={styles.footerBtn}
+          />
+        )}
       </div>
     </div>
   );

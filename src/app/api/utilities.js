@@ -15,10 +15,10 @@ export var forward_ = (status) =>
   });
 
 export var catch_ = (status) =>
-  E.chainLeft((gatewayResult = {}) =>
-    ERROR_RESPONSE({
+  E.chainLeft((gatewayResult = {}) => {
+    return ERROR_RESPONSE({
       status: status || MESSAGE_STATUS_MAP[gatewayResult?.message],
       message: gatewayResult.message,
       data: gatewayResult.data,
-    }),
-  );
+    });
+  });

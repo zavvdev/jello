@@ -13,7 +13,7 @@ import { UserRole } from "~/core/entity/models/user";
 import {
   getBoardsProcess,
   sortableFields,
-} from "~/core/domain/processes/boards/get-boards-process";
+} from "~/core/domain/processes/boards/get-boards.process";
 import { authSchema, sortOrderSchema } from "~/core/gateway/schemas";
 
 var dtoSchema = {

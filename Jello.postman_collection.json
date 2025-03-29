@@ -1,0 +1,268 @@
+{
+  "info": {
+    "_postman_id": "70113e2f-51a4-421f-8ef6-54086efec9cf",
+    "name": "Jello",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "13686008"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Morgan\",\n    \"username\": \"jmor\",\n    \"email\": \"j.mor@xmail.com\",\n    \"password\": \"11111111\",\n    \"password_confirmation\": \"11111111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/auth/register",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var response = pm.response.json();",
+                  "var token = response?.data?.token;",
+                  "",
+                  "if (token) {",
+                  "    pm.environment.set(\"AUTH_TOKEN\", response?.data?.token);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"usernameOrEmail\": \"jdoe\",\n    \"password\": \"11111111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/auth/login",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"46920a69-53b6-4968-a98c-757dce0d1913\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/auth/logout",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Boards",
+      "item": [
+        {
+          "name": "Starred",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/boards/starred",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "starred"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "All",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards"],
+              "query": [
+                {
+                  "key": "role",
+                  "value": "owner",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "gu",
+                  "disabled": true
+                },
+                {
+                  "key": "archived",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_by",
+                  "value": "name",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_order",
+                  "value": "asc",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Star",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"board_id\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/boards/star",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "star"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unstar",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/star/3",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "star", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/4",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

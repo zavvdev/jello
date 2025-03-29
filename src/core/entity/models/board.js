@@ -25,6 +25,7 @@ var schema = t.object({
     .boolean()
     .required(T.required)
     .typeError(T.typeBoolean),
+  role: t.string().required(T.required).typeError(T.typeString),
   created_at: CreatedAt,
   updated_at: UpdatedAt,
 });

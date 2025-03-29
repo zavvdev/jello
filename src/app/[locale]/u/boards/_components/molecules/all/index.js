@@ -1,6 +1,6 @@
 import Form from "next/form";
 import { removeEmptyValues } from "jello-utils";
-import { UserRole } from "~/core/entity/models/user";
+import { User, UserRole } from "~/core/entity/models/user";
 import { query } from "~/app/utilities/query";
 import { API_ROUTES } from "~/app/api/config";
 import { PRIVATE_ROUTES } from "~/app/routes";
@@ -95,6 +95,8 @@ export async function All({ t, searchParams }) {
             name={board.name}
             color={board.color}
             description={board.description}
+            canDelete={User.canDeleteBoard(board.role)}
+            canEdit={User.canEditBoard(board.role)}
           />
         ))}
       {isError && <Alert type="error">{t("error.get_all")}</Alert>}

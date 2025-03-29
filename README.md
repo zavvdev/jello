@@ -67,3 +67,9 @@
 2. If any controller from `core/gateway` needs to return something, it should be wrapper into `Result`.
 
 3. If process has no return value, you can omit Result and return an empty Either.
+
+## Repositories
+
+Repositories are needed for database CRUD operations. Do not write complex logic there. Move it into processes instead.
+
+Each repository method is obligated to use its local `#client` for making database queries. Do not use `db` directly inside repository methods because in this case when you need to perform a transaction from processes, your method won't inherit `client` that is needed for this transaction.

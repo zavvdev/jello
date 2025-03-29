@@ -1,8 +1,10 @@
 import "server-only";
 
 import { Either as E } from "jello-fp";
+import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
 import { encryptionService } from "~/core/infrastructure/services/encryption.service";
+import { Result } from "~/core/domain/result";
 
 export class UsersRepo {
   /**
@@ -46,33 +48,6 @@ export class UsersRepo {
 
   /**
    * @param {{
-   *  username: string;
-   *  email: string;
-   * }} param0
-   */
-  async exists({ username, email }) {
-    try {
-      var existsByUsername = await this.#client.query(
-        `SELECT id FROM users WHERE username = $1`,
-        [username],
-      );
-
-      var existsByEmail = await this.#client.query(
-        `SELECT id FROM users WHERE email = $1`,
-        [email],
-      );
-
-      return E.right({
-        byUsername: existsByUsername.rows.length > 0,
-        byEmail: existsByEmail.rows.length > 0,
-      });
-    } catch {
-      return E.left();
-    }
-  }
-
-  /**
-   * @param {{
    *  usernameOrEmail: string;
    *  password: string;
    * }} param0
@@ -93,10 +68,14 @@ export class UsersRepo {
           user.password,
         ))
       ) {
-        throw new Error();
+        return E.left(
+          Result.of({
+            message: MESSAGES.invalidCredentials,
+          }),
+        );
       }
 
-      return E.right({ id: user.id });
+      return E.right({ user_id: user.id });
     } catch {
       return E.left();
     }
@@ -104,49 +83,71 @@ export class UsersRepo {
 
   /**
    * @param {{
-   *  token: string;
+   *  username: string;
    * }} param0
    */
-  async getBySessionToken({ token }) {
+  async isUsernameAvailable({ username }) {
     try {
-      if (!token) {
-        throw new Error();
-      }
-
-      var revoked = await db.query(
-        "SELECT token from revoked_tokens WHERE token = $1",
-        [token],
+      var result = await this.#client.query(
+        `SELECT id FROM users WHERE username = $1`,
+        [username],
       );
 
-      if (revoked.rows.length > 0) {
-        throw new Error();
+      if (result.rows.length > 0) {
+        return E.left(
+          Result.of({ message: MESSAGES.usernameExists }),
+        );
       }
 
-      var session = await db.query(
-        "SELECT user_id FROM sessions WHERE token = $1 AND expires_at > NOW()",
-        [token],
+      return E.right({ username });
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  email: string;
+   * }} param0
+   */
+  async isEmailAvailable({ email }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT id FROM users WHERE email = $1`,
+        [email],
       );
 
-      var userId = session.rows[0]?.user_id;
-
-      if (!userId) {
-        throw new Error();
+      if (result.rows.length > 0) {
+        return E.left(Result.of({ message: MESSAGES.emailExists }));
       }
 
-      var result = await db.query(
+      return E.right({ email });
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   * }} param0
+   */
+  async get({ user_id }) {
+    try {
+      var result = await this.#client.query(
         `SELECT
         id, first_name, last_name, username, email, bio, created_at, updated_at
         FROM users WHERE id = $1`,
-        [userId],
+        [user_id],
       );
 
       var user = result.rows[0];
 
       if (!user) {
-        throw new Error();
+        return E.left(Result.of({ message: MESSAGES.notFound }));
       }
 
-      return E.right(result.rows[0]);
+      return E.right(user);
     } catch {
       return E.left();
     }

@@ -1,7 +1,6 @@
 import { Either as E, Task } from "jello-fp";
-import { MESSAGES } from "jello-messages";
-import { sessionsRepo } from "~/core/infrastructure/repositories/sessions.repositiry";
-import { Result } from "~/core/domain/result";
+import { SessionsRepo } from "~/core/infrastructure/repositories/sessions.repository";
+import { db } from "~/core/infrastructure/database";
 
 /**
  * @param {{
@@ -9,12 +8,14 @@ import { Result } from "~/core/domain/result";
  * }} dto
  */
 export async function logoutProcess(dto) {
-  var terminate = () =>
-    E.left(Result.of({ message: MESSAGES.notFound }));
+  return db.transaction(async (client) => {
+    var repo = new SessionsRepo(client);
 
-  var $task = Task.of(sessionsRepo.destroy.bind(sessionsRepo))
-    .map(E.chainLeft(terminate))
-    .join();
+    var $task = Task.of(repo.exists.bind(repo))
+      .map(E.chain(repo.revoke.bind(repo)))
+      .map(E.chain(repo.destroy.bind(repo)))
+      .join();
 
-  return await $task(dto);
+    return await $task(dto);
+  });
 }

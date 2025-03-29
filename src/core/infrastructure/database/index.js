@@ -1,6 +1,7 @@
 import "server-only";
 
 import pg from "pg";
+import { crashReportService } from "~/core/infrastructure/services/crash-report.service";
 import { CONNECTION } from "./config";
 
 var { Pool } = pg;
@@ -30,6 +31,13 @@ async function transaction(executor, onError) {
   } catch (e) {
     await client.query("ROLLBACK");
     onError?.(e);
+
+    crashReportService.report({
+      message: e.message,
+      location: "db.transaction",
+      error: e,
+    });
+
     throw e;
   } finally {
     client.release();

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Icons } from "~/app/components/icons";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import styles from "./styles.module.css";
+import { StarButton } from "./_components/atoms/star-button";
 
 export function Board({
   t,
@@ -21,19 +22,7 @@ export function Board({
             style={{ backgroundColor: color }}
           />
           <h3>{name}</h3>
-          {isFavorite ? (
-            <form>
-              <button type="submit" className={styles.favoriteBtn}>
-                <Icons.StarOff />
-              </button>
-            </form>
-          ) : (
-            <form>
-              <button type="submit" className={styles.favoriteBtn}>
-                <Icons.Star />
-              </button>
-            </form>
-          )}
+          <StarButton boardId={id} starred={isFavorite} />
         </div>
         {description && <p>{description}</p>}
       </div>

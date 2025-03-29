@@ -2,7 +2,7 @@ import { Either as E, prop, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 import { Result } from "~/core/domain/result";
-import { sessionsRepo } from "~/core/infrastructure/repositories/sessions.repositiry";
+import { sessionsRepo } from "~/core/infrastructure/repositories/sessions.repository";
 
 /**
  * @param {{

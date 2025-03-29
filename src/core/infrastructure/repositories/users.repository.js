@@ -113,7 +113,7 @@ export class UsersRepo {
         throw new Error();
       }
 
-      var revoked = await db.query(
+      var revoked = await this.#client.query(
         "SELECT token from revoked_tokens WHERE token = $1",
         [token],
       );
@@ -122,7 +122,7 @@ export class UsersRepo {
         throw new Error();
       }
 
-      var session = await db.query(
+      var session = await this.#client.query(
         "SELECT user_id FROM sessions WHERE token = $1 AND expires_at > NOW()",
         [token],
       );
@@ -133,7 +133,7 @@ export class UsersRepo {
         throw new Error();
       }
 
-      var result = await db.query(
+      var result = await this.#client.query(
         `SELECT
         id, first_name, last_name, username, email, bio, created_at, updated_at
         FROM users WHERE id = $1`,

@@ -30,6 +30,8 @@ async function transaction(executor, onError) {
   } catch (e) {
     await client.query("ROLLBACK");
     onError?.(e);
+    // eslint-disable-next-line no-console
+    console.log("TRANSACTION ERROR: ", e);
     throw e;
   } finally {
     client.release();

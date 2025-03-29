@@ -5,7 +5,6 @@ import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
 import { SORT_ORDER } from "~/core/infrastructure/database/config";
 import { Result } from "~/core/domain/result";
-// import { UserRole } from "~/core/entity/models/user";
 
 export class BoardsRepo {
   /**
@@ -181,46 +180,6 @@ export class BoardsRepo {
       return E.left();
     }
   }
-
-  // async create({ user_id, name, description, color, invitedUsers }) {
-  //   try {
-  //     await db.transaction(async (client) => {
-  //       var createResult = await client.query(
-  //         `INSERT INTO boards (name, description, color, is_archived)
-  //         VALUES ($1, $2, $3, FALSE) RETURNING id`,
-  //         [name, description, color],
-  //       );
-  //
-  //       var boardId = createResult.rows[0].id;
-  //
-  //       if (!boardId) {
-  //         throw new Error();
-  //       }
-  //
-  //       await client.query(
-  //         `INSERT INTO users_boards_roles (user_id, board_id, role)
-  //         VALUES ($1, $2, $3)`,
-  //         [user_id, boardId, UserRole.Owner],
-  //       );
-  //
-  //       if (invitedUsers.length > 0) {
-  //         await Promise.all(
-  //           invitedUsers.map(({ id, role }) =>
-  //             client.query(
-  //               `INSERT INTO users_boards_roles (user_id, board_id, role)
-  //               VALUES ($1, $2, $3)`,
-  //               [id, boardId, role],
-  //             ),
-  //           ),
-  //         );
-  //       }
-  //     });
-  //
-  //     return E.right();
-  //   } catch {
-  //     return E.left();
-  //   }
-  // }
 }
 
 export var boardsRepo = new BoardsRepo(db);

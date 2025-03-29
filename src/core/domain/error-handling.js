@@ -1,4 +1,4 @@
-import { crashReportService } from "../infrastructure/services/crash-report.service";
+import { crashReportService } from "~/core/infrastructure/services/crash-report.service";
 
 export function handleGatewayError(error, location) {
   crashReportService.report({

@@ -7,26 +7,17 @@ var schema = t.object({
   id: Id,
   name: t
     .string()
-    .min(2, T.minLength)
-    .max(32, T.maxLength)
+    .min(1, T.minLength)
+    .max(16, T.maxLength)
     .required(T.required)
     .typeError(T.typeString),
-  description: t.string().max(100, T.maxLength).nullable(),
   color: Color.required(T.required),
-  is_archived: t
-    .boolean()
-    .required(T.required)
-    .typeError(T.typeBoolean),
-  is_favorite: t
-    .boolean()
-    .required(T.required)
-    .typeError(T.typeBoolean),
-  role: t.string().required(T.required).typeError(T.typeString),
+  board_id: Id,
   created_at: CreatedAt,
   updated_at: UpdatedAt,
 });
 
-export var Board = {
+export var Label = {
   schema,
-  of: castModel(schema)("Board"),
+  of: castModel(schema)("Label"),
 };

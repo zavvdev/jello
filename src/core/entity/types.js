@@ -15,3 +15,8 @@ export var UpdatedAt = t
   .date()
   .required(T.required)
   .typeError(T.typeDate);
+
+export var Color = t
+  .string()
+  .matches(/^#[0-9a-fA-F]{6}$/, T.invalid)
+  .typeError(T.typeString);

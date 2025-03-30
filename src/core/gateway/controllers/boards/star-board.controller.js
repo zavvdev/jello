@@ -6,7 +6,8 @@ import {
   withAuth,
   withRequestValidation,
 } from "~/core/gateway/middleware";
-import { authSchema } from "../../schemas";
+import { authSchema } from "~/core/gateway/schemas";
+import { try_ } from "~/core/gateway/utilities";
 
 var dtoSchema = {
   request: authSchema.concat(
@@ -22,13 +23,15 @@ var dtoSchema = {
 };
 
 export async function starBoardController(dto) {
-  return applyMiddlewares(dto)(
-    withAuth,
-    withRequestValidation(dtoSchema.request),
-  )(async (user, request) => {
-    return await starBoardProcess({
-      user_id: user.id,
-      board_id: request.board_id,
-    });
-  });
+  return try_(
+    applyMiddlewares(dto)(
+      withAuth,
+      withRequestValidation(dtoSchema.request),
+    )(async (user, request) => {
+      return await starBoardProcess({
+        user_id: user.id,
+        board_id: request.board_id,
+      });
+    }),
+  );
 }

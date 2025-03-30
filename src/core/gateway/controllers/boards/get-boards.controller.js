@@ -15,6 +15,7 @@ import {
   sortableFields,
 } from "~/core/domain/processes/boards/get-boards.process";
 import { authSchema, sortOrderSchema } from "~/core/gateway/schemas";
+import { try_ } from "~/core/gateway/utilities";
 
 var dtoSchema = {
   request: authSchema.concat(
@@ -35,26 +36,28 @@ var dtoSchema = {
 };
 
 export async function getBoardsController(dto) {
-  return applyMiddlewares(dto)(
-    withAuth,
-    withRequestValidation(dtoSchema.request),
-    withResponseValidator(dtoSchema.response),
-  )(async (user, request, validateResponse) => {
-    var assignDefaults = (dto) => ({
-      role: dto.role ?? undefined,
-      is_archived: dto.archived ?? false,
-      search: dto.search ?? undefined,
-      sort_by: dto.sort_by ?? sortableFields[0],
-      sort_order: dto.sort_order ?? "desc",
-    });
+  return try_(
+    applyMiddlewares(dto)(
+      withAuth,
+      withRequestValidation(dtoSchema.request),
+      withResponseValidator(dtoSchema.response),
+    )(async (user, request, validateResponse) => {
+      var assignDefaults = (dto) => ({
+        role: dto.role ?? undefined,
+        is_archived: dto.archived ?? false,
+        search: dto.search ?? undefined,
+        sort_by: dto.sort_by ?? sortableFields[0],
+        sort_order: dto.sort_order ?? "desc",
+      });
 
-    var $task = Task.of(getBoardsProcess)
-      .map(E.chain(validateResponse))
-      .join();
+      var $task = Task.of(getBoardsProcess)
+        .map(E.chain(validateResponse))
+        .join();
 
-    return await $task({
-      user_id: user.id,
-      ...assignDefaults(request),
-    });
-  });
+      return await $task({
+        user_id: user.id,
+        ...assignDefaults(request),
+      });
+    }),
+  );
 }

@@ -4,6 +4,7 @@ import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { registerProcess } from "~/core/domain/processes/auth/register.process";
 import { User } from "~/core/entity/models/user";
 import { withRequestValidation } from "~/core/gateway/middleware";
+import { try_ } from "~/core/gateway/utilities";
 
 var dtoSchema = {
   request: User.schema
@@ -25,7 +26,9 @@ var dtoSchema = {
 };
 
 export async function registerController(dto) {
-  return applyMiddlewares(dto)(
-    withRequestValidation(dtoSchema.request),
-  )(registerProcess);
+  return try_(
+    applyMiddlewares(dto)(withRequestValidation(dtoSchema.request))(
+      registerProcess,
+    ),
+  );
 }

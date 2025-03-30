@@ -8,6 +8,7 @@ import {
   withRequestValidation,
   withResponseValidator,
 } from "~/core/gateway/middleware";
+import { try_ } from "~/core/gateway/utilities";
 
 var dtoSchema = {
   request: t.object({
@@ -25,14 +26,16 @@ var dtoSchema = {
 };
 
 export async function loginController(dto) {
-  return applyMiddlewares(dto)(
-    withRequestValidation(dtoSchema.request),
-    withResponseValidator(dtoSchema.response),
-  )(async (request, validateResponse) => {
-    var $task = Task.of(loginProcess)
-      .map(E.chain(validateResponse))
-      .join();
+  return try_(
+    applyMiddlewares(dto)(
+      withRequestValidation(dtoSchema.request),
+      withResponseValidator(dtoSchema.response),
+    )(async (request, validateResponse) => {
+      var $task = Task.of(loginProcess)
+        .map(E.chain(validateResponse))
+        .join();
 
-    return await $task(request);
-  });
+      return await $task(request);
+    }),
+  );
 }

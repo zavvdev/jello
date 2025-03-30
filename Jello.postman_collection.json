@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Morgan\",\n    \"username\": \"jmor\",\n    \"email\": \"j.mor@xmail.com\",\n    \"password\": \"11111111\",\n    \"password_confirmation\": \"11111111\"\n}",
+              "raw": "{\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Morgan\",\n    \"username\": \"jmor13\",\n    \"email\": \"j23.mor@xmail.com\",\n    \"password\": \"11111111\",\n    \"password_confirmation\": \"11111111\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -83,7 +83,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"token\": \"46920a69-53b6-4968-a98c-757dce0d1913\"\n}",
+              "raw": "{\n    \"token\": \"{{AUTH_TOKEN}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -203,7 +203,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"board_id\": 3\n}",
+              "raw": "{\n    \"board_id\": 21\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -233,9 +233,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/boards/star/3",
+              "raw": "{{API_URL}}/api/boards/star/21",
               "host": ["{{API_URL}}"],
-              "path": ["api", "boards", "star", "3"]
+              "path": ["api", "boards", "star", "21"]
             }
           },
           "response": []
@@ -258,6 +258,37 @@
               "raw": "{{API_URL}}/api/boards/4",
               "host": ["{{API_URL}}"],
               "path": ["api", "boards", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Board #1\",\n    \"description\": \"The desctiption of the board #1!\",\n    \"color\": \"#ff8811\",\n    \"assigned_users\": [{ \"id\": 3, \"role\": \"admin\" }],\n    \"labels\": [{ \"name\": \"Todo\", \"color\": \"#00ff00\" }]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/boards",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards"]
             }
           },
           "response": []

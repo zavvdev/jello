@@ -1,3 +1,5 @@
+import "server-only";
+
 import * as t from "yup";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { applyMiddlewares } from "jello-utils";

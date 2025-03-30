@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Either as E, Task } from "jello-fp";
 import { SessionsRepo } from "~/core/infrastructure/repositories/sessions.repository";
 import { db } from "~/core/infrastructure/database";

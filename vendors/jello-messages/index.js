@@ -22,5 +22,6 @@ export var VALIDATION_MESSAGES = {
   typeString: "type_string",
   typeBoolean: "type_boolean",
   typeDate: "type_date",
+  typeArray: "type_array",
   match: "match",
 };

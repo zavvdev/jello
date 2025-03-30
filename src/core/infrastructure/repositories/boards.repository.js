@@ -27,7 +27,7 @@ export class BoardsRepo {
         `SELECT l.*, r2.role, TRUE AS is_favorite FROM boards l
        INNER JOIN users_starred_boards r ON l.id = r.board_id
        INNER JOIN users_boards_roles r2 ON l.id = r2.board_id
-       WHERE r.user_id = $1
+       WHERE r.user_id = $1 AND r2.user_id = $1
        ORDER BY l.updated_at DESC`,
         [user_id],
       );
@@ -104,6 +104,12 @@ export class BoardsRepo {
     }
   }
 
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   * }} param0
+   */
   async unstarBoard({ user_id, board_id }) {
     try {
       await this.#client.query(
@@ -138,6 +144,12 @@ export class BoardsRepo {
     }
   }
 
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   * }} param0
+   */
   async userHasBoard({ user_id, board_id }) {
     try {
       var result = await this.#client.query(
@@ -152,6 +164,11 @@ export class BoardsRepo {
     }
   }
 
+  /**
+   * @param {{
+   *  board_id: number;
+   * }} param0
+   */
   async destroy({ board_id }) {
     try {
       await this.#client.query(`DELETE FROM boards WHERE id = $1`, [
@@ -163,6 +180,12 @@ export class BoardsRepo {
     }
   }
 
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   * }} param0
+   */
   async getUserRole({ user_id, board_id }) {
     try {
       var result = await this.#client.query(
@@ -176,6 +199,54 @@ export class BoardsRepo {
       }
 
       return E.right(result.rows?.[0]?.role);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  name: string;
+   *  description: string | null;
+   *  color: string;
+   *  is_archived: boolean;
+   * }} param0
+   */
+  async create({ name, description, color, is_archived }) {
+    try {
+      var result = await this.#client.query(
+        `INSERT INTO boards (name, description, color, is_archived)
+        VALUES ($1, $2, $3, $4) RETURNING id`,
+        [name, description, color, is_archived],
+      );
+
+      var board_id = result.rows?.[0]?.id;
+
+      if (!board_id) {
+        return E.left();
+      }
+
+      return E.right({ board_id });
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   *  role: string;
+   * }} param0
+   */
+  async assignUser({ user_id, board_id, role }) {
+    try {
+      await this.#client.query(
+        `INSERT INTO users_boards_roles (user_id, board_id, role)
+        VALUES ($1, $2, $3)`,
+        [user_id, board_id, role],
+      );
+      return E.right();
     } catch {
       return E.left();
     }

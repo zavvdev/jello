@@ -204,6 +204,13 @@ export class Either {
         : xs.find((x) => x.isLeft);
   }
 
+  static mapAll(fn) {
+    return (xs) =>
+      xs.every((x) => x.isRight)
+        ? fn(xs.map((x) => new Right(x.join())))
+        : xs.find((x) => x.isLeft);
+  }
+
   static mapLeft(fn) {
     return (x) => (x?.isLeft ? new Left(fn(x.join())) : x);
   }
@@ -429,4 +436,8 @@ export var log = (label) => (x) => {
   // eslint-disable-next-line no-console
   console.log(label || "LOG:", x);
   return x;
+};
+
+export var mergeObjects = (objects) => {
+  return objects.reduce((acc, obj) => ({ ...acc, ...obj }), {});
 };

@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Task } from "jello-fp";
 import { Result } from "~/core/domain/result";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";

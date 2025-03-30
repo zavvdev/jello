@@ -22,6 +22,7 @@ export var API_ROUTES = {
     star: () => makeApiUrl("/boards/star"),
     unstar: (id) => makeApiUrl(`/boards/star/${id}`),
     delete: (id) => makeApiUrl(`/boards/${id}`),
+    create: () => makeApiUrl("/boards"),
   },
 };
 

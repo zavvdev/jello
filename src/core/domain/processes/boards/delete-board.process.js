@@ -1,3 +1,5 @@
+import "server-only";
+
 import { compose, cond, Either as E, head, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { Result } from "~/core/domain/result";

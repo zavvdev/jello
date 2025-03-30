@@ -8,6 +8,7 @@ import {
   withAuth,
   withResponseValidator,
 } from "~/core/gateway/middleware";
+import { try_ } from "~/core/gateway/utilities";
 
 var dtoSchema = {
   response: Result.schema(
@@ -16,16 +17,18 @@ var dtoSchema = {
 };
 
 export async function getStarredBoardsController(dto) {
-  return applyMiddlewares(dto)(
-    withAuth,
-    withResponseValidator(dtoSchema.response),
-  )(async (user, validateResponse) => {
-    var $task = Task.of(getStarredBoardsProcess)
-      .map(E.chain(validateResponse))
-      .join();
+  return try_(
+    applyMiddlewares(dto)(
+      withAuth,
+      withResponseValidator(dtoSchema.response),
+    )(async (user, validateResponse) => {
+      var $task = Task.of(getStarredBoardsProcess)
+        .map(E.chain(validateResponse))
+        .join();
 
-    return await $task({
-      user_id: user.id,
-    });
-  });
+      return await $task({
+        user_id: user.id,
+      });
+    }),
+  );
 }

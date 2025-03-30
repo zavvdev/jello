@@ -3,6 +3,7 @@ import { applyMiddlewares } from "jello-utils";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { logoutProcess } from "~/core/domain/processes/auth/logout.process";
 import { withRequestValidation } from "~/core/gateway/middleware";
+import { try_ } from "~/core/gateway/utilities";
 
 var dtoSchema = {
   request: t.object({
@@ -11,7 +12,9 @@ var dtoSchema = {
 };
 
 export async function logoutController(dto) {
-  return applyMiddlewares(dto)(
-    withRequestValidation(dtoSchema.request),
-  )(logoutProcess);
+  return try_(
+    applyMiddlewares(dto)(withRequestValidation(dtoSchema.request))(
+      logoutProcess,
+    ),
+  );
 }

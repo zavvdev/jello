@@ -1,7 +1,7 @@
 import { Either as E } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { Result } from "~/core/domain/result";
-import { crashReportService } from "../infrastructure/services/crash-report.service";
+import { crashReportService } from "~/core/infrastructure/services/crash-report.service";
 
 export var try_ = async (promise) => {
   try {

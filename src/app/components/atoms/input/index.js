@@ -1,3 +1,4 @@
+import cx from "clsx";
 import styles from "./styles.module.css";
 
 /**
@@ -11,6 +12,7 @@ import styles from "./styles.module.css";
  *  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
  *  defaultValue?: string;
  *  placeholder?: string;
+ *  fitContent?: boolean;
  * }} param0
  */
 export function Input({
@@ -23,9 +25,14 @@ export function Input({
   onChange,
   defaultValue,
   placeholder,
+  fitContent,
 }) {
   return (
-    <div className={styles.root}>
+    <div
+      className={cx(styles.root, {
+        [styles.fitContent]: fitContent,
+      })}
+    >
       {label && <label htmlFor={id}>{label}</label>}
       <input
         required={required}

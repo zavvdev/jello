@@ -19,6 +19,7 @@ export function MutateBoardForm({ initialValues, t }) {
         defaultValue={initialValues?.description}
       />
       <Input
+        fitContent
         id="color"
         name="color"
         type="color"

@@ -10,3 +10,7 @@
 .root input:focus {
   outline-color: var(--color-primary);
 }
+
+.fitContent {
+  width: fit-content;
+}

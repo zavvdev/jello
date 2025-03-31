@@ -34,4 +34,6 @@ export class LabelsRepo {
   }
 }
 
-export var labelsRepo = new LabelsRepo(db);
+export var labelsRepo = new LabelsRepo({
+  query: db.query,
+});

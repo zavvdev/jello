@@ -154,4 +154,6 @@ export class UsersRepo {
   }
 }
 
-export var usersRepo = new UsersRepo(db);
+export var usersRepo = new UsersRepo({
+  query: db.query,
+});

@@ -253,4 +253,6 @@ export class BoardsRepo {
   }
 }
 
-export var boardsRepo = new BoardsRepo(db);
+export var boardsRepo = new BoardsRepo({
+  query: db.query,
+});

@@ -6,3 +6,10 @@ export function handleGatewayError(error, location) {
     location: `Gateway: ${location}`,
   });
 }
+
+export function handleClientError(error, location) {
+  crashReportService.report({
+    error,
+    location: `Client: ${location}`,
+  });
+}

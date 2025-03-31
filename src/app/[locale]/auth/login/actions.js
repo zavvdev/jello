@@ -1,7 +1,9 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { API_ROUTES } from "~/app/api/config";
+import { PRIVATE_ROUTES } from "~/app/routes";
 import { query } from "~/app/utilities/query";
 
 export async function loginAction(_, formData) {
@@ -21,15 +23,12 @@ export async function loginAction(_, formData) {
       secure: true,
       sameSite: "lax",
     });
-
-    return {
-      success: true,
-      message: undefined,
-    };
   } catch (error) {
     return {
       success: false,
       message: error.message,
     };
   }
+
+  redirect(PRIVATE_ROUTES.boards());
 }

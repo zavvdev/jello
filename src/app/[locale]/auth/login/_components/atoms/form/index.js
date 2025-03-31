@@ -1,10 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "~/app/components/atoms/error";
-import { PRIVATE_ROUTES } from "~/app/routes";
 import { Input } from "~/app/components/atoms/input";
 import { Button } from "~/app/components/atoms/button";
 import { loginAction } from "../../../actions";
@@ -12,7 +10,6 @@ import styles from "./styles.module.css";
 
 export function Form() {
   var { t } = useTranslation();
-  var router = useRouter();
 
   var {
     0: state,
@@ -27,12 +24,6 @@ export function Form() {
       formAction(formData);
     });
   };
-
-  useEffect(() => {
-    if (state?.success) {
-      router.push(PRIVATE_ROUTES.boards());
-    }
-  }, [state?.success, router]);
 
   return (
     <form

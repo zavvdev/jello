@@ -48,8 +48,6 @@ export async function query(route, method, body) {
   } catch (e) {
     if (e.message === MESSAGES.unauthorized) {
       redirect(APP_LOGOUT_URL.full);
-    } else if (e instanceof QueryError) {
-      return e.response;
     } else {
       throw e;
     }

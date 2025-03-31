@@ -278,7 +278,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Board #1\",\n    \"description\": \"The desctiption of the board #1!\",\n    \"color\": \"#ff8811\",\n    \"assigned_users\": [{ \"id\": 3, \"role\": \"admin\" }],\n    \"labels\": [{ \"name\": \"Todo\", \"color\": \"#00ff00\" }]\n}",
+              "raw": "{\n    \"name\": \"123\",\n    \"description\": \"'Hello', '#ffffff', TRUE); DROP TABLE boards; --\",\n    \"color\": \"#ff8811\",\n    \"assigned_users\": [{ \"id\": 3, \"role\": \"admin\" }],\n    \"labels\": [{ \"name\": \"Todo\", \"color\": \"#00ff00\" }]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -289,6 +289,39 @@
               "raw": "{{API_URL}}/api/boards",
               "host": ["{{API_URL}}"],
               "path": ["api", "boards"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Search",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/users/search?username=jmor13",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "users", "search"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "jmor13"
+                }
+              ]
             }
           },
           "response": []

@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.root textarea {
+  padding: 2px;
+  max-width: 99%;
+}
+
+.root textarea:focus {
+  outline-color: var(--color-primary);
+}

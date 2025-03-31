@@ -6,19 +6,17 @@ import styles from "./styles.module.css";
  *  name: string;
  *  id?: string;
  *  required?: boolean;
- *  type: "text" | "email" | "password" | "color";
  *  value?: string;
  *  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
  *  defaultValue?: string;
  *  placeholder?: string;
  * }} param0
  */
-export function Input({
+export function TextArea({
   label,
   name,
   id,
   required,
-  type,
   value,
   onChange,
   defaultValue,
@@ -27,9 +25,8 @@ export function Input({
   return (
     <div className={styles.root}>
       {label && <label htmlFor={id}>{label}</label>}
-      <input
+      <textarea
         required={required}
-        type={type}
         id={id}
         name={name}
         value={value}

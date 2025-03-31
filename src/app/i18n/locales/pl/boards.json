@@ -1,13 +1,16 @@
 {
   "title": "Deski",
   "starred": "Ulubione",
+
   "error": {
     "get_starred": "Błąd podczas pobierania ulubionych desek",
     "get_all": "Błąd podczas pobierania desek"
   },
+
   "confirm": {
     "delete": "Czy na pewno chcesz usunąć deskę?"
   },
+
   "open": "Otwórz",
   "all": "Wszystkie",
   "apply": "Zastosuj",
@@ -24,5 +27,11 @@
   "sort_by": "Sortuj według",
   "order_by": "Kolejność",
   "sort_by_role": "Sortuj według roli",
-  "no_boards": "Brak desek"
+  "no_boards": "Brak desek",
+
+  "mutate_form": {
+    "name": "Nazwa",
+    "description": "Opis",
+    "color": "Kolor"
+  }
 }

@@ -21,3 +21,9 @@ export async function deleteBoard(_, { boardId }) {
   await query(API_ROUTES.boards.delete(boardId), "DELETE");
   revalidatePath(PRIVATE_ROUTES.boards());
 }
+
+export async function createBoard(formData) {
+  // eslint-disable-next-line no-console
+  console.log(formData.getAll("assigned_users[]")?.map(JSON.parse));
+  return null;
+}

@@ -32,6 +32,16 @@
   "mutate_form": {
     "name": "Nazwa",
     "description": "Opis",
-    "color": "Kolor"
+    "color": "Kolor",
+    "assigned_users": {
+      "title": "Przypisani użytkownicy",
+      "empty": "Brak przypisanych użytkowników",
+      "search": "Wyszukaj według nazwy użytkownika",
+      "admin": "Admin",
+      "member": "Członek",
+      "confirm": {
+        "remove": "Czy na pewno chcesz usunąć użytkownika z deski?"
+      }
+    }
   }
 }

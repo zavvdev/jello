@@ -32,6 +32,16 @@
   "mutate_form": {
     "name": "Name",
     "description": "Description",
-    "color": "Color"
+    "color": "Color",
+    "assigned_users": {
+      "title": "Assigned users",
+      "empty": "No users assigned.",
+      "search": "Search by username",
+      "admin": "Admin",
+      "member": "Member",
+      "confirm": {
+        "remove": "Are you sure you want to remove this user from the board?"
+      }
+    }
   }
 }

@@ -1,11 +1,19 @@
-import Form from "next/form";
+"use client";
+
+import { useTranslation } from "react-i18next";
+import { NAMESPACES } from "~/app/i18n/config";
 import { Input } from "~/app/components/atoms/input";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
+import { AssignedUsers } from "./_components/assigned-users";
 
-export function MutateBoardForm({ initialValues, t }) {
+export function MutateBoardForm({ initialValues }) {
+  var { t } = useTranslation(NAMESPACES.boards, {
+    keyPrefix: "mutate_form",
+  });
+
   return (
-    <Form className={styles.root}>
+    <div className={styles.root}>
       <Input
         id="name"
         name="name"
@@ -26,6 +34,7 @@ export function MutateBoardForm({ initialValues, t }) {
         label={t("color")}
         defaultValue={initialValues?.color}
       />
-    </Form>
+      <AssignedUsers t={(k) => t(`assigned_users.${k}`)} />
+    </div>
   );
 }

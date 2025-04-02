@@ -10,4 +10,6 @@ export var Icons = {
   Trash: lucideIcons.Trash,
   SquarePlus: lucideIcons.SquarePlus,
   RefreshCcw: lucideIcons.RefreshCcw,
+  Search: lucideIcons.Search,
+  Plus: lucideIcons.Plus,
 };

@@ -24,6 +24,11 @@ export var API_ROUTES = {
     delete: (id) => makeApiUrl(`/boards/${id}`),
     create: () => makeApiUrl("/boards"),
   },
+
+  users: {
+    search: (username) =>
+      makeApiUrl(`/users/search?username=${username}`),
+  },
 };
 
 /**

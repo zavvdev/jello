@@ -1,0 +1,47 @@
+.root {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.form button {
+  height: 1.5rem;
+  width: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.5rem;
+}
+
+.info {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.info .color {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.remove {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}

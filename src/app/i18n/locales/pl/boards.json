@@ -1,13 +1,16 @@
 {
   "title": "Deski",
   "starred": "Ulubione",
+
   "error": {
     "get_starred": "Błąd podczas pobierania ulubionych desek",
     "get_all": "Błąd podczas pobierania desek"
   },
+
   "confirm": {
     "delete": "Czy na pewno chcesz usunąć deskę?"
   },
+
   "open": "Otwórz",
   "all": "Wszystkie",
   "apply": "Zastosuj",
@@ -24,5 +27,39 @@
   "sort_by": "Sortuj według",
   "order_by": "Kolejność",
   "sort_by_role": "Sortuj według roli",
-  "no_boards": "Brak desek"
+  "no_boards": "Brak desek",
+
+  "mutate_form": {
+    "name": "Nazwa",
+    "description": "Opis",
+    "color": "Kolor",
+    "assigned_users": {
+      "title": "Przypisani użytkownicy",
+      "empty": "Brak przypisanych użytkowników",
+      "search": "Wyszukaj według nazwy użytkownika",
+      "admin": "Admin",
+      "member": "Członek",
+      "confirm": {
+        "remove": "Czy na pewno chcesz usunąć użytkownika z deski?"
+      }
+    },
+    "labels": {
+      "title": "Etykiety",
+      "name": "Nazwa",
+      "empty": "Brak etykiet"
+    },
+    "error": {
+      "fallback": "Wystąpił błąd. Spróbuj ponownie później",
+      "validation_error": "Nieprawidłowe dane. Sprawdź formularz"
+    },
+    "validation_error": {
+      "name": {
+        "max_length": "Nazwa jest za długa. Maksymalna długość to 32 znaki",
+        "min_length": "Nazwa jest za krótka. Minimalna długość to 2 znaki"
+      },
+      "description": {
+        "max_length": "Opis jest za długi. Maksymalna długość to 100 znaków"
+      }
+    }
+  }
 }

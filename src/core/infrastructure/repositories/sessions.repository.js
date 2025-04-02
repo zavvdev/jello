@@ -144,4 +144,6 @@ export class SessionsRepo {
   }
 }
 
-export var sessionsRepo = new SessionsRepo(db);
+export var sessionsRepo = new SessionsRepo({
+  query: db.query,
+});

@@ -1,4 +1,3 @@
-import cx from "clsx";
 import styles from "./styles.module.css";
 
 /**
@@ -7,36 +6,27 @@ import styles from "./styles.module.css";
  *  name: string;
  *  id?: string;
  *  required?: boolean;
- *  type: "text" | "email" | "password" | "color";
  *  value?: string;
  *  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
  *  defaultValue?: string;
  *  placeholder?: string;
- *  fitContent?: boolean;
  * }} param0
  */
-export function Input({
+export function TextArea({
   label,
   name,
   id,
   required,
-  type,
   value,
   onChange,
   defaultValue,
   placeholder,
-  fitContent,
 }) {
   return (
-    <div
-      className={cx(styles.root, {
-        [styles.fitContent]: fitContent,
-      })}
-    >
+    <div className={styles.root}>
       {label && <label htmlFor={id}>{label}</label>}
-      <input
+      <textarea
         required={required}
-        type={type}
         id={id}
         name={name}
         value={value}

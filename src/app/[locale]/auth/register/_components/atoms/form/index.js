@@ -42,11 +42,7 @@ export function Form() {
         </Success>
       )}
       {!isSuccess && (
-        <form
-          action={formAction}
-          onSubmit={handleSubmit}
-          className={styles.form}
-        >
+        <form onSubmit={handleSubmit} className={styles.form}>
           {state?.success === false && (
             <div>
               <Alert type="error" center>

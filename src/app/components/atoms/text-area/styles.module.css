@@ -3,14 +3,11 @@
   flex-direction: column;
 }
 
-.root input {
+.root textarea {
   padding: 2px;
+  max-width: 99%;
 }
 
-.root input:focus {
+.root textarea:focus {
   outline-color: var(--color-primary);
-}
-
-.fitContent {
-  width: fit-content;
 }

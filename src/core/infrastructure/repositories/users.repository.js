@@ -152,6 +152,27 @@ export class UsersRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  username: string;
+   * }} param0
+   */
+  async searchByUsername({ user_id, username }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT id, username, first_name, last_name FROM users
+        WHERE id != $1 AND username ILIKE '%' || $2 || '%'`,
+        [user_id, username],
+      );
+      return E.right(result.rows);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
-export var usersRepo = new UsersRepo(db);
+export var usersRepo = new UsersRepo({
+  query: db.query,
+});

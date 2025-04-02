@@ -47,6 +47,19 @@
       "title": "Etykiety",
       "name": "Nazwa",
       "empty": "Brak etykiet"
+    },
+    "error": {
+      "fallback": "Wystąpił błąd. Spróbuj ponownie później",
+      "validation_error": "Nieprawidłowe dane. Sprawdź formularz"
+    },
+    "validation_error": {
+      "name": {
+        "max_length": "Nazwa jest za długa. Maksymalna długość to 32 znaki",
+        "min_length": "Nazwa jest za krótka. Minimalna długość to 2 znaki"
+      },
+      "description": {
+        "max_length": "Opis jest za długi. Maksymalna długość to 100 znaków"
+      }
     }
   }
 }

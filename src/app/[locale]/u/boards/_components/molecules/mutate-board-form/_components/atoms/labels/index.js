@@ -6,8 +6,7 @@ import { Input } from "~/app/components/atoms/input";
 import { Icons } from "~/app/components/icons";
 import styles from "./styles.module.css";
 import { NewLabelId } from "./utilities";
-
-var DEFAULT_COLOR = "#000000";
+import { DEFAULT_COLOR } from "../../../config";
 
 /**
  * @param {{
@@ -87,7 +86,7 @@ export function Labels({ labels, t }) {
           value={labelColor}
           onChange={(e) => setLabelColor(e.target.value)}
         />
-        <button onClick={handleAdd}>
+        <button type="button" onClick={handleAdd}>
           <Icons.Plus width="1rem" />
         </button>
       </div>

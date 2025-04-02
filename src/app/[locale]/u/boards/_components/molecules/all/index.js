@@ -5,11 +5,11 @@ import { query } from "~/app/utilities/query";
 import { API_ROUTES } from "~/app/api/config";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import { Alert } from "~/app/components/atoms/error";
+import { SubmitButton } from "~/app/components/molecules/submit-button";
 import { Input } from "~/app/components/atoms/input";
 import { Board } from "../../atoms/board";
 import { Section } from "../../atoms/section";
 import styles from "./styles.module.css";
-import { SubmitButton } from "./_components/atoms/submit-button";
 
 export async function All({ t, searchParams }) {
   var boards = await query(

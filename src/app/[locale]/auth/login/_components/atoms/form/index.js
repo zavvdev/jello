@@ -26,11 +26,7 @@ export function Form() {
   };
 
   return (
-    <form
-      action={formAction}
-      onSubmit={handleSubmit}
-      className={styles.root}
-    >
+    <form onSubmit={handleSubmit} className={styles.root}>
       {state?.success === false && (
         <Alert type="error" center>
           {t([`error.${state.message}`, "error.fallback"])}

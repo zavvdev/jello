@@ -47,6 +47,19 @@
       "title": "Labels",
       "name": "Name",
       "empty": "No labels yet."
+    },
+    "error": {
+      "fallback": "Unable to create board. Please try again later",
+      "validation_error": "Validation error. Please check your input and try again"
+    },
+    "validation_error": {
+      "name": {
+        "max_length": "Name is too long. Maximum length is 32 characters",
+        "min_length": "Name is too short. Minimum length is 2 characters"
+      },
+      "description": {
+        "max_length": "Description is too long. Maximum length is 100 characters"
+      }
     }
   }
 }

@@ -42,6 +42,11 @@
       "confirm": {
         "remove": "Czy na pewno chcesz usunąć użytkownika z deski?"
       }
+    },
+    "labels": {
+      "title": "Etykiety",
+      "name": "Nazwa",
+      "empty": "Brak etykiet"
     }
   }
 }

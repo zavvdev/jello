@@ -11,4 +11,5 @@ export var Icons = {
   SquarePlus: lucideIcons.SquarePlus,
   RefreshCcw: lucideIcons.RefreshCcw,
   Search: lucideIcons.Search,
+  Plus: lucideIcons.Plus,
 };

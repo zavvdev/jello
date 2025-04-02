@@ -5,7 +5,8 @@ import { NAMESPACES } from "~/app/i18n/config";
 import { Input } from "~/app/components/atoms/input";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
-import { AssignedUsers } from "./_components/assigned-users";
+import { AssignedUsers } from "./_components/atoms/assigned-users";
+import { Labels } from "./_components/atoms/labels";
 
 export function MutateBoardForm({ initialValues }) {
   var { t } = useTranslation(NAMESPACES.boards, {
@@ -35,6 +36,7 @@ export function MutateBoardForm({ initialValues }) {
         defaultValue={initialValues?.color}
       />
       <AssignedUsers t={(k) => t(`assigned_users.${k}`)} />
+      <Labels t={(k) => t(`labels.${k}`)} />
     </div>
   );
 }

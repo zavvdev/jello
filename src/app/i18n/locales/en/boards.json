@@ -42,6 +42,11 @@
       "confirm": {
         "remove": "Are you sure you want to remove this user from the board?"
       }
+    },
+    "labels": {
+      "title": "Labels",
+      "name": "Name",
+      "empty": "No labels yet."
     }
   }
 }

@@ -19,7 +19,8 @@ var removeBy = (id) => (prev) => prev.filter((x) => x.id !== id);
  *    last_name: string;
  *    username: string;
  *    role: string;
- *  }>
+ *  }>;
+ *  t: (key: string) => string;
  * }} @param0
  */
 export function AssignedUsers({ users, t }) {

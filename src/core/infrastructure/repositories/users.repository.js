@@ -1,5 +1,3 @@
-import "server-only";
-
 import { Either as E } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";

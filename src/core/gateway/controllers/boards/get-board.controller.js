@@ -1,48 +1,35 @@
-import * as t from "yup";
 import { applyMiddlewares } from "jello-utils";
 import { Either as E, Task } from "jello-fp";
+import { Board } from "~/core/entity/models/board";
 import { Result } from "~/core/domain/result";
 import {
   withAuth,
   withRequestValidation,
   withResponseValidator,
 } from "~/core/gateway/middleware";
-import { User } from "~/core/entity/models/user";
+import { getBoardProcess } from "~/core/domain/processes/boards/get-board.process";
 import { authSchema } from "~/core/gateway/schemas";
 import { try_ } from "~/core/gateway/utilities";
-import { searchUsersProcess } from "~/core/domain/processes/users/search-users.process";
 
 var dtoSchema = {
-  request: authSchema.concat(User.schema.pick(["username"])),
-  response: Result.schema(
-    t
-      .array()
-      .of(
-        User.schema.pick([
-          "id",
-          "username",
-          "first_name",
-          "last_name",
-        ]),
-      )
-      .required(),
-  ).required(),
+  request: authSchema.concat(Board.schema.pick("id").required()),
+  response: Result.schema(Board.schema.nullable()).required(),
 };
 
-export async function searchUsersController(dto) {
+export async function getBoardController(dto) {
   return try_(
     applyMiddlewares(dto)(
       withAuth,
       withRequestValidation(dtoSchema.request),
       withResponseValidator(dtoSchema.response),
     )(async (user, request, validateResponse) => {
-      var $task = Task.of(searchUsersProcess)
+      var $task = Task.of(getBoardProcess)
         .map(E.chain(validateResponse))
         .join();
 
       return await $task({
         user_id: user.id,
-        username: request.username,
+        board_id: request.board_id,
       });
     }),
   );

@@ -1,5 +1,3 @@
-import "server-only";
-
 import { Task } from "jello-fp";
 import { Result } from "~/core/domain/result";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";

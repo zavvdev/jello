@@ -292,6 +292,28 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "One",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/3",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "3"]
+            }
+          },
+          "response": []
         }
       ]
     },

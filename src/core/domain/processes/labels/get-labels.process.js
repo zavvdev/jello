@@ -1,4 +1,4 @@
-import { compose, cond, Either as E, head, Task } from "jello-fp";
+import { cond, Either as E, head, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { Result } from "~/core/domain/result";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
@@ -23,7 +23,7 @@ export async function getLabelsProcess(dto) {
   ).map(E.chain(cond(noBoard, [Boolean, E.right])));
 
   var $task = Task.run(Task.of(E.asyncRight), $checkExistance)
-    .map(E.chainAll(compose(E.right, head)))
+    .map(E.mapAll(head))
     .map(E.chain(labelsRepo.getAll.bind(labelsRepo)))
     .map(Result.fromEither)
     .join();

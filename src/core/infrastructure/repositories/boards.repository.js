@@ -277,6 +277,26 @@ export class BoardsRepo {
 
   /**
    * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   *  role: string;
+   * }} param0
+   */
+  async removeUser({ user_id, board_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM users_boards_roles
+        WHERE user_id = $1 AND board_id = $2`,
+        [user_id, board_id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
    *  board_id: number;
    * }} param0
    */
@@ -290,6 +310,37 @@ export class BoardsRepo {
         [board_id],
       );
       return E.right(result.rows || []);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   *  name?: string;
+   *  description?: string;
+   *  color?: string;
+   *  is_archived?: boolean;
+   * }} param0
+   */
+  async update({ id, ...rest }) {
+    try {
+      await this.#client.query(
+        `UPDATE boards SET
+        name = COALESCE($1, boards.name),
+        description = COALESCE($2, boards.description),
+        color = COALESCE($3, boards.color),
+        is_archived = COALESCE($4, boards.is_archived)
+        WHERE id = $5`,
+        [
+          rest.name || null,
+          rest.description || null,
+          rest.color || null,
+          rest.is_archived || null,
+          id,
+        ],
+      );
     } catch {
       return E.left();
     }

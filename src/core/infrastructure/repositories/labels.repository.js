@@ -33,6 +33,28 @@ export class LabelsRepo {
 
   /**
    * @param {{
+   *  id: number;
+   *  name?: string;
+   *  color?: string;
+   * }} param0
+   */
+  async update({ id, name, color }) {
+    try {
+      await this.#client.query(
+        `UPDATE labels SET
+        name = COALESCE($1, labels.name),
+        color = COALESCE($2, labels.color)
+        WHERE id = $3`,
+        [name || null, color || null, id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
    *  board_id: number;
    * }} param0
    */

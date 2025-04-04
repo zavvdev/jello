@@ -1,4 +1,4 @@
-import { compose, Either as E, head, Task } from "jello-fp";
+import { Either as E, head, Task } from "jello-fp";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
@@ -24,7 +24,7 @@ export async function registerProcess(dto) {
     $checkUsername,
     $checkEmail,
   )
-    .map(E.chainAll(compose(E.right, head)))
+    .map(E.mapAll(head))
     .map(E.chain(usersRepo.create.bind(usersRepo)))
     .join();
 

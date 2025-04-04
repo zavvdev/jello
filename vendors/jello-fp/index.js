@@ -147,7 +147,7 @@ export class Task {
   static run(...tasks) {
     return new Task(async (...args) => {
       if (tasks.length === 1) {
-        return await tasks[0].runner(...args);
+        return [await tasks[0].runner(...args)];
       } else {
         return await Promise.all(
           tasks.map((task) => task.runner(...args)),

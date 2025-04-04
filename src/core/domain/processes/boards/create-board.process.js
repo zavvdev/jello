@@ -1,5 +1,4 @@
 import {
-  compose,
   Either as E,
   head,
   mergeObjects,
@@ -94,7 +93,7 @@ export async function createBoardProcess(dto) {
       Task.of(E.asyncRight),
       Task.of(boardsRepo.create.bind(boardsRepo)),
     )
-      .map(E.chainAll(compose(E.right, mergeObjects)))
+      .map(E.mapAll(mergeObjects))
       .map(E.chain(assignOwner))
       .map(E.chain(assignUsers))
       .map(E.chain(createLabels))

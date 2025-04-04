@@ -274,6 +274,26 @@ export class BoardsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  board_id: number;
+   * }} param0
+   */
+  async getAssignedUsers({ board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT l.id, l.username, l.first_name, l.last_name, r.role FROM users l
+        INNER JOIN users_boards_roles r
+        ON l.id = r.user_id
+        WHERE r.board_id = $1`,
+        [board_id],
+      );
+      return E.right(result.rows || []);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var boardsRepo = new BoardsRepo({

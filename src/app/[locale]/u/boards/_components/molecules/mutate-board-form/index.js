@@ -20,7 +20,13 @@ import { createBoard } from "../../../actions";
  *    name: string;
  *    description: string;
  *    color: string;
- *    assignedUsers: Array<{ id: number; name: string; role: string }>;
+ *    assignedUsers: Array<{
+ *      id: number;
+ *      first_name: string;
+ *      last_name: string;
+ *      username: string;
+ *      role: string;
+ *    }>;
  *    labels: Array<{ id: number; name: string; color: string }>;
  *  };
  *  title: string;
@@ -75,7 +81,10 @@ export function MutateBoardForm({
           label={t("color")}
           defaultValue={initialValues?.color || DEFAULT_COLOR}
         />
-        <AssignedUsers t={(k) => t(`assigned_users.${k}`)} />
+        <AssignedUsers
+          t={(k) => t(`assigned_users.${k}`)}
+          users={initialValues?.assignedUsers}
+        />
         <Labels
           t={(k) => t(`labels.${k}`)}
           labels={initialValues?.labels}

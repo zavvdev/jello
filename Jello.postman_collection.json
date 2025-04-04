@@ -368,13 +368,13 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/labels?board_id=21",
+              "raw": "{{API_URL}}/api/labels?board_id=26",
               "host": ["{{API_URL}}"],
               "path": ["api", "labels"],
               "query": [
                 {
                   "key": "board_id",
-                  "value": "21"
+                  "value": "26"
                 }
               ]
             }

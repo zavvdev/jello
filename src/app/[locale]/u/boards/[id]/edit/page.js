@@ -1,4 +1,4 @@
-import { User } from "~/core/entity/models/user";
+import { User, UserRole } from "~/core/entity/models/user";
 import { API_ROUTES } from "~/app/api/config";
 import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
@@ -8,6 +8,7 @@ import { I18nProvider } from "~/app/i18n/provider";
 import { MutateBoardForm } from "../../_components/molecules/mutate-board-form";
 
 var I18N_NAMESPACES = [NAMESPACES.editBoard, NAMESPACES.boards];
+var notOwner = (x) => x.role !== UserRole.Owner;
 
 export default async function EditBoard({ params }) {
   var { id } = await params;
@@ -17,6 +18,9 @@ export default async function EditBoard({ params }) {
 
   var labelsResponse = await query(API_ROUTES.labels.getAll(id));
   var labels = labelsResponse?.data || [];
+
+  var usersResponse = await query(API_ROUTES.boards.getUsers(id));
+  var users = usersResponse?.data?.filter(notOwner) || [];
 
   var { t, i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
@@ -43,7 +47,7 @@ export default async function EditBoard({ params }) {
           name: board.name,
           description: board.description,
           color: board.color,
-          assignedUsers: [],
+          assignedUsers: users,
           labels,
         }}
       />

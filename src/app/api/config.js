@@ -23,11 +23,17 @@ export var API_ROUTES = {
     unstar: (id) => makeApiUrl(`/boards/star/${id}`),
     delete: (id) => makeApiUrl(`/boards/${id}`),
     create: () => makeApiUrl("/boards"),
+    getOne: (id) => makeApiUrl(`/boards/${id}`),
+    getUsers: (id) => makeApiUrl(`/boards/${id}/users`),
   },
 
   users: {
     search: (username) =>
       makeApiUrl(`/users/search?username=${username}`),
+  },
+
+  labels: {
+    getAll: (boardId) => makeApiUrl(`/labels?board_id=${boardId}`),
   },
 };
 

@@ -7,42 +7,37 @@ import {
   withRequestValidation,
   withResponseValidator,
 } from "~/core/gateway/middleware";
-import { User } from "~/core/entity/models/user";
 import { authSchema } from "~/core/gateway/schemas";
 import { try_ } from "~/core/gateway/utilities";
-import { searchUsersProcess } from "~/core/domain/processes/users/search-users.process";
+import { Label } from "~/core/entity/models/label";
+import { Id } from "~/core/entity/types";
+import { getLabelsProcess } from "~/core/domain/processes/labels/get-labels.process";
 
 var dtoSchema = {
-  request: authSchema.concat(User.schema.pick(["username"])),
+  request: authSchema.concat(
+    t.object({
+      board_id: Id,
+    }),
+  ),
   response: Result.schema(
-    t
-      .array()
-      .of(
-        User.schema.pick([
-          "id",
-          "username",
-          "first_name",
-          "last_name",
-        ]),
-      )
-      .required(),
+    t.array().of(Label.schema).required(),
   ).required(),
 };
 
-export async function searchUsersController(dto) {
+export async function getLabelsController(dto) {
   return try_(
     applyMiddlewares(dto)(
       withAuth,
       withRequestValidation(dtoSchema.request),
       withResponseValidator(dtoSchema.response),
     )(async (user, request, validateResponse) => {
-      var $task = Task.of(searchUsersProcess)
+      var $task = Task.of(getLabelsProcess)
         .map(E.chain(validateResponse))
         .join();
 
       return await $task({
         user_id: user.id,
-        username: request.username,
+        board_id: request.board_id,
       });
     }),
   );

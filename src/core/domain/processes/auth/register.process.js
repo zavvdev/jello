@@ -1,5 +1,3 @@
-import "server-only";
-
 import { compose, Either as E, head, Task } from "jello-fp";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 

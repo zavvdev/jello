@@ -1,5 +1,3 @@
-import "server-only";
-
 import pg from "pg";
 import { crashReportService } from "~/core/infrastructure/services/crash-report.service";
 import { CONNECTION } from "./config";

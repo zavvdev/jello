@@ -1,5 +1,3 @@
-import "server-only";
-
 import { Either as E } from "jello-fp";
 import { db } from "~/core/infrastructure/database";
 
@@ -28,6 +26,23 @@ export class LabelsRepo {
         [name, color, board_id],
       );
       return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  board_id: number;
+   * }} param0
+   */
+  async getAll({ board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT * FROM labels WHERE board_id = $1`,
+        [board_id],
+      );
+      return E.right(result.rows || []);
     } catch {
       return E.left();
     }

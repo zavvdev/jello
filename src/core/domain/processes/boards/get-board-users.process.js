@@ -9,7 +9,7 @@ import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository
  *  board_id: number;
  * }} dto
  */
-export async function unstarBoardProcess(dto) {
+export async function getBoardUsersProcess(dto) {
   var noBoard = () =>
     E.left(
       Result.of({
@@ -17,28 +17,14 @@ export async function unstarBoardProcess(dto) {
       }),
     );
 
-  var alreadyUnstarred = () =>
-    E.left(
-      Result.of({
-        message: MESSAGES.alreadNotStarred,
-      }),
-    );
-
   var $checkExistance = Task.of(
     boardsRepo.userHasBoard.bind(boardsRepo),
   ).map(E.chain(cond(noBoard, [Boolean, E.right])));
 
-  var $checkIfAlreadyUnstarred = Task.of(
-    boardsRepo.getStarredBoardsCount.bind(boardsRepo),
-  ).map(E.chain(cond(alreadyUnstarred, [Boolean, E.right])));
-
-  var $task = Task.run(
-    Task.of(E.asyncRight),
-    $checkExistance,
-    $checkIfAlreadyUnstarred,
-  )
+  var $task = Task.run(Task.of(E.asyncRight), $checkExistance)
     .map(E.chainAll(compose(E.right, head)))
-    .map(E.chain(boardsRepo.unstarBoard.bind(boardsRepo)))
+    .map(E.chain(boardsRepo.getAssignedUsers.bind(boardsRepo)))
+    .map(Result.fromEither)
     .join();
 
   return await $task(dto);

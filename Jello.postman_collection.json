@@ -349,6 +349,39 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Labels",
+      "item": [
+        {
+          "name": "All",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/labels?board_id=21",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "labels"],
+              "query": [
+                {
+                  "key": "board_id",
+                  "value": "21"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ]
 }

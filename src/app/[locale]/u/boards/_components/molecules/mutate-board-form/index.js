@@ -76,7 +76,10 @@ export function MutateBoardForm({
           defaultValue={initialValues?.color || DEFAULT_COLOR}
         />
         <AssignedUsers t={(k) => t(`assigned_users.${k}`)} />
-        <Labels t={(k) => t(`labels.${k}`)} />
+        <Labels
+          t={(k) => t(`labels.${k}`)}
+          labels={initialValues?.labels}
+        />
         {state?.success === false && (
           <div>
             <Alert type="error" center>

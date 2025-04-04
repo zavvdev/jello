@@ -1,0 +1,6 @@
+{
+  "title": "Edit board",
+  "submit": "Save",
+  "not_found": "Board not found",
+  "cannot_edit": "You cannot edit this board. Please contact the administrator or the owner."
+}

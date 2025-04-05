@@ -32,12 +32,12 @@ export async function unstarBoardProcess(dto) {
     boardsRepo.getStarredBoardsCount.bind(boardsRepo),
   ).map(E.chain(cond(alreadyUnstarred, [Boolean, E.right])));
 
-  var $task = Task.run(
+  var $task = Task.all(
     Task.of(E.asyncRight),
     $checkExistance,
     $checkIfAlreadyUnstarred,
   )
-    .map(E.mapAll(head))
+    .map(E.all(head))
     .map(E.chain(boardsRepo.unstarBoard.bind(boardsRepo)))
     .join();
 

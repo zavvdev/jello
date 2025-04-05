@@ -25,6 +25,7 @@ export var API_ROUTES = {
     create: () => makeApiUrl("/boards"),
     getOne: (id) => makeApiUrl(`/boards/${id}`),
     getUsers: (id) => makeApiUrl(`/boards/${id}/users`),
+    update: (id) => makeApiUrl(`/boards/${id}`),
   },
 
   users: {

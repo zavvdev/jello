@@ -49,7 +49,7 @@
       "empty": "No labels yet."
     },
     "error": {
-      "fallback": "Unable to create board. Please try again later",
+      "fallback": "Unexpected error. Please try again later",
       "validation_error": "Validation error. Please check your input and try again"
     },
     "validation_error": {
@@ -60,6 +60,7 @@
       "description": {
         "max_length": "Description is too long. Maximum length is 100 characters"
       }
-    }
+    },
+    "success": "Success!"
   }
 }

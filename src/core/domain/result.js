@@ -14,6 +14,15 @@ export var Result = {
     message: options.message || undefined,
     data: options.data || null,
   }),
-  fromEither: (eith) =>
-    eith.isRight ? E.right(Result.of({ data: eith.join() })) : eith,
+  fromEither: (eith) => {
+    if (eith instanceof E) {
+      return eith.isRight
+        ? E.right(Result.of({ data: eith.join() }))
+        : eith;
+    } else {
+      throw new Error(
+        "Expected Either, got " + eith.constructor.name,
+      );
+    }
+  },
 };

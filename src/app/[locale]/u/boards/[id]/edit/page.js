@@ -44,6 +44,7 @@ export default async function EditBoard({ params }) {
         title={t("title")}
         submitText={t("submit")}
         initialValues={{
+          id: Number(id),
           name: board.name,
           description: board.description,
           color: board.color,

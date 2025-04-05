@@ -55,6 +55,22 @@ export class LabelsRepo {
 
   /**
    * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async delete({ id }) {
+    try {
+      await this.#client.query(`DELETE FROM labels WHERE id = $1`, [
+        id,
+      ]);
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
    *  board_id: number;
    * }} param0
    */

@@ -144,15 +144,13 @@ export class Task {
     return Task.of(async () => x);
   }
 
-  static run(...tasks) {
+  static all(...tasks) {
     return new Task(async (...args) => {
-      if (tasks.length === 1) {
-        return [await tasks[0].runner(...args)];
-      } else {
-        return await Promise.all(
-          tasks.map((task) => task.runner(...args)),
-        );
+      var result = [];
+      for (let task of tasks) {
+        result.push(await task.runner(...args));
       }
+      return result;
     });
   }
 
@@ -165,6 +163,10 @@ export class Task {
 
   join() {
     return this.runner;
+  }
+
+  run(...args) {
+    return this.join()(...args);
   }
 }
 
@@ -197,18 +199,16 @@ export class Either {
     return (x) => (x?.isRight ? fn(x.join()) : x);
   }
 
-  static chainAll(fn) {
+  static joinAll(fn) {
     return (xs) =>
       xs.every((x) => x.isRight)
         ? fn(xs.map((x) => x.join()))
         : xs.find((x) => x.isLeft);
   }
 
-  static mapAll(fn) {
+  static all(fn) {
     return (xs) =>
-      xs.every((x) => x.isRight)
-        ? fn(xs.map((x) => new Right(x.join())))
-        : xs.find((x) => x.isLeft);
+      xs.every((x) => x.isRight) ? fn(xs) : xs.find((x) => x.isLeft);
   }
 
   static mapLeft(fn) {
@@ -441,3 +441,5 @@ export var log = (label) => (x) => {
 export var mergeObjects = (objects) => {
   return objects.reduce((acc, obj) => ({ ...acc, ...obj }), {});
 };
+
+export var hasLength = (xs) => xs?.length > 0;

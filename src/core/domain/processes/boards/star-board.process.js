@@ -32,12 +32,12 @@ export async function starBoardProcess(dto) {
     boardsRepo.getStarredBoardsCount.bind(boardsRepo),
   ).map(E.chain(cond(alreadyStarred, [not, E.right])));
 
-  var $task = Task.run(
+  var $task = Task.all(
     Task.of(E.asyncRight),
     $checkExistance,
     $checkIfAlreadyStarred,
   )
-    .map(E.mapAll(head))
+    .map(E.all(head))
     .map(E.chain(boardsRepo.starBoard.bind(boardsRepo)))
     .join();
 

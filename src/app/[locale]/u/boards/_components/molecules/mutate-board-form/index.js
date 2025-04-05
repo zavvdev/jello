@@ -7,16 +7,18 @@ import { SubmitButton } from "~/app/components/molecules/submit-button";
 import { Input } from "~/app/components/atoms/input";
 import { ErrorEntries } from "~/app/components/atoms/error-entries";
 import { Alert } from "~/app/components/atoms/error";
+import { Success } from "~/app/components/atoms/success";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
 import { AssignedUsers } from "./_components/atoms/assigned-users";
 import { Labels } from "./_components/atoms/labels";
 import { DEFAULT_COLOR } from "./config";
-import { createBoard } from "../../../actions";
+import { createBoard, updateBoard } from "../../../actions";
 
 /**
  * @param {{
  *  initialValues: {
+ *    id?: number;
  *    name: string;
  *    description: string;
  *    color: string;
@@ -43,7 +45,7 @@ export function MutateBoardForm({
     0: state,
     1: action,
     2: pending,
-  } = useActionState(type === "create" ? createBoard : () => {});
+  } = useActionState(type === "create" ? createBoard : updateBoard);
 
   var { t } = useTranslation(NAMESPACES.boards, {
     keyPrefix: "mutate_form",
@@ -61,6 +63,9 @@ export function MutateBoardForm({
     <form onSubmit={handleSubmit}>
       <h1>{title}</h1>
       <div className={styles.root}>
+        {initialValues?.id && (
+          <input type="hidden" name="id" value={initialValues.id} />
+        )}
         <Input
           id="name"
           name="name"
@@ -102,6 +107,7 @@ export function MutateBoardForm({
             />
           </div>
         )}
+        {state?.success && <Success>{t("success")}</Success>}
       </div>
       <SubmitButton pending={pending}>{submitText}</SubmitButton>
     </form>

@@ -341,6 +341,7 @@ export class BoardsRepo {
           id,
         ],
       );
+      return E.right();
     } catch {
       return E.left();
     }

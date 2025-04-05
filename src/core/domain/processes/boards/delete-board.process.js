@@ -22,8 +22,8 @@ export async function deleteBoardProcess(dto) {
     boardsRepo.getUserRole.bind(boardsRepo),
   ).map(E.chain(cond(unauthorized, [User.canDeleteBoard, E.right])));
 
-  var $task = Task.run(Task.of(E.asyncRight), $checkAuthority)
-    .map(E.mapAll(head))
+  var $task = Task.all(Task.of(E.asyncRight), $checkAuthority)
+    .map(E.all(head))
     .map(E.map(transformDto))
     .map(E.chain(boardsRepo.destroy.bind(boardsRepo)))
     .join();

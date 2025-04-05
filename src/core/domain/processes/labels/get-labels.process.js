@@ -22,8 +22,8 @@ export async function getLabelsProcess(dto) {
     boardsRepo.userHasBoard.bind(boardsRepo),
   ).map(E.chain(cond(noBoard, [Boolean, E.right])));
 
-  var $task = Task.run(Task.of(E.asyncRight), $checkExistance)
-    .map(E.mapAll(head))
+  var $task = Task.all(Task.of(E.asyncRight), $checkExistance)
+    .map(E.all(head))
     .map(E.chain(labelsRepo.getAll.bind(labelsRepo)))
     .map(Result.fromEither)
     .join();

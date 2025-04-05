@@ -60,6 +60,7 @@
       "description": {
         "max_length": "Opis jest za długi. Maksymalna długość to 100 znaków"
       }
-    }
+    },
+    "success": "Sukces!"
   }
 }

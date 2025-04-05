@@ -19,12 +19,12 @@ export async function registerProcess(dto) {
     usersRepo.isEmailAvailable.bind(usersRepo),
   );
 
-  var $task = Task.run(
+  var $task = Task.all(
     Task.of(E.asyncRight),
     $checkUsername,
     $checkEmail,
   )
-    .map(E.mapAll(head))
+    .map(E.all(head))
     .map(E.chain(usersRepo.create.bind(usersRepo)))
     .join();
 

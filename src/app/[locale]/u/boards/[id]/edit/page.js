@@ -13,13 +13,31 @@ var notOwner = (x) => x.role !== UserRole.Owner;
 export default async function EditBoard({ params }) {
   var { id } = await params;
 
-  var boardResponse = await query(API_ROUTES.boards.getOne(id));
+  var boardResponse = await query(
+    API_ROUTES.boards.getOne(id),
+    "GET",
+    null,
+    true,
+  );
+
   var board = boardResponse?.data;
 
-  var labelsResponse = await query(API_ROUTES.labels.getAll(id));
+  var labelsResponse = await query(
+    API_ROUTES.labels.getAll(id),
+    "GET",
+    null,
+    true,
+  );
+
   var labels = labelsResponse?.data || [];
 
-  var usersResponse = await query(API_ROUTES.boards.getUsers(id));
+  var usersResponse = await query(
+    API_ROUTES.boards.getUsers(id),
+    "GET",
+    null,
+    true,
+  );
+
   var users = usersResponse?.data?.filter(notOwner) || [];
 
   var { t, i18n, resources } =

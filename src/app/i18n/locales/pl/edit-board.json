@@ -2,5 +2,11 @@
   "title": "Edytuj tablicę",
   "submit": "Zapisz zmiany",
   "not_found": "Nie znaleziono tablicy",
-  "cannot_edit": "Nie można edytować tej tablicy. Skontaktuj się z administratorem albo właścicielem tablicy."
+  "cannot_edit": "Nie można edytować tej tablicy. Skontaktuj się z administratorem albo właścicielem tablicy.",
+  "activate": "Aktywuj",
+  "archive": "Archiwizuj",
+  "confirm": {
+    "archive": "Czy na pewno chcesz zarchiwizować tę tablicę?",
+    "activate": "Czy na pewno chcesz aktywować tę tablicę?"
+  }
 }

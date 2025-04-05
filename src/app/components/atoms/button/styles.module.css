@@ -7,6 +7,11 @@
   color: white;
 }
 
+.default {
+  background-color: #ccc;
+  color: black;
+}
+
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;

@@ -2,5 +2,11 @@
   "title": "Edit board",
   "submit": "Save",
   "not_found": "Board not found",
-  "cannot_edit": "You cannot edit this board. Please contact the administrator or the owner."
+  "cannot_edit": "You cannot edit this board. Please contact the administrator or the owner.",
+  "activate": "Activate",
+  "archive": "Archive",
+  "confirm": {
+    "archive": "Are you sure you want to archive this board?",
+    "activate": "Are you sure you want to activate this board?"
+  }
 }

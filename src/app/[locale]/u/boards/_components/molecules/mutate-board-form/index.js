@@ -34,12 +34,15 @@ import { createBoard, updateBoard } from "../../../actions";
  *  title: string;
  *  submitText: string;
  *  type: "create" | "update";
+ *  footer?: React.ReactNode;
+ * }} param0
  */
 export function MutateBoardForm({
   initialValues,
   title,
   submitText,
   type,
+  footer,
 }) {
   var {
     0: state,
@@ -110,6 +113,7 @@ export function MutateBoardForm({
         {state?.success && <Success>{t("success")}</Success>}
       </div>
       <SubmitButton pending={pending}>{submitText}</SubmitButton>
+      <div className={styles.footer}>{footer}</div>
     </form>
   );
 }

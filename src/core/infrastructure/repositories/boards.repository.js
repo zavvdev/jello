@@ -346,6 +346,40 @@ export class BoardsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async archive({ id }) {
+    try {
+      await this.#client.query(
+        `UPDATE boards SET is_archived = TRUE WHERE id = $1`,
+        [id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async activate({ id }) {
+    try {
+      await this.#client.query(
+        `UPDATE boards SET is_archived = FALSE WHERE id = $1`,
+        [id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var boardsRepo = new BoardsRepo({

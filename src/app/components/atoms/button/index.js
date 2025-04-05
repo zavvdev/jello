@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
  *  type?: "button" | "submit" | "reset";
  *  disabled?: boolean;
  *  onClick?: () => void;
- *  variant?: "primary";
+ *  variant?: "primary" | "default";
  * }} param0
  */
 export function Button({
@@ -19,6 +19,7 @@ export function Button({
 }) {
   var rootClasses = cx(styles.root, {
     [styles.primary]: variant === "primary",
+    [styles.default]: variant === "default",
     [styles.disabled]: disabled,
   });
 

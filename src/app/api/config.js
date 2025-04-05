@@ -26,6 +26,8 @@ export var API_ROUTES = {
     getOne: (id) => makeApiUrl(`/boards/${id}`),
     getUsers: (id) => makeApiUrl(`/boards/${id}/users`),
     update: (id) => makeApiUrl(`/boards/${id}`),
+    archive: (id) => makeApiUrl(`/boards/${id}/archive`),
+    activate: (id) => makeApiUrl(`/boards/${id}/activate`),
   },
 
   users: {

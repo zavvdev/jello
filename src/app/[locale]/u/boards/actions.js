@@ -106,3 +106,14 @@ export async function updateBoard(_, formData) {
     };
   }
 }
+
+export async function toggleArchiveBoard(_, { boardId, isArchived }) {
+  if (isArchived) {
+    await query(API_ROUTES.boards.activate(boardId), "POST");
+  } else {
+    await query(API_ROUTES.boards.archive(boardId), "POST");
+  }
+  revalidatePath(PRIVATE_ROUTES.board(boardId));
+  revalidatePath(PRIVATE_ROUTES.boards());
+  redirect(PRIVATE_ROUTES.boards());
+}

@@ -6,6 +6,7 @@ import { query } from "~/app/utilities/query";
 import { Alert } from "~/app/components/atoms/error";
 import { I18nProvider } from "~/app/i18n/provider";
 import { MutateBoardForm } from "../../_components/molecules/mutate-board-form";
+import { ArchiveButton } from "./_components/atoms/archive-button";
 
 var I18N_NAMESPACES = [NAMESPACES.editBoard, NAMESPACES.boards];
 var notOwner = (x) => x.role !== UserRole.Owner;
@@ -69,6 +70,23 @@ export default async function EditBoard({ params }) {
           assignedUsers: users,
           labels,
         }}
+        footer={
+          <>
+            {User.canArchiveBoard(board.role) && (
+              <ArchiveButton
+                boardId={board.id}
+                isArchived={board.is_archived}
+                confirmMessage={
+                  board.is_archived
+                    ? t("confirm.activate")
+                    : t("confirm.archive")
+                }
+              >
+                {board.is_archived ? t("activate") : t("archive")}
+              </ArchiveButton>
+            )}
+          </>
+        }
       />
     </I18nProvider>
   );

@@ -1,5 +1,3 @@
-import "server-only";
-
 import * as t from "yup";
 import { Either as E, Task } from "jello-fp";
 import { applyMiddlewares } from "jello-utils";
@@ -60,7 +58,8 @@ export async function createBoardController(dto) {
 
       return await $task({
         user_id: user.id,
-        ...request,
+        name: request.name,
+        color: request.color,
         description: request.description || null,
         assigned_users: request.assigned_users || [],
         labels: request.labels || [],

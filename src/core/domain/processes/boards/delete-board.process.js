@@ -1,6 +1,4 @@
-import "server-only";
-
-import { compose, cond, Either as E, head, Task } from "jello-fp";
+import { cond, Either as E, head, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { Result } from "~/core/domain/result";
 import { User } from "~/core/entity/models/user";
@@ -24,8 +22,8 @@ export async function deleteBoardProcess(dto) {
     boardsRepo.getUserRole.bind(boardsRepo),
   ).map(E.chain(cond(unauthorized, [User.canDeleteBoard, E.right])));
 
-  var $task = Task.run(Task.of(E.asyncRight), $checkAuthority)
-    .map(E.chainAll(compose(E.right, head)))
+  var $task = Task.all(Task.of(E.asyncRight), $checkAuthority)
+    .map(E.all(head))
     .map(E.map(transformDto))
     .map(E.chain(boardsRepo.destroy.bind(boardsRepo)))
     .join();

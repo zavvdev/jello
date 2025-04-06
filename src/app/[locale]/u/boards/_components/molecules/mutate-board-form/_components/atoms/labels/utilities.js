@@ -4,5 +4,5 @@ var _signature = "label-id";
 
 export var NewLabelId = {
   create: () => `${_signature}-${uuidv4()}`,
-  match: (id) => id.startsWith(_signature),
+  match: (id) => id?.startsWith?.(_signature) ?? false,
 };

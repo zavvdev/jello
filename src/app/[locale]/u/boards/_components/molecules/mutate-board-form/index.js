@@ -7,37 +7,48 @@ import { SubmitButton } from "~/app/components/molecules/submit-button";
 import { Input } from "~/app/components/atoms/input";
 import { ErrorEntries } from "~/app/components/atoms/error-entries";
 import { Alert } from "~/app/components/atoms/error";
+import { Success } from "~/app/components/atoms/success";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
 import { AssignedUsers } from "./_components/atoms/assigned-users";
 import { Labels } from "./_components/atoms/labels";
 import { DEFAULT_COLOR } from "./config";
-import { createBoard } from "../../../actions";
+import { createBoard, updateBoard } from "../../../actions";
 
 /**
  * @param {{
  *  initialValues: {
+ *    id?: number;
  *    name: string;
  *    description: string;
  *    color: string;
- *    assignedUsers: Array<{ id: number; name: string; role: string }>;
+ *    assignedUsers: Array<{
+ *      id: number;
+ *      first_name: string;
+ *      last_name: string;
+ *      username: string;
+ *      role: string;
+ *    }>;
  *    labels: Array<{ id: number; name: string; color: string }>;
  *  };
  *  title: string;
  *  submitText: string;
  *  type: "create" | "update";
+ *  footer?: React.ReactNode;
+ * }} param0
  */
 export function MutateBoardForm({
   initialValues,
   title,
   submitText,
   type,
+  footer,
 }) {
   var {
     0: state,
     1: action,
     2: pending,
-  } = useActionState(type === "create" ? createBoard : () => {});
+  } = useActionState(type === "create" ? createBoard : updateBoard);
 
   var { t } = useTranslation(NAMESPACES.boards, {
     keyPrefix: "mutate_form",
@@ -55,6 +66,9 @@ export function MutateBoardForm({
     <form onSubmit={handleSubmit}>
       <h1>{title}</h1>
       <div className={styles.root}>
+        {initialValues?.id && (
+          <input type="hidden" name="id" value={initialValues.id} />
+        )}
         <Input
           id="name"
           name="name"
@@ -75,8 +89,14 @@ export function MutateBoardForm({
           label={t("color")}
           defaultValue={initialValues?.color || DEFAULT_COLOR}
         />
-        <AssignedUsers t={(k) => t(`assigned_users.${k}`)} />
-        <Labels t={(k) => t(`labels.${k}`)} />
+        <AssignedUsers
+          t={(k) => t(`assigned_users.${k}`)}
+          users={initialValues?.assignedUsers}
+        />
+        <Labels
+          t={(k) => t(`labels.${k}`)}
+          labels={initialValues?.labels}
+        />
         {state?.success === false && (
           <div>
             <Alert type="error" center>
@@ -90,8 +110,10 @@ export function MutateBoardForm({
             />
           </div>
         )}
+        {state?.success && <Success>{t("success")}</Success>}
       </div>
       <SubmitButton pending={pending}>{submitText}</SubmitButton>
+      <div className={styles.footer}>{footer}</div>
     </form>
   );
 }

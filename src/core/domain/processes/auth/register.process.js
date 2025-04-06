@@ -1,6 +1,4 @@
-import "server-only";
-
-import { compose, Either as E, head, Task } from "jello-fp";
+import { Either as E, head, Task } from "jello-fp";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
@@ -21,12 +19,12 @@ export async function registerProcess(dto) {
     usersRepo.isEmailAvailable.bind(usersRepo),
   );
 
-  var $task = Task.run(
+  var $task = Task.all(
     Task.of(E.asyncRight),
     $checkUsername,
     $checkEmail,
   )
-    .map(E.chainAll(compose(E.right, head)))
+    .map(E.all(head))
     .map(E.chain(usersRepo.create.bind(usersRepo)))
     .join();
 

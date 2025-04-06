@@ -1,5 +1,3 @@
-import "server-only";
-
 import { Either as E } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
@@ -79,6 +77,31 @@ export class BoardsRepo {
       );
 
       return E.right(result.rows);
+    } catch {
+      return E.left();
+    }
+  }
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   * }} param0
+   */
+  async getOne({ user_id, board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT l.*, r.role, EXISTS (
+            SELECT 1 
+            FROM users_starred_boards usb 
+            WHERE usb.board_id = l.id
+            AND usb.user_id = $1
+         ) AS is_favorite FROM boards l
+         INNER JOIN users_boards_roles r ON l.id = r.board_id
+         WHERE r.user_id = $1 AND l.id = $2`,
+        [user_id, board_id],
+      );
+
+      return E.right(result.rows?.[0] || null);
     } catch {
       return E.left();
     }
@@ -245,6 +268,112 @@ export class BoardsRepo {
         `INSERT INTO users_boards_roles (user_id, board_id, role)
         VALUES ($1, $2, $3)`,
         [user_id, board_id, role],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  board_id: number;
+   *  role: string;
+   * }} param0
+   */
+  async removeUser({ user_id, board_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM users_boards_roles
+        WHERE user_id = $1 AND board_id = $2`,
+        [user_id, board_id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  board_id: number;
+   * }} param0
+   */
+  async getAssignedUsers({ board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT l.id, l.username, l.first_name, l.last_name, r.role FROM users l
+        INNER JOIN users_boards_roles r
+        ON l.id = r.user_id
+        WHERE r.board_id = $1`,
+        [board_id],
+      );
+      return E.right(result.rows || []);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   *  name?: string;
+   *  description?: string;
+   *  color?: string;
+   *  is_archived?: boolean;
+   * }} param0
+   */
+  async update({ id, ...rest }) {
+    try {
+      await this.#client.query(
+        `UPDATE boards SET
+        name = COALESCE($1, boards.name),
+        description = COALESCE($2, boards.description),
+        color = COALESCE($3, boards.color),
+        is_archived = COALESCE($4, boards.is_archived)
+        WHERE id = $5`,
+        [
+          rest.name || null,
+          rest.description || null,
+          rest.color || null,
+          rest.is_archived || null,
+          id,
+        ],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async archive({ id }) {
+    try {
+      await this.#client.query(
+        `UPDATE boards SET is_archived = TRUE WHERE id = $1`,
+        [id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async activate({ id }) {
+    try {
+      await this.#client.query(
+        `UPDATE boards SET is_archived = FALSE WHERE id = $1`,
+        [id],
       );
       return E.right();
     } catch {

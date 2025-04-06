@@ -292,6 +292,125 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "One",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/52",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "52"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Users",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/21/users",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "21", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Board #50\",\n    \"description\": \"Hello, World!\",\n    \"color\": \"#ff8811\",\n    \"assigned_users\": [],\n    \"labels\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/boards/3",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Archive",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/21/archive",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "21", "archive"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Activate",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/boards/21/activate",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "boards", "21", "activate"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -320,6 +439,39 @@
                 {
                   "key": "username",
                   "value": "jmor13"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Labels",
+      "item": [
+        {
+          "name": "All",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/labels?board_id=26",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "labels"],
+              "query": [
+                {
+                  "key": "board_id",
+                  "value": "26"
                 }
               ]
             }

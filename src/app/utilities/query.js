@@ -22,7 +22,7 @@ class QueryError extends Error {
  * @param {("GET" | "POST" | "PUT" | "PATCH" | "DELETE")?} method
  * @param {object?} body
  */
-export async function query(route, method, body) {
+export async function query(route, method, body, failsafe = false) {
   var cookieStore = await cookies();
 
   try {
@@ -42,8 +42,10 @@ export async function query(route, method, body) {
 
     if (data.success) {
       return data;
-    } else {
+    } else if (!failsafe) {
       throw new QueryError(data.message, data);
+    } else {
+      return data;
     }
   } catch (e) {
     if (e.message === MESSAGES.unauthorized) {

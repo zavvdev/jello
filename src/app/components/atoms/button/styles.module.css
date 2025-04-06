@@ -12,6 +12,11 @@
   color: black;
 }
 
+.danger {
+  background-color: red;
+  color: white;
+}
+
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;

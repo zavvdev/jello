@@ -7,6 +7,8 @@ import { Alert } from "~/app/components/atoms/error";
 import { I18nProvider } from "~/app/i18n/provider";
 import { MutateBoardForm } from "../../_components/molecules/mutate-board-form";
 import { ArchiveButton } from "./_components/atoms/archive-button";
+import styles from "./styles.module.css";
+import { DeleteButton } from "./_components/atoms/delete-button";
 
 var I18N_NAMESPACES = [NAMESPACES.editBoard, NAMESPACES.boards];
 var notOwner = (x) => x.role !== UserRole.Owner;
@@ -71,7 +73,7 @@ export default async function EditBoard({ params }) {
           labels,
         }}
         footer={
-          <>
+          <div className={styles.footer}>
             {User.canArchiveBoard(board.role) && (
               <ArchiveButton
                 boardId={board.id}
@@ -85,7 +87,15 @@ export default async function EditBoard({ params }) {
                 {board.is_archived ? t("activate") : t("archive")}
               </ArchiveButton>
             )}
-          </>
+            {User.canDeleteBoard(board.role) && (
+              <DeleteButton
+                boardId={board.id}
+                confirmMessage={t("confirm.delete")}
+              >
+                {t("delete")}
+              </DeleteButton>
+            )}
+          </div>
         }
       />
     </I18nProvider>

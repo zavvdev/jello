@@ -5,8 +5,10 @@
   "cannot_edit": "You cannot edit this board. Please contact the administrator or the owner.",
   "activate": "Activate",
   "archive": "Archive",
+  "delete": "Delete",
   "confirm": {
     "archive": "Are you sure you want to archive this board?",
-    "activate": "Are you sure you want to activate this board?"
+    "activate": "Are you sure you want to activate this board?",
+    "delete": "Are you sure you want to delete this board? This action cannot be undone."
   }
 }

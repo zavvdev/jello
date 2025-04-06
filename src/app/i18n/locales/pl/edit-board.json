@@ -5,8 +5,10 @@
   "cannot_edit": "Nie można edytować tej tablicy. Skontaktuj się z administratorem albo właścicielem tablicy.",
   "activate": "Aktywuj",
   "archive": "Archiwizuj",
+  "delete": "Usuń",
   "confirm": {
     "archive": "Czy na pewno chcesz zarchiwizować tę tablicę?",
-    "activate": "Czy na pewno chcesz aktywować tę tablicę?"
+    "activate": "Czy na pewno chcesz aktywować tę tablicę?",
+    "delete": "Czy na pewno chcesz usunąć tę tablicę?"
   }
 }

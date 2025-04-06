@@ -20,9 +20,12 @@ export async function toggleStarredBoard(_, { boardId, starred }) {
   revalidatePath(PRIVATE_ROUTES.boards());
 }
 
-export async function deleteBoard(_, { boardId }) {
+export async function deleteBoard(_, { boardId, redirectToBoards }) {
   await query(API_ROUTES.boards.delete(boardId), "DELETE");
   revalidatePath(PRIVATE_ROUTES.boards());
+  if (redirectToBoards) {
+    redirect(PRIVATE_ROUTES.boards());
+  }
 }
 
 export async function createBoard(_, formData) {

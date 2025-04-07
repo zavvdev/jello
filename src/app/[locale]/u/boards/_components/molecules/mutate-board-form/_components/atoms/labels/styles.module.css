@@ -45,3 +45,16 @@
   color: red;
   cursor: pointer;
 }
+
+.edit {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+}

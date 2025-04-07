@@ -62,8 +62,8 @@ export async function editBoardProcess(dto) {
           removed: boardLabels.filter(
             ({ id }) => !labels.find((l) => l.id === id),
           ),
-          updated: boardLabels.filter(({ id }) =>
-            labels.find((l) => l.id === id),
+          updated: labels.filter(({ id }) =>
+            boardLabels.find((l) => l.id === id),
           ),
           created: labels.filter((l) => !l.id),
         });

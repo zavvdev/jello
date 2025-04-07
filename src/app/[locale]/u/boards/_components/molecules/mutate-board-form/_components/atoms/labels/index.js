@@ -20,23 +20,41 @@ import { DEFAULT_COLOR } from "../../../config";
  */
 export function Labels({ labels, t }) {
   var { 0: list, 1: setList } = useState(labels || []);
-  var { 0: labelName, 1: setLabelName } = useState("");
-  var { 0: labelColor, 1: setLabelColor } = useState(DEFAULT_COLOR);
+  var { 0: editId, 1: setEditId } = useState();
+  var { 0: name, 1: setName } = useState("");
+  var { 0: color, 1: setColor } = useState(DEFAULT_COLOR);
+
+  var reset = () => {
+    setName("");
+    setColor(DEFAULT_COLOR);
+    setEditId(undefined);
+  };
 
   var handleAdd = () => {
-    if (!labelName) {
+    if (!name) {
       return;
     }
 
     var label = {
       id: NewLabelId.create(),
-      name: labelName,
-      color: labelColor,
+      name,
+      color,
     };
 
     setList((prev) => [...prev, label]);
-    setLabelName("");
-    setLabelColor(DEFAULT_COLOR);
+    reset();
+  };
+
+  var handleSave = () => {
+    if (!name) {
+      return;
+    }
+
+    setList((prev) =>
+      prev.map((x) => (x.id === editId ? { ...x, name, color } : x)),
+    );
+
+    reset();
   };
 
   var handleRemove = (id) => {
@@ -52,13 +70,26 @@ export function Labels({ labels, t }) {
         />
         <span>{name}</span>
       </div>
-      <button
-        type="button"
-        className={styles.remove}
-        onClick={() => handleRemove(id)}
-      >
-        <Icons.Trash width="1rem" />
-      </button>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.edit}
+          onClick={() => {
+            setEditId(id);
+            setName(name);
+            setColor(color);
+          }}
+        >
+          <Icons.Pencil width="1rem" />
+        </button>
+        <button
+          type="button"
+          className={styles.remove}
+          onClick={() => handleRemove(id)}
+        >
+          <Icons.Trash width="1rem" />
+        </button>
+      </div>
       <input
         type="hidden"
         name="labels[]"
@@ -78,17 +109,28 @@ export function Labels({ labels, t }) {
         <Input
           id="name"
           placeholder={t("name")}
-          value={labelName}
-          onChange={(e) => setLabelName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <Input
           type="color"
-          value={labelColor}
-          onChange={(e) => setLabelColor(e.target.value)}
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
         />
-        <button type="button" onClick={handleAdd}>
-          <Icons.Plus width="1rem" />
-        </button>
+        {editId ? (
+          <div className={styles.actions}>
+            <button type="button" onClick={handleSave}>
+              <Icons.Save width="1rem" />
+            </button>
+            <button type="button" onClick={reset}>
+              <Icons.CircleX width="1rem" />
+            </button>
+          </div>
+        ) : (
+          <button type="button" onClick={handleAdd}>
+            <Icons.Plus width="1rem" />
+          </button>
+        )}
       </div>
       <div>
         {list?.length === 0 ? (

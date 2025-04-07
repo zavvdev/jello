@@ -1,4 +1,3 @@
-import { Task } from "jello-fp";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
@@ -12,6 +11,5 @@ import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
  * }} dto
  */
 export async function updateUserProcess(dto) {
-  var $task = Task.of(usersRepo.update.bind(usersRepo)).join();
-  return await $task(dto);
+  return await usersRepo.update(dto);
 }

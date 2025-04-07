@@ -194,6 +194,22 @@ export class UsersRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   * }} param0
+   */
+  async delete({ user_id }) {
+    try {
+      await this.#client.query(`DELETE FROM users WHERE id = $1`, [
+        user_id,
+      ]);
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var usersRepo = new UsersRepo({

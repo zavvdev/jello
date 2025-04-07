@@ -12,4 +12,6 @@ export var Icons = {
   RefreshCcw: lucideIcons.RefreshCcw,
   Search: lucideIcons.Search,
   Plus: lucideIcons.Plus,
+  Save: lucideIcons.Save,
+  CircleX: lucideIcons.CircleX,
 };

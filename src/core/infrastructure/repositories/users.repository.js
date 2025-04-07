@@ -171,6 +171,29 @@ export class UsersRepo {
       );
     }
   }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  password: string;
+   * }} param0
+   */
+  async updatePassword({ user_id, password }) {
+    try {
+      var hashedPassword = await encryptionService.hash(password);
+
+      await this.#client.query(
+        `UPDATE users SET
+        password = $1
+        WHERE id = $2`,
+        [hashedPassword, user_id],
+      );
+
+      return E.right({ user_id });
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var usersRepo = new UsersRepo({

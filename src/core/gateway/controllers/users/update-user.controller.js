@@ -1,5 +1,4 @@
 import { applyMiddlewares } from "jello-utils";
-import { Task } from "jello-fp";
 import {
   withAuth,
   withRequestValidation,
@@ -27,8 +26,7 @@ export async function updateUserController(dto) {
       withAuth,
       withRequestValidation(dtoSchema.request),
     )(async (user, request) => {
-      var $task = Task.of(updateUserProcess).join();
-      return await $task({
+      return await updateUserProcess({
         user_id: user.id,
         first_name: request.first_name,
         last_name: request.last_name,

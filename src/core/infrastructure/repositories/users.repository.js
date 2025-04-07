@@ -3,6 +3,8 @@ import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
 import { encryptionService } from "~/core/infrastructure/services/encryption.service";
 import { Result } from "~/core/domain/result";
+import { MESSAGE_BY_CONSTRAINT } from "../database/config";
+import { handleConstraintError } from "../database/utilities";
 
 export class UsersRepo {
   /**
@@ -39,8 +41,10 @@ export class UsersRepo {
       );
 
       return E.right();
-    } catch {
-      E.left();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.users)(e),
+      );
     }
   }
 
@@ -74,52 +78,6 @@ export class UsersRepo {
       }
 
       return E.right({ user_id: user.id });
-    } catch {
-      return E.left();
-    }
-  }
-
-  /**
-   * @param {{
-   *  username: string;
-   * }} param0
-   */
-  async isUsernameAvailable({ username }) {
-    try {
-      var result = await this.#client.query(
-        `SELECT id FROM users WHERE username = $1`,
-        [username],
-      );
-
-      if (result.rows.length > 0) {
-        return E.left(
-          Result.of({ message: MESSAGES.usernameExists }),
-        );
-      }
-
-      return E.right({ username });
-    } catch {
-      return E.left();
-    }
-  }
-
-  /**
-   * @param {{
-   *  email: string;
-   * }} param0
-   */
-  async isEmailAvailable({ email }) {
-    try {
-      var result = await this.#client.query(
-        `SELECT id FROM users WHERE email = $1`,
-        [email],
-      );
-
-      if (result.rows.length > 0) {
-        return E.left(Result.of({ message: MESSAGES.emailExists }));
-      }
-
-      return E.right({ email });
     } catch {
       return E.left();
     }
@@ -167,6 +125,50 @@ export class UsersRepo {
       return E.right(result.rows);
     } catch {
       return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   *  first_name: string;
+   *  last_name: string;
+   *  username: string;
+   *  email: string;
+   *  bio: string;
+   * }} param0
+   */
+  async update({
+    user_id,
+    first_name,
+    last_name,
+    username,
+    email,
+    bio,
+  }) {
+    try {
+      await this.#client.query(
+        `UPDATE users SET
+        first_name = COALESCE($1, users.first_name),
+        last_name = COALESCE($2, users.last_name),
+        username = COALESCE($3, users.username),
+        email = COALESCE($4, users.email),
+        bio = COALESCE($5, users.bio)
+        WHERE id = $6`,
+        [
+          first_name ?? null,
+          last_name ?? null,
+          username ?? null,
+          email ?? null,
+          bio ?? null,
+          user_id,
+        ],
+      );
+      return E.right();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.users)(e),
+      );
     }
   }
 }

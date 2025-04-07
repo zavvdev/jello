@@ -3,14 +3,15 @@ import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
  * @param {{
- *  username: string;
- *  email: string;
+ *  user_id: number;
  *  first_name: string;
  *  last_name: string;
- *  password: string;
+ *  username: string;
+ *  email: string;
+ *  bio: string;
  * }} dto
  */
-export async function registerProcess(dto) {
-  var $task = Task.of(usersRepo.create.bind(usersRepo)).join();
+export async function updateUserProcess(dto) {
+  var $task = Task.of(usersRepo.update.bind(usersRepo)).join();
   return await $task(dto);
 }

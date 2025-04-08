@@ -205,7 +205,7 @@ export class UsersRepo {
       await this.#client.query(`DELETE FROM users WHERE id = $1`, [
         user_id,
       ]);
-      return E.right();
+      return E.right({ user_id });
     } catch {
       return E.left();
     }

@@ -81,6 +81,7 @@ export class BoardsRepo {
       return E.left();
     }
   }
+
   /**
    * @param {{
    *  user_id: number;
@@ -375,6 +376,41 @@ export class BoardsRepo {
         `UPDATE boards SET is_archived = FALSE WHERE id = $1`,
         [id],
       );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   * }} param0
+   */
+  async getOwned({ user_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT board_id AS id
+        FROM users_boards_roles
+        WHERE user_id = $1 AND role = 'owner'`,
+        [user_id],
+      );
+      return E.right(result.rows);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async delete({ id }) {
+    try {
+      await this.#client.query(`DELETE FROM boards WHERE id = $1`, [
+        id,
+      ]);
       return E.right();
     } catch {
       return E.left();

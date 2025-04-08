@@ -58,7 +58,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"usernameOrEmail\": \"jdoe\",\n    \"password\": \"11111111\"\n}",
+              "raw": "{\n    \"usernameOrEmail\": \"jmor3\",\n    \"password\": \"11111111\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -479,6 +479,112 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Me",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{API_URL}}/api/me",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "me"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Me",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"first_name\": \"Adrian\",\n    \"last_name\": \"Dittman\",\n    \"username\": \"musk\",\n    \"bio\": \"Hello!\",\n    \"email\": \"trump@mail.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/me",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "me"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Password",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"old_password\": \"22222222\",\n    \"new_password\": \"11111111\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/api/me/password",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "me", "password"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Me",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{AUTH_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{API_URL}}/api/me",
+          "host": ["{{API_URL}}"],
+          "path": ["api", "me"]
+        }
+      },
+      "response": []
     }
   ]
 }

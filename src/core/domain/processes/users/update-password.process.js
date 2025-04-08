@@ -16,6 +16,16 @@ export async function updatePasswordProcess(dto) {
     var usersRepo = new UsersRepo(client);
     var sessionsRepo = new SessionsRepo(client);
 
+    var $revoke = (session) =>
+      Task.of(() => sessionsRepo.revoke(session)).map(
+        E.chain(sessionsRepo.destroy.bind(sessionsRepo)),
+      );
+
+    var revokeAll = (sessions) =>
+      Task.all(...sessions.map($revoke))
+        .map(E.all(head))
+        .run();
+
     var updatePasswordDto = (dto) => ({
       user_id: dto.user_id,
       password: dto.new_password,
@@ -27,16 +37,6 @@ export async function updatePasswordProcess(dto) {
         password: dto.old_password,
       }),
     );
-
-    var $revoke = (session) =>
-      Task.of(() => sessionsRepo.revoke(session)).map(
-        E.chain(sessionsRepo.destroy.bind(sessionsRepo)),
-      );
-
-    var revokeAll = (sessions) =>
-      Task.all(...sessions.map($revoke))
-        .map(E.all(head))
-        .run();
 
     var $task = Task.all(Task.of(E.asyncRight), $checkCredentials)
       .map(E.all(head))

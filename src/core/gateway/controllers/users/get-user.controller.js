@@ -6,12 +6,10 @@ import {
   withResponseValidator,
 } from "~/core/gateway/middleware";
 import { User } from "~/core/entity/models/user";
-import { authSchema } from "~/core/gateway/schemas";
 import { try_ } from "~/core/gateway/utilities";
 import { getUserProcess } from "~/core/domain/processes/users/get-user.process";
 
 var dtoSchema = {
-  request: authSchema,
   response: Result.schema(User.schema).required(),
 };
 

@@ -1,4 +1,3 @@
-import { Task } from "jello-fp";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
@@ -11,6 +10,5 @@ import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
  * }} dto
  */
 export async function registerProcess(dto) {
-  var $task = Task.of(usersRepo.create.bind(usersRepo)).join();
-  return await $task(dto);
+  return await usersRepo.create(dto);
 }

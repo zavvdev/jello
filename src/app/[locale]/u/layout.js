@@ -23,6 +23,13 @@ export default async function AuthLayout({ params, children }) {
           <nav className={styles.links}>
             <Link
               className={styles.link}
+              href={PRIVATE_ROUTES.profile()}
+            >
+              <Icons.User />
+              {t("nav.profile")}
+            </Link>
+            <Link
+              className={styles.link}
               href={PRIVATE_ROUTES.boards()}
             >
               <Icons.LayoutDashboard />

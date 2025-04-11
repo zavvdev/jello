@@ -43,3 +43,14 @@ export async function changePassword(_, formData) {
 
   redirect(PUBLIC_ROUTES.auth.login());
 }
+
+export async function deleteProfile() {
+  try {
+    await query(API_ROUTES.me.delete(), "DELETE");
+  } catch {
+    return {
+      success: false,
+    };
+  }
+  redirect(PUBLIC_ROUTES.auth.login());
+}

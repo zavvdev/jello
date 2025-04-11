@@ -47,5 +47,12 @@
       "fallback": "Nie udało się zmienić hasła. Spróbuj ponownie później"
     },
     "submit": "Zmień hasło"
+  },
+  "delete": {
+    "button": "Usuń profil",
+    "confirm": "Czy na pewno chcesz usunąć swój profil? Ta operacja jest nieodwracalna.",
+    "error": {
+      "fallback": "Nie udało się usunąć profilu. Spróbuj ponownie później"
+    }
   }
 }

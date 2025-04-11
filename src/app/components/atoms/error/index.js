@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
  *  type: "error" | "warn";
  * }} param0
  */
-export function Alert({ children, center, type }) {
+export function Alert({ children, center, type = "warn" }) {
   return (
     <p
       className={cx(styles.root, {

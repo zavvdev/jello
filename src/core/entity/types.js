@@ -6,15 +6,15 @@ export var Id = t
   .required(T.required)
   .typeError(T.typeNumber);
 
-export var CreatedAt = t
-  .date()
-  .required(T.required)
-  .typeError(T.typeDate);
-
-export var UpdatedAt = t
-  .date()
-  .required(T.required)
-  .typeError(T.typeDate);
+export var Timestamp = t.mixed().test({
+  message: T.typeDate,
+  test: (value) => {
+    return (
+      value instanceof Date ||
+      new Date(value).toTimeString() !== "Invalid Date"
+    );
+  },
+});
 
 export var Color = t
   .string()

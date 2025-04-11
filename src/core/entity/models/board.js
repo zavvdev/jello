@@ -1,7 +1,7 @@
 import * as t from "yup";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { castModel } from "~/core/entity/validation";
-import { Color, CreatedAt, Id, UpdatedAt } from "~/core/entity/types";
+import { Color, Id, Timestamp } from "~/core/entity/types";
 
 var schema = t.object({
   id: Id,
@@ -22,8 +22,8 @@ var schema = t.object({
     .required(T.required)
     .typeError(T.typeBoolean),
   role: t.string().required(T.required).typeError(T.typeString),
-  created_at: CreatedAt,
-  updated_at: UpdatedAt,
+  created_at: Timestamp,
+  updated_at: Timestamp,
 });
 
 export var Board = {

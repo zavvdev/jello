@@ -8,16 +8,17 @@ var schema = t.object({
   name: t
     .string()
     .min(1, T.minLength)
-    .max(16, T.maxLength)
+    .max(64, T.maxLength)
     .required(T.required)
     .typeError(T.typeString),
-  board_id: Id,
+  description: t.string().nullable(),
+  list_id: Id,
   order_index: OrderIndex,
   created_at: Timestamp,
   updated_at: Timestamp,
 });
 
-export var List = {
+export var Task = {
   schema,
-  of: castModel(schema)("List"),
+  of: castModel(schema)("Task"),
 };

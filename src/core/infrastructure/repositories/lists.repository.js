@@ -19,7 +19,16 @@ export class ListsRepo {
   async getAll({ board_id }) {
     try {
       var result = await this.#client.query(
-        `SELECT * FROM lists WHERE board_id = $1`,
+        `SELECT l.*, (
+          SELECT COALESCE(
+            json_agg(t ORDER BY t.order_index ASC, t.created_at ASC), '[]'
+          )
+          FROM tasks AS t
+          WHERE t.list_id = l.id
+        ) AS tasks
+        FROM lists AS l
+        WHERE board_id = $1
+        ORDER BY order_index ASC, created_at ASC`,
         [board_id],
       );
       return E.right(result.rows || []);

@@ -9,12 +9,16 @@ var {
 } = require("./migrations/m2_remove_is_archived_column_from_lists");
 
 var {
-  m3_add_order_column_for_lists,
-} = require("./migrations/m3_add_order_column_for_lists");
+  m3_add_order_index_column_for_lists,
+} = require("./migrations/m3_add_order_index_column_for_lists");
 
 var {
   m4_remove_description_column_from_lists,
 } = require("./migrations/m4_remove_description_column_from_lists");
+
+var {
+  m5_add_order_index_column_for_tasks,
+} = require("./migrations/m5_add_order_index_column_for_tasks");
 
 /**
  * @typedef {(client: import("pg").Client) => Promise<QueryResult<any>>} MigrationFn
@@ -26,8 +30,9 @@ var {
 var migrations = [
   m1_remove_is_archived_column_from_tasks,
   m2_remove_is_archived_column_from_lists,
-  m3_add_order_column_for_lists,
+  m3_add_order_index_column_for_lists,
   m4_remove_description_column_from_lists,
+  m5_add_order_index_column_for_tasks,
 ];
 
 /**

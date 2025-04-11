@@ -10,7 +10,6 @@ import {
 import { authSchema } from "~/core/gateway/schemas";
 import { try_ } from "~/core/gateway/utilities";
 import { List } from "~/core/entity/models/list";
-import { Task as TaskModel } from "~/core/entity/models/task";
 import { Id } from "~/core/entity/types";
 import { getListsProcess } from "~/core/domain/processes/lists/get-lists.process";
 
@@ -21,16 +20,7 @@ var dtoSchema = {
     }),
   ),
   response: Result.schema(
-    t
-      .array()
-      .of(
-        List.schema.concat(
-          t.object({
-            tasks: t.array().of(TaskModel.schema).required(),
-          }),
-        ),
-      )
-      .required(),
+    t.array().of(List.schema).required(),
   ).required(),
 };
 

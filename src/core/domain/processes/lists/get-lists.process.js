@@ -1,8 +1,7 @@
-import { cond, Either as E, head, Task } from "jello-fp";
-import { MESSAGES } from "jello-messages";
+import { Either as E, head, Task } from "jello-fp";
 import { Result } from "~/core/domain/result";
-import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
 import { listsRepo } from "~/core/infrastructure/repositories/lists.repository";
+import { $checkBoardExistance } from "../../utilities";
 
 /**
  * @param {{
@@ -11,18 +10,7 @@ import { listsRepo } from "~/core/infrastructure/repositories/lists.repository";
  * }} dto
  */
 export async function getListsProcess(dto) {
-  var noBoard = () =>
-    E.left(
-      Result.of({
-        message: MESSAGES.boardNotFound,
-      }),
-    );
-
-  var $checkExistance = Task.of(
-    boardsRepo.userHasBoard.bind(boardsRepo),
-  ).map(E.chain(cond(noBoard, [Boolean, E.right])));
-
-  var $task = Task.all(Task.of(E.asyncRight), $checkExistance)
+  var $task = Task.all(Task.of(E.asyncRight), $checkBoardExistance())
     .map(E.all(head))
     .map(E.chain(listsRepo.getAll.bind(listsRepo)))
     .map(Result.fromEither)

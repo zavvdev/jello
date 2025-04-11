@@ -39,11 +39,11 @@ export class ListsRepo {
 
   /**
    * @param {{
-   *  name: string;
    *  board_id: number;
+   *  name: string;
    * }} param0
    */
-  async create({ name, board_id }) {
+  async create({ board_id, name }) {
     try {
       await this.#client.query(
         `INSERT INTO lists (name, board_id)

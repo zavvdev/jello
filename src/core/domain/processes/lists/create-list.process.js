@@ -1,6 +1,6 @@
 import { Either as E, head, Task } from "jello-fp";
 import { User } from "~/core/entity/models/user";
-import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
+import { listsRepo } from "~/core/infrastructure/repositories/lists.repository";
 import {
   $checkAuthority,
   $checkBoardExistance,
@@ -10,16 +10,17 @@ import {
  * @param {{
  *  user_id: number;
  *  board_id: number;
+ *  name: string;
  * }} dto
  */
-export async function archiveBoardProcess(dto) {
+export async function createListProcess(dto) {
   var $task = Task.all(
     Task.of(E.asyncRight),
     $checkBoardExistance(),
-    $checkAuthority(User.canArchiveBoard),
+    $checkAuthority(User.canCreateList),
   )
     .map(E.all(head))
-    .map(E.chain(boardsRepo.archive.bind(boardsRepo)))
+    .map(E.chain(listsRepo.create.bind(listsRepo)))
     .join();
 
   return await $task(dto);

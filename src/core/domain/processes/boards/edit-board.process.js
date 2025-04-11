@@ -1,10 +1,12 @@
 import { cond, Either as E, hasLength, head, Task } from "jello-fp";
-import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
 import { BoardsRepo } from "~/core/infrastructure/repositories/boards.repository";
 import { LabelsRepo } from "~/core/infrastructure/repositories/labels.repository";
-import { Result } from "~/core/domain/result";
 import { User, UserRole } from "~/core/entity/models/user";
+import {
+  $checkAuthority,
+  $checkBoardExistance,
+} from "~/core/domain/utilities";
 
 /**
  * @param {{
@@ -130,17 +132,10 @@ export async function editBoardProcess(dto) {
       }),
     );
 
-    var $checkAuthority = () => {
-      var unauthorized = () =>
-        E.left(Result.of({ message: MESSAGES.unauthorizedAction }));
-      return Task.of(boardsRepo.getUserRole.bind(boardsRepo)).map(
-        E.chain(cond(unauthorized, [User.canEditBoard, E.right])),
-      );
-    };
-
     var $task = Task.all(
       Task.of(E.asyncRight),
-      $checkAuthority(),
+      $checkBoardExistance(boardsRepo),
+      $checkAuthority(User.canEditBoard, boardsRepo),
       $editBoard,
     )
       .map(E.all(head))

@@ -39,7 +39,8 @@ export var User = {
   of: castModel(schema)("User"),
   canDeleteBoard: (role) => role === ROLES[0],
   canEditBoard: (role) => [ROLES[0], ROLES[1]].includes(role),
-  canArchiveBoard: (role) => [ROLES[0]].includes(role),
+  canArchiveBoard: (role) => role === ROLES[0],
+  canCreateList: (role) => [ROLES[0], ROLES[1]].includes(role),
 };
 
 export var UserRole = {

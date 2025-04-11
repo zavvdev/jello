@@ -49,6 +49,7 @@ export var API_ROUTES = {
   lists: {
     getAll: (boardId) => makeApiUrl(`/lists?board_id=${boardId}`),
     create: () => makeApiUrl("/lists"),
+    reorder: () => makeApiUrl("/lists/order"),
   },
 };
 

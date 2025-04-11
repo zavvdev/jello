@@ -5,6 +5,7 @@ import { API_ROUTES } from "~/app/api/config";
 import { I18nProvider } from "~/app/i18n/provider";
 import { Alert } from "~/app/components/atoms/error";
 import { FormInfo } from "./_components/atoms/form-info";
+import { FormPassword } from "./_components/atoms/form-password";
 
 var I18N_NAMESPACES = [NAMESPACES.profile];
 
@@ -36,6 +37,7 @@ export default async function Profile({ params }) {
               bio: profile.bio,
             }}
           />
+          <FormPassword />
         </>
       )}
     </I18nProvider>

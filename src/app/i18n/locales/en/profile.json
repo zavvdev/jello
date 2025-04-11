@@ -37,5 +37,15 @@
         "required": "Email is required"
       }
     }
+  },
+  "change_password": {
+    "title": "Change password",
+    "old": "Old password",
+    "new": "New password",
+    "error": {
+      "invalid_credentials": "Invalid credentials",
+      "fallback": "Unable to change password. Try again later"
+    },
+    "submit": "Change password"
   }
 }

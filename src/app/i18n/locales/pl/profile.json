@@ -37,5 +37,15 @@
         "required": "Adres e-mail jest wymagany"
       }
     }
+  },
+  "change_password": {
+    "title": "Zmień hasło",
+    "old": "Stare hasło",
+    "new": "Nowe hasło",
+    "error": {
+      "invalid_credentials": "Nieprawidłowe dane logowania. Sprawdź hasło i spróbuj ponownie",
+      "fallback": "Nie udało się zmienić hasła. Spróbuj ponownie później"
+    },
+    "submit": "Zmień hasło"
   }
 }

@@ -20,3 +20,8 @@ export var Color = t
   .string()
   .matches(/^#[0-9a-fA-F]{6}$/, T.invalid)
   .typeError(T.typeString);
+
+export var OrderIndex = t
+  .number()
+  .required(T.required)
+  .typeError(T.typeNumber);

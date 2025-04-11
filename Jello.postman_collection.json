@@ -58,7 +58,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"usernameOrEmail\": \"jmor3\",\n    \"password\": \"11111111\"\n}",
+              "raw": "{\n    \"usernameOrEmail\": \"jdoe\",\n    \"password\": \"11111111\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -474,6 +474,70 @@
                   "value": "26"
                 }
               ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lists",
+      "item": [
+        {
+          "name": "All",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/lists?board_id=50",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "lists"],
+              "query": [
+                {
+                  "key": "board_id",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"board_id\": 50,\n    \"name\": \"Testing\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/lists",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "lists"]
             }
           },
           "response": []

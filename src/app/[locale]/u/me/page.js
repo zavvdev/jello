@@ -3,6 +3,7 @@ import { NAMESPACES } from "~/app/i18n/config";
 import { query } from "~/app/utilities/query";
 import { API_ROUTES } from "~/app/api/config";
 import { I18nProvider } from "~/app/i18n/provider";
+import { LangChanger } from "~/app/components/atoms/lang-changer";
 import { Alert } from "~/app/components/atoms/error";
 import { FormInfo } from "./_components/atoms/form-info";
 import { FormPassword } from "./_components/atoms/form-password";
@@ -38,10 +39,13 @@ export default async function Profile({ params }) {
               bio: profile.bio,
             }}
           />
+          <hr />
           <FormPassword />
           <br />
+          <hr />
           <br />
           <DeleteProfile />
+          <LangChanger />
         </>
       )}
     </I18nProvider>

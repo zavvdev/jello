@@ -1,16 +1,20 @@
 var db = require("./index");
 
 var {
-  m1_remove_is_archived_column_for_tasks,
-} = require("./migrations/m1_remove_is_archived_column_for_tasks");
+  m1_remove_is_archived_column_from_tasks,
+} = require("./migrations/m1_remove_is_archived_column_from_tasks");
 
 var {
-  m2_remove_is_archived_column_for_lists,
-} = require("./migrations/m2_remove_is_archived_column_for_lists");
+  m2_remove_is_archived_column_from_lists,
+} = require("./migrations/m2_remove_is_archived_column_from_lists");
 
 var {
   m3_add_order_column_for_lists,
 } = require("./migrations/m3_add_order_column_for_lists");
+
+var {
+  m4_remove_description_column_from_lists,
+} = require("./migrations/m4_remove_description_column_from_lists");
 
 /**
  * @typedef {(client: import("pg").Client) => Promise<QueryResult<any>>} MigrationFn
@@ -20,9 +24,10 @@ var {
  * @type {MigrationFn[]}
  */
 var migrations = [
-  m1_remove_is_archived_column_for_tasks,
-  m2_remove_is_archived_column_for_lists,
+  m1_remove_is_archived_column_from_tasks,
+  m2_remove_is_archived_column_from_lists,
   m3_add_order_column_for_lists,
+  m4_remove_description_column_from_lists,
 ];
 
 /**

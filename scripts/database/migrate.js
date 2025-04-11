@@ -8,6 +8,10 @@ var {
   m2_remove_is_archived_column_for_lists,
 } = require("./migrations/m2_remove_is_archived_column_for_lists");
 
+var {
+  m3_add_order_column_for_lists,
+} = require("./migrations/m3_add_order_column_for_lists");
+
 /**
  * @typedef {(client: import("pg").Client) => Promise<QueryResult<any>>} MigrationFn
  */
@@ -18,6 +22,7 @@ var {
 var migrations = [
   m1_remove_is_archived_column_for_tasks,
   m2_remove_is_archived_column_for_lists,
+  m3_add_order_column_for_lists,
 ];
 
 /**

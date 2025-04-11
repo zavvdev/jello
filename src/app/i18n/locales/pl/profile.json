@@ -1,0 +1,58 @@
+{
+  "title": "Profil",
+  "error": {
+    "fetch": "Nie udało się pobrać profilu użytkownika. Spróbuj ponownie później."
+  },
+  "info": {
+    "submit": "Zapisz zmiany",
+    "success": "Profil został zaktualizowany",
+    "first_name": "Imię",
+    "last_name": "Nazwisko",
+    "username": "Nazwa użytkownika",
+    "email": "Email",
+    "bio": "Opis",
+    "error": {
+      "validation_error": "Nieprawidłowe dane. Sprawdź formularz i spróbuj ponownie",
+      "username_exists": "Nazwa użytkownika już istnieje. Wybierz inną nazwę użytkownika",
+      "email_exists": "Adres e-mail już istnieje. Wybierz inny adres e-mail",
+      "fallback": "Nie udało się zaktualizować profilu. Sprawdź formularz i spróbuj ponownie"
+    },
+    "validation_error": {
+      "first_name": {
+        "max_length": "Imię jest za długie. Maksymalna długość to 32 znaki",
+        "required": "Imię jest wymagane"
+      },
+      "last_name": {
+        "max_length": "Nazwisko jest za długie. Maksymalna długość to 32 znaki",
+        "required": "Nazwisko jest wymagane"
+      },
+      "username": {
+        "max_length": "Nazwa użytkownika jest za długa. Maksymalna długość to 16 znaków",
+        "min_length": "Nazwa użytkownika jest za krótka. Minimalna długość to 2 znaki",
+        "invalid": "Nazwa użytkownika może zawierać tylko litery, cyfry i znaki podkreślenia",
+        "required": "Nazwa użytkownika jest wymagana"
+      },
+      "email": {
+        "invalid": "Nieprawidłowy adres e-mail",
+        "required": "Adres e-mail jest wymagany"
+      }
+    }
+  },
+  "change_password": {
+    "title": "Zmień hasło",
+    "old": "Stare hasło",
+    "new": "Nowe hasło",
+    "error": {
+      "invalid_credentials": "Nieprawidłowe dane logowania. Sprawdź hasło i spróbuj ponownie",
+      "fallback": "Nie udało się zmienić hasła. Spróbuj ponownie później"
+    },
+    "submit": "Zmień hasło"
+  },
+  "delete": {
+    "button": "Usuń profil",
+    "confirm": "Czy na pewno chcesz usunąć swój profil? Ta operacja jest nieodwracalna.",
+    "error": {
+      "fallback": "Nie udało się usunąć profilu. Spróbuj ponownie później"
+    }
+  }
+}

@@ -1,4 +1,3 @@
-import { Either as E, head, Task } from "jello-fp";
 import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
 
 /**
@@ -11,22 +10,5 @@ import { usersRepo } from "~/core/infrastructure/repositories/users.repository";
  * }} dto
  */
 export async function registerProcess(dto) {
-  var $checkUsername = Task.of(
-    usersRepo.isUsernameAvailable.bind(usersRepo),
-  );
-
-  var $checkEmail = Task.of(
-    usersRepo.isEmailAvailable.bind(usersRepo),
-  );
-
-  var $task = Task.all(
-    Task.of(E.asyncRight),
-    $checkUsername,
-    $checkEmail,
-  )
-    .map(E.all(head))
-    .map(E.chain(usersRepo.create.bind(usersRepo)))
-    .join();
-
-  return await $task(dto);
+  return await usersRepo.create(dto);
 }

@@ -1,0 +1,58 @@
+{
+  "title": "Profile",
+  "error": {
+    "fetch": "Unable to fetch profile data. Try again later"
+  },
+  "info": {
+    "submit": "Save",
+    "success": "Profile updated successfully",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "username": "Username",
+    "email": "Email",
+    "bio": "Bio",
+    "error": {
+      "validation_error": "Please check the form for errors",
+      "username_exists": "Username already exists",
+      "email_exists": "Email already exists",
+      "fallback": "Unable to update profile. Try again later"
+    },
+    "validation_error": {
+      "first_name": {
+        "max_length": "First name is too long. Maximum length is 32 characters",
+        "required": "First name is required"
+      },
+      "last_name": {
+        "max_length": "Last name is too long. Maximum length is 32 characters",
+        "required": "Last name is required"
+      },
+      "username": {
+        "max_length": "Username is too long. Maximum length is 16 characters",
+        "min_length": "Username is too short. Minimum length is 2 characters",
+        "invalid": "Username can only contain letters, numbers and underscores",
+        "required": "Username is required"
+      },
+      "email": {
+        "invalid": "Email is invalid",
+        "required": "Email is required"
+      }
+    }
+  },
+  "change_password": {
+    "title": "Change password",
+    "old": "Old password",
+    "new": "New password",
+    "error": {
+      "invalid_credentials": "Invalid credentials",
+      "fallback": "Unable to change password. Try again later"
+    },
+    "submit": "Change password"
+  },
+  "delete": {
+    "button": "Delete profile",
+    "confirm": "Are you sure you want to delete your profile? This action cannot be undone.",
+    "error": {
+      "fallback": "Unable to delete profile. Try again later"
+    }
+  }
+}

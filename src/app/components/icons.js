@@ -14,4 +14,5 @@ export var Icons = {
   Plus: lucideIcons.Plus,
   Save: lucideIcons.Save,
   CircleX: lucideIcons.CircleX,
+  User: lucideIcons.User,
 };

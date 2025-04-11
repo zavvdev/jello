@@ -25,6 +25,7 @@ export var PRIVATE_ROUTES = {
   board: (id) => prvt(`/boards/${id}`),
   editBoard: (id) => prvt(`/boards/${id}/edit`),
   createBoard: () => prvt(`/boards/create`),
+  profile: () => prvt(`/me`),
 };
 
 // Logout

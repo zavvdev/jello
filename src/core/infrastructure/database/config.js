@@ -1,3 +1,5 @@
+import { MESSAGES } from "jello-messages";
+
 export var CONNECTION = {
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
@@ -9,4 +11,11 @@ export var CONNECTION = {
 export var SORT_ORDER = {
   asc: "ASC",
   desc: "DESC",
+};
+
+export var MESSAGE_BY_CONSTRAINT = {
+  users: {
+    users_username_key: MESSAGES.usernameExists,
+    users_email_key: MESSAGES.emailExists,
+  },
 };

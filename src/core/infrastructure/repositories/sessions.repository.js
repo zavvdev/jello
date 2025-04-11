@@ -140,6 +140,24 @@ export class SessionsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  user_id: number;
+   * }} param0
+   */
+  async getActiveSessions({ user_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT token FROM sessions
+        WHERE user_id = $1 AND expires_at > NOW()`,
+        [user_id],
+      );
+      return E.right(result.rows);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var sessionsRepo = new SessionsRepo({

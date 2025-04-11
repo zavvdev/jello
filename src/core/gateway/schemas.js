@@ -11,3 +11,9 @@ export var authSchema = t.object({
 export var sortOrderSchema = t
   .string()
   .oneOf(["asc", "desc"], T.invalid);
+
+export var passwordSchema = t
+  .string()
+  .min(8, T.minLength)
+  .required(T.required)
+  .typeError(T.typeString);

@@ -4,6 +4,13 @@ import queryString from "query-string";
 var makeApiUrl = (route) => `${process.env.APP_URL}/api${route}`;
 
 export var API_ROUTES = {
+  me: {
+    get: () => makeApiUrl("/me"),
+    update: () => makeApiUrl("/me"),
+    updatePassword: () => makeApiUrl("/me/password"),
+    delete: () => makeApiUrl("/me"),
+  },
+
   auth: {
     login: () => makeApiUrl("/auth/login"),
     register: () => makeApiUrl("/auth/register"),

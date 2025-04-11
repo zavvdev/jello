@@ -1,7 +1,7 @@
 import * as t from "yup";
 import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { castModel } from "~/core/entity/validation";
-import { Color, Id, Timestamp } from "~/core/entity/types";
+import { Id, OrderIndex, Timestamp } from "~/core/entity/types";
 
 var schema = t.object({
   id: Id,
@@ -11,13 +11,13 @@ var schema = t.object({
     .max(16, T.maxLength)
     .required(T.required)
     .typeError(T.typeString),
-  color: Color.required(T.required),
   board_id: Id,
+  order_index: OrderIndex,
   created_at: Timestamp,
   updated_at: Timestamp,
 });
 
-export var Label = {
+export var List = {
   schema,
-  of: castModel(schema)("Label"),
+  of: castModel(schema)("List"),
 };

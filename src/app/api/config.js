@@ -45,6 +45,10 @@ export var API_ROUTES = {
   labels: {
     getAll: (boardId) => makeApiUrl(`/labels?board_id=${boardId}`),
   },
+
+  lists: {
+    getAll: (boardId) => makeApiUrl(`/lists?board_id=${boardId}`),
+  },
 };
 
 /**

@@ -2,8 +2,8 @@ import { User } from "~/core/entity/models/user";
 import { query } from "~/app/utilities/query";
 import { API_ROUTES } from "~/app/api/config";
 import { Alert } from "~/app/components/atoms/error";
-import { Board } from "../../atoms/board";
 import { Section } from "../../atoms/section";
+import { Board } from "../../molecules/board";
 
 export async function Starred({ t }) {
   var starred = await query(API_ROUTES.boards.getStarred());

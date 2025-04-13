@@ -18,6 +18,7 @@ export async function toggleStarredBoard(_, { boardId, starred }) {
   }
 
   revalidatePath(PRIVATE_ROUTES.boards());
+  revalidatePath(PRIVATE_ROUTES.board(boardId));
 }
 
 export async function deleteBoard(_, { boardId, redirectToBoards }) {

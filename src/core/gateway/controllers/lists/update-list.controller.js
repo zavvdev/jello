@@ -1,33 +1,30 @@
-import * as t from "yup";
 import { applyMiddlewares } from "jello-utils";
-import { deleteBoardProcess } from "~/core/domain/processes/boards/delete-board.process";
 import {
   withAuth,
   withRequestValidation,
 } from "~/core/gateway/middleware";
 import { authSchema } from "~/core/gateway/schemas";
 import { try_ } from "~/core/gateway/utilities";
-import { Id } from "~/core/entity/types";
+import { List } from "~/core/entity/models/list";
+import { updateListProcess } from "~/core/domain/processes/lists/update-list.process";
 
 var dtoSchema = {
   request: authSchema.concat(
-    t
-      .object({
-        board_id: Id,
-      })
-      .required(),
+    List.schema.pick(["id", "board_id", "name"]),
   ),
 };
 
-export async function deleteBoardController(dto) {
+export async function updateListController(dto) {
   return try_(
     applyMiddlewares(dto)(
       withAuth,
       withRequestValidation(dtoSchema.request),
     )(async (user, request) => {
-      return await deleteBoardProcess({
+      return await updateListProcess({
         user_id: user.id,
         board_id: request.board_id,
+        id: request.id,
+        name: request.name,
       });
     }),
   );

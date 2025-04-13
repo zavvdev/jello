@@ -121,3 +121,38 @@ export async function toggleArchiveBoard(_, { boardId, isArchived }) {
   revalidatePath(PRIVATE_ROUTES.boards());
   redirect(PRIVATE_ROUTES.boards());
 }
+
+export async function mutateList(_, formData) {
+  var boardId = formData.get("boardId");
+  var id = formData.get("id");
+  var name = formData.get("name");
+
+  try {
+    if (id) {
+      await query(API_ROUTES.lists.update(id), "PATCH", {
+        board_id: Number(boardId),
+        name,
+      });
+    } else {
+      await query(API_ROUTES.lists.create(), "POST", {
+        board_id: Number(boardId),
+        name,
+      });
+    }
+    revalidatePath(PRIVATE_ROUTES.board(boardId));
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function deleteList(_, { boardId, id }) {
+  await query(API_ROUTES.lists.delete(id, boardId), "DELETE");
+  revalidatePath(PRIVATE_ROUTES.board(boardId));
+}

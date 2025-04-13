@@ -1,4 +1,24 @@
 {
   "add_task": "Dodaj nowe zadanie",
-  "add_list": "Dodaj nową listę"
+  "add_list": "Dodaj nową listę",
+  "mutate_list": {
+    "add": "Dodaj nową listę",
+    "edit": "Edytuj listę",
+    "save": "Zapisz zmiany",
+    "create": "Utwórz",
+    "name": "Nazwa listy",
+    "error": {
+      "fallback": "Błąd. Spróbuj ponownie później.",
+      "validation_error": "Nie validne dane. Sprawdź formularz i spróbuj ponownie."
+    },
+    "validation_error": {
+      "name": {
+        "min_length": "Nazwa musi mieć co najmniej 1 znak.",
+        "max_length": "Nazwa musi mieć maksymalnie 16 znaków."
+      }
+    }
+  },
+  "confirm": {
+    "delete_list": "Czy na pewno chcesz usunąć tę listę? To spowoduje usunięcie wszystkich zadań w tej liście."
+  }
 }

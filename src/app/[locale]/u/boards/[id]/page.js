@@ -30,14 +30,14 @@ export default async function Board({ params }) {
     >
       <div className={styles.root}>
         <Header
-          id={board.id}
+          boardId={board.id}
           name={board.name}
           description={board.description}
           color={board.color}
           isFavourite={board.is_favorite}
           canEdit={User.canEditBoard(board.role)}
         />
-        <Lists data={lists} />
+        <Lists boardId={board.id} role={board.role} data={lists} />
       </div>
     </I18nProvider>
   );

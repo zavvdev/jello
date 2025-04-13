@@ -42,6 +42,7 @@ export var User = {
   canArchiveBoard: (role) => role === ROLES[0],
   canCreateList: (role) => [ROLES[0], ROLES[1]].includes(role),
   canEditList: (role) => [ROLES[0], ROLES[1]].includes(role),
+  canDeleteList: (role) => [ROLES[0], ROLES[1]].includes(role),
 };
 
 export var UserRole = {

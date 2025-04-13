@@ -50,6 +50,9 @@ export var API_ROUTES = {
     getAll: (boardId) => makeApiUrl(`/lists?board_id=${boardId}`),
     create: () => makeApiUrl("/lists"),
     reorder: () => makeApiUrl("/lists/order"),
+    update: (id) => makeApiUrl(`/lists/${id}`),
+    delete: (id, boardId) =>
+      makeApiUrl(`/lists/${id}?board_id=${boardId}`),
   },
 };
 

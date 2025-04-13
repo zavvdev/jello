@@ -5,7 +5,7 @@ import { Icons } from "~/app/components/icons";
 import styles from "./styles.module.css";
 
 export function Header({
-  id,
+  boardId,
   name,
   description,
   color,
@@ -17,11 +17,11 @@ export function Header({
       <div className={styles.inner}>
         <div className={styles.color} style={{ background: color }} />
         <h2>{name}</h2>
-        <StarButton boardId={id} starred={isFavourite} />
+        <StarButton boardId={boardId} starred={isFavourite} />
         {canEdit && (
           <Link
             className={styles.edit}
-            href={PRIVATE_ROUTES.editBoard(id)}
+            href={PRIVATE_ROUTES.editBoard(boardId)}
           >
             <Icons.Pencil width="1rem" />
           </Link>

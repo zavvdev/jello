@@ -40,15 +40,37 @@ export class ListsRepo {
   /**
    * @param {{
    *  board_id: number;
-   *  name: string;
    * }} param0
    */
-  async create({ board_id, name }) {
+  async getGreatestOrderIndex({ board_id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT order_index FROM lists
+        WHERE board_id = $1
+        ORDER BY order_index DESC
+        LIMIT 1`,
+        [board_id],
+      );
+      var index = result.rows[0]?.order_index || 0;
+      return E.right({ order_index: index });
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  board_id: number;
+   *  name: string;
+   *  order_index?: number;
+   * }} param0
+   */
+  async create({ board_id, name, order_index }) {
     try {
       await this.#client.query(
-        `INSERT INTO lists (name, board_id)
-        VALUES ($1, $2)`,
-        [name, board_id],
+        `INSERT INTO lists (name, board_id, order_index)
+        VALUES ($1, $2, $3)`,
+        [name, board_id, order_index ?? 0],
       );
       return E.right();
     } catch {

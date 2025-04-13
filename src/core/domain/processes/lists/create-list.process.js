@@ -1,4 +1,4 @@
-import { Either as E, head, Task } from "jello-fp";
+import { Either as E, log, Task } from "jello-fp";
 import { User } from "~/core/entity/models/user";
 import { listsRepo } from "~/core/infrastructure/repositories/lists.repository";
 import {
@@ -14,12 +14,20 @@ import {
  * }} dto
  */
 export async function createListProcess(dto) {
+  var updateOrderIndex = ([dto, { order_index }]) =>
+    E.right({
+      ...dto,
+      order_index: order_index + 1,
+    });
+
   var $task = Task.all(
     Task.of(E.asyncRight),
+    Task.of(listsRepo.getGreatestOrderIndex.bind(listsRepo)),
     $checkBoardExistance(),
     $checkAuthority(User.canCreateList),
   )
-    .map(E.all(head))
+    .map(E.joinAll(updateOrderIndex))
+    .map(log())
     .map(E.chain(listsRepo.create.bind(listsRepo)))
     .join();
 

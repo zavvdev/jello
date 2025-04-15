@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Icons } from "~/app/components/icons";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import styles from "./styles.module.css";
-import { StarButton } from "./_components/atoms/star-button";
 import { DeleteButton } from "./_components/atoms/delete-button";
+import { StarButton } from "../../atoms/star-button";
 
 export function Board({
   t,

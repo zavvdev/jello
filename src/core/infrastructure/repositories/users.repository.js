@@ -175,12 +175,12 @@ export class UsersRepo {
   /**
    * @param {{
    *  user_id: number;
-   *  password: string;
+   *  new_password: string;
    * }} param0
    */
-  async updatePassword({ user_id, password }) {
+  async updatePassword({ user_id, new_password }) {
     try {
-      var hashedPassword = await encryptionService.hash(password);
+      var hashedPassword = await encryptionService.hash(new_password);
 
       await this.#client.query(
         `UPDATE users SET

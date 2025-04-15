@@ -1,6 +1,5 @@
 import * as t from "yup";
 import { applyMiddlewares } from "jello-utils";
-import { VALIDATION_MESSAGES as T } from "jello-messages";
 import { deleteBoardProcess } from "~/core/domain/processes/boards/delete-board.process";
 import {
   withAuth,
@@ -8,15 +7,13 @@ import {
 } from "~/core/gateway/middleware";
 import { authSchema } from "~/core/gateway/schemas";
 import { try_ } from "~/core/gateway/utilities";
+import { Id } from "~/core/entity/types";
 
 var dtoSchema = {
   request: authSchema.concat(
     t
       .object({
-        board_id: t
-          .number()
-          .required(T.required)
-          .typeError(T.typeNumber),
+        board_id: Id,
       })
       .required(),
   ),

@@ -1,8 +1,10 @@
-import { cond, Either as E, head, Task } from "jello-fp";
-import { MESSAGES } from "jello-messages";
-import { Result } from "~/core/domain/result";
+import { Either as E, head, Task } from "jello-fp";
 import { User } from "~/core/entity/models/user";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
+import {
+  $checkAuthority,
+  $checkBoardExistance,
+} from "~/core/domain/utilities";
 
 /**
  * @param {{
@@ -11,20 +13,12 @@ import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository
  * }} dto
  */
 export async function deleteBoardProcess(dto) {
-  var unauthorized = () =>
-    E.left(Result.of({ message: MESSAGES.unauthorizedAction }));
-
-  var transformDto = (dto) => ({
-    board_id: dto.board_id,
-  });
-
-  var $checkAuthority = Task.of(
-    boardsRepo.getUserRole.bind(boardsRepo),
-  ).map(E.chain(cond(unauthorized, [User.canDeleteBoard, E.right])));
-
-  var $task = Task.all(Task.of(E.asyncRight), $checkAuthority)
+  var $task = Task.all(
+    Task.of(E.asyncRight),
+    $checkBoardExistance(),
+    $checkAuthority(User.canDeleteBoard),
+  )
     .map(E.all(head))
-    .map(E.map(transformDto))
     .map(E.chain(boardsRepo.destroy.bind(boardsRepo)))
     .join();
 

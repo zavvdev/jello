@@ -3,9 +3,9 @@ import { getI18nFromParams } from "~/app/i18n";
 import { NAMESPACES } from "~/app/i18n/config";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import { Icons } from "~/app/components/icons";
-import { Starred } from "./_components/molecules/starred";
+import { Starred } from "./_components/organisms/starred";
 import styles from "./page.module.css";
-import { All } from "./_components/molecules/all";
+import { All } from "./_components/organisms/all";
 
 export default async function Boards({ params, searchParams }) {
   var { t } = await getI18nFromParams(params)([NAMESPACES.boards]);

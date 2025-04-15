@@ -14,7 +14,7 @@ export async function deleteUserProcess(dto) {
     var boardsRepo = new BoardsRepo(client);
 
     var $deleteBoard = (board) =>
-      Task.of(() => boardsRepo.delete(board));
+      Task.of(() => boardsRepo.destroy({ board_id: board.id }));
 
     var deleteOwnedBoards = (merged) => {
       return Task.all(

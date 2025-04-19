@@ -15,4 +15,5 @@ export var NAMESPACES = {
   createBoard: "create-board",
   editBoard: "edit-board",
   profile: "profile",
+  board: "board",
 };

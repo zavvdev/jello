@@ -1,0 +1,5 @@
+.root:hover svg {
+  color: red !important;
+  border: none;
+  background: transparent;
+}

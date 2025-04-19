@@ -26,11 +26,6 @@ export async function updatePasswordProcess(dto) {
         .map(E.all(head))
         .run();
 
-    var updatePasswordDto = (dto) => ({
-      user_id: dto.user_id,
-      password: dto.new_password,
-    });
-
     var $checkCredentials = Task.of((dto) =>
       usersRepo.getByCredentials({
         usernameOrEmail: dto.username,
@@ -40,7 +35,6 @@ export async function updatePasswordProcess(dto) {
 
     var $task = Task.all(Task.of(E.asyncRight), $checkCredentials)
       .map(E.all(head))
-      .map(E.map(updatePasswordDto))
       .map(E.chain(usersRepo.updatePassword.bind(usersRepo)))
       .map(E.chain(sessionsRepo.getActiveSessions.bind(sessionsRepo)))
       .map(E.chain(revokeAll))

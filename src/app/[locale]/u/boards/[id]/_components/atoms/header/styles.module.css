@@ -1,0 +1,26 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1rem;
+}
+
+.inner {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.color {
+  width: 20px;
+  height: 20px;
+}
+
+.edit {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #5b5b5b;
+}

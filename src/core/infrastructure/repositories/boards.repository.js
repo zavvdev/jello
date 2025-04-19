@@ -23,10 +23,10 @@ export class BoardsRepo {
     try {
       var result = await this.#client.query(
         `SELECT l.*, r2.role, TRUE AS is_favorite FROM boards l
-       INNER JOIN users_starred_boards r ON l.id = r.board_id
-       INNER JOIN users_boards_roles r2 ON l.id = r2.board_id
-       WHERE r.user_id = $1 AND r2.user_id = $1
-       ORDER BY l.updated_at DESC`,
+        INNER JOIN users_starred_boards r ON l.id = r.board_id
+        INNER JOIN users_boards_roles r2 ON l.id = r2.board_id
+        WHERE r.user_id = $1 AND r2.user_id = $1
+        ORDER BY l.updated_at DESC`,
         [user_id],
       );
 
@@ -350,14 +350,14 @@ export class BoardsRepo {
 
   /**
    * @param {{
-   *  id: number;
+   *  board_id: number;
    * }} param0
    */
-  async archive({ id }) {
+  async archive({ board_id }) {
     try {
       await this.#client.query(
         `UPDATE boards SET is_archived = TRUE WHERE id = $1`,
-        [id],
+        [board_id],
       );
       return E.right();
     } catch {
@@ -367,14 +367,14 @@ export class BoardsRepo {
 
   /**
    * @param {{
-   *  id: number;
+   *  board_id: number;
    * }} param0
    */
-  async activate({ id }) {
+  async activate({ board_id }) {
     try {
       await this.#client.query(
         `UPDATE boards SET is_archived = FALSE WHERE id = $1`,
-        [id],
+        [board_id],
       );
       return E.right();
     } catch {
@@ -396,22 +396,6 @@ export class BoardsRepo {
         [user_id],
       );
       return E.right(result.rows);
-    } catch {
-      return E.left();
-    }
-  }
-
-  /**
-   * @param {{
-   *  id: number;
-   * }} param0
-   */
-  async delete({ id }) {
-    try {
-      await this.#client.query(`DELETE FROM boards WHERE id = $1`, [
-        id,
-      ]);
-      return E.right();
     } catch {
       return E.left();
     }

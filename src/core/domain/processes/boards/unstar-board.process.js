@@ -2,6 +2,7 @@ import { cond, Either as E, head, Task } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { Result } from "~/core/domain/result";
 import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository";
+import { $checkBoardExistance } from "~/core/domain/utilities";
 
 /**
  * @param {{
@@ -10,13 +11,6 @@ import { boardsRepo } from "~/core/infrastructure/repositories/boards.repository
  * }} dto
  */
 export async function unstarBoardProcess(dto) {
-  var noBoard = () =>
-    E.left(
-      Result.of({
-        message: MESSAGES.boardNotFound,
-      }),
-    );
-
   var alreadyUnstarred = () =>
     E.left(
       Result.of({
@@ -24,17 +18,13 @@ export async function unstarBoardProcess(dto) {
       }),
     );
 
-  var $checkExistance = Task.of(
-    boardsRepo.userHasBoard.bind(boardsRepo),
-  ).map(E.chain(cond(noBoard, [Boolean, E.right])));
-
   var $checkIfAlreadyUnstarred = Task.of(
     boardsRepo.getStarredBoardsCount.bind(boardsRepo),
   ).map(E.chain(cond(alreadyUnstarred, [Boolean, E.right])));
 
   var $task = Task.all(
     Task.of(E.asyncRight),
-    $checkExistance,
+    $checkBoardExistance(),
     $checkIfAlreadyUnstarred,
   )
     .map(E.all(head))

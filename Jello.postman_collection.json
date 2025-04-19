@@ -498,13 +498,13 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/lists?board_id=50",
+              "raw": "{{API_URL}}/api/lists?board_id=21",
               "host": ["{{API_URL}}"],
               "path": ["api", "lists"],
               "query": [
                 {
                   "key": "board_id",
-                  "value": "50"
+                  "value": "21"
                 }
               ]
             }
@@ -538,6 +538,68 @@
               "raw": "{{API_URL}}/api/lists",
               "host": ["{{API_URL}}"],
               "path": ["api", "lists"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Order",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"board_id\": 21,\n    \"lists_order\": [13, 14, 16]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/lists/order",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "lists", "order"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"todo222\",\n    \"board_id\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/lists/2",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "lists", "2"]
             }
           },
           "response": []

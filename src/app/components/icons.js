@@ -16,4 +16,5 @@ export var Icons = {
   CircleX: lucideIcons.CircleX,
   User: lucideIcons.User,
   X: lucideIcons.X,
+  GripVertical: lucideIcons.GripVertical,
 };

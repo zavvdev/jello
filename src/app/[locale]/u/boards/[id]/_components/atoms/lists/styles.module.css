@@ -12,6 +12,12 @@
   display: none;
 }
 
+.listWrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -22,6 +28,8 @@
   border: 1px solid #ccc;
   justify-content: space-between;
   max-height: 660px;
+  background: #fff;
+  height: 100%;
 }
 
 .listHeader {

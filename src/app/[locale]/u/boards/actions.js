@@ -156,3 +156,10 @@ export async function deleteList(_, { boardId, id }) {
   await query(API_ROUTES.lists.delete(id, boardId), "DELETE");
   revalidatePath(PRIVATE_ROUTES.board(boardId));
 }
+
+export async function reorderList({ boardId, listIds }) {
+  await query(API_ROUTES.lists.reorder(), "PUT", {
+    board_id: boardId,
+    lists_order: listIds.map(Number),
+  });
+}

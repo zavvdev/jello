@@ -6,10 +6,13 @@ import {
   prop,
   Task,
 } from "jello-fp";
+import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
 import { Result } from "~/core/domain/result";
 import { TasksRepo } from "~/core/infrastructure/repositories/tasks.repository";
-import { $checkBoardExistance } from "../../utilities";
+import { BoardsRepo } from "~/core/infrastructure/repositories/boards.repository";
+import { $checkBoardExistance } from "~/core/domain/utilities";
+import { LabelsRepo } from "~/core/infrastructure/repositories/labels.repository";
 
 /**
  * @param {{
@@ -25,6 +28,8 @@ import { $checkBoardExistance } from "../../utilities";
 export async function createTaskProcess(dto) {
   return db.transaction(async (client) => {
     var tasksRepo = new TasksRepo(client);
+    var boardsRepo = new BoardsRepo(client);
+    var labelsRepo = new LabelsRepo(client);
 
     var assignUsers = async (mergedData) => {
       var { assigned_users } = mergedData;
@@ -68,9 +73,49 @@ export async function createTaskProcess(dto) {
         .run(mergedData);
     };
 
+    var $checkBoardUsers = () => {
+      var check = ([{ assigned_users }, board_users]) =>
+        assigned_users.length === 0 ||
+        assigned_users.every((u) =>
+          board_users.find((bu) => bu.id === u.id),
+        )
+          ? E.right()
+          : E.left(
+              Result.of({
+                message: MESSAGES.userNotInBoard,
+              }),
+            );
+
+      return Task.all(
+        Task.of(E.asyncRight),
+        Task.of(boardsRepo.getAssignedUsers.bind(boardsRepo)),
+      ).map(E.joinAll(check));
+    };
+
+    var $checkBoardLabels = () => {
+      var check = ([{ assigned_labels }, board_labels]) =>
+        assigned_labels.length === 0 ||
+        assigned_labels.every((l) =>
+          board_labels.find((bl) => bl.id === l.id),
+        )
+          ? E.right()
+          : E.left(
+              Result.of({
+                message: MESSAGES.labelNotInBoard,
+              }),
+            );
+
+      return Task.all(
+        Task.of(E.asyncRight),
+        Task.of(labelsRepo.getAll.bind(labelsRepo)),
+      ).map(E.joinAll(check));
+    };
+
     var $task = Task.all(
       Task.of(E.asyncRight),
       $checkBoardExistance(),
+      $checkBoardUsers(),
+      $checkBoardLabels(),
       Task.of(tasksRepo.create.bind(tasksRepo)),
     )
       .map(E.joinAll(compose(E.right, mergeObjects)))

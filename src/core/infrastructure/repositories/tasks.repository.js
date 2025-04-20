@@ -48,7 +48,8 @@ export class TasksRepo {
   async assignUser({ task_id, user_id }) {
     try {
       await this.#client.query(
-        `INSERT INTO users_tasks (user_id, task_id)`,
+        `INSERT INTO users_tasks (user_id, task_id)
+        VALUES ($1, $2)`,
         [user_id, task_id],
       );
       return E.right();
@@ -66,7 +67,8 @@ export class TasksRepo {
   async assignLabel({ task_id, label_id }) {
     try {
       await this.#client.query(
-        `INSERT INTO tasks_labels (task_id, label_id)`,
+        `INSERT INTO tasks_labels (task_id, label_id)
+        VALUES ($1, $2)`,
         [task_id, label_id],
       );
       return E.right();

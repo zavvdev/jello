@@ -32,6 +32,8 @@ var {
  * @type {MigrationFn[]}
  */
 var migrations = [
+  // TODO: Add script for autogeneration of migration
+  // files with timestamps instead of index prefixes.
   m1_remove_is_archived_column_from_tasks,
   m2_remove_is_archived_column_from_lists,
   m3_add_order_index_column_for_lists,

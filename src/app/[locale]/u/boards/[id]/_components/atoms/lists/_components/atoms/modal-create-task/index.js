@@ -2,23 +2,24 @@
 
 import { useTranslation } from "react-i18next";
 import { startTransition, useActionState, useEffect } from "react";
-import { Button } from "~/app/components/atoms/button";
 import { Input } from "~/app/components/atoms/input";
 import { ValidationErrors } from "~/app/components/molecules/validation-errors";
 import { Modal } from "~/app/components/atoms/modal";
-import { mutateList } from "~/app/[locale]/u/boards/actions";
+import { createTask } from "~/app/[locale]/u/boards/actions";
+import { Button } from "~/app/components/atoms/button";
+import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
 
-export function ModalMutateList({ boardId, onClose, initialData }) {
+export function ModalCreateTask({ boardId, listId, onClose }) {
   var { t } = useTranslation(undefined, {
-    keyPrefix: "mutate_list",
+    keyPrefix: "create_task",
   });
 
   var {
     0: state,
     1: action,
     2: pending,
-  } = useActionState(mutateList);
+  } = useActionState(createTask);
 
   var handleSubmit = (e) => {
     e.preventDefault();
@@ -38,26 +39,24 @@ export function ModalMutateList({ boardId, onClose, initialData }) {
     <Modal
       isOpen
       onClose={onClose}
-      title={initialData?.id ? t("edit") : t("add")}
+      title={t("title")}
       className={styles.modal}
     >
       <form className={styles.form} onSubmit={handleSubmit}>
-        {initialData?.id && (
-          <input type="hidden" name="id" value={initialData.id} />
-        )}
         <input type="hidden" name="boardId" value={boardId} />
-        <Input
-          id="name"
-          name="name"
-          label={t("name")}
-          defaultValue={initialData?.name}
+        <input type="hidden" name="listId" value={listId} />
+        <Input id="name" name="name" label={t("name")} />
+        <TextArea
+          id="description"
+          name="description"
+          label={t("description")}
         />
-        <Button type="submit" disabled={pending}>
-          {initialData?.id ? t("save") : t("create")}
-        </Button>
         {state?.success === false && (
           <ValidationErrors t={t} data={state} />
         )}
+        <Button type="submit" disabled={pending}>
+          {t("submit")}
+        </Button>
       </form>
     </Modal>
   );

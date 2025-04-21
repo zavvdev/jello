@@ -11,14 +11,18 @@ import { ModalMutateList } from "./_components/atoms/modal-mutate-list";
 import { DeleteButton } from "./_components/atoms/delete-button";
 import { reorderList } from "../../../../actions";
 import styles from "./styles.module.css";
+import { ModalCreateTask } from "./_components/atoms/modal-create-task";
 
 export function Lists({ boardId, role, data }) {
   var { t } = useTranslation();
   var { 0: mutateList, 1: setMutateList } = useState(null);
+  var { 0: createTaskForList, 1: setCreateTaskForList } = useState(0);
 
   var swapy = useRef(null);
   var container = useRef(null);
 
+  // TODO: Reorder does not work for newly created lists
+  // This needs to be rewritten and maybe moved to separate hook
   useEffect(() => {
     if (container.current && User.canEditList(role)) {
       swapy.current = createSwapy(container.current, {
@@ -80,7 +84,11 @@ export function Lists({ boardId, role, data }) {
               ))}
             </div>
             <div className={styles.listFooter}>
-              <button type="button" className={styles.addButton}>
+              <button
+                type="button"
+                className={styles.addButton}
+                onClick={() => setCreateTaskForList(list.id)}
+              >
                 <Icons.Plus width="1rem" />
                 {t("add_task")}
               </button>
@@ -102,10 +110,16 @@ export function Lists({ boardId, role, data }) {
       )}
       {!!mutateList && (
         <ModalMutateList
-          isOpen
           boardId={boardId}
           onClose={() => setMutateList(null)}
           initialData={mutateList}
+        />
+      )}
+      {Boolean(createTaskForList) && (
+        <ModalCreateTask
+          boardId={boardId}
+          listId={createTaskForList}
+          onClose={() => setCreateTaskForList(0)}
         />
       )}
     </div>

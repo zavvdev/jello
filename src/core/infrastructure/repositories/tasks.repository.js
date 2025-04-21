@@ -19,12 +19,12 @@ export class TasksRepo {
    *  order_index?: number;
    * }} param0
    */
-  async create({ list_id, name, description, order_index }) {
+  async create({ list_id, name, description, order_index, user_id }) {
     try {
       var res = await this.#client.query(
-        `INSERT INTO tasks (name, description, list_id, order_index)
+        `INSERT INTO tasks (name, description, list_id, order_index, created_by)
         VALUES ($1, $2, $3, $4) RETURNING id`,
-        [name, description, list_id, order_index ?? 0],
+        [name, description, list_id, order_index ?? 0, user_id],
       );
 
       var task_id = res.rows?.[0]?.id;

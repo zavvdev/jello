@@ -20,6 +20,10 @@ var {
   m5_add_order_index_column_for_tasks,
 } = require("./migrations/m5_add_order_index_column_for_tasks");
 
+var {
+  m6_add_created_by_column_for_tasks,
+} = require("./migrations/m6_add_created_by_column_for_tasks");
+
 /**
  * @typedef {(client: import("pg").Client) => Promise<QueryResult<any>>} MigrationFn
  */
@@ -33,6 +37,7 @@ var migrations = [
   m3_add_order_index_column_for_lists,
   m4_remove_description_column_from_lists,
   m5_add_order_index_column_for_tasks,
+  m6_add_created_by_column_for_tasks,
 ];
 
 /**

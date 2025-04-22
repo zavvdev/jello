@@ -9,8 +9,34 @@ import { createTask } from "~/app/[locale]/u/boards/actions";
 import { Button } from "~/app/components/atoms/button";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
+import { UsersPicker } from "./_components/shared/users-picker";
+import { LabelsPicker } from "./_components/shared/labels-picker";
 
-export function ModalCreateTask({ boardId, listId, onClose }) {
+/**
+ * @param {{
+ *  boardId: number;
+ *  listId: number;
+ *  onClose: () => void;
+ *  boardUsers: Array<{
+ *    id: number;
+ *    username: string;
+ *    first_name: string;
+ *    last_name: string;
+ *  }>;
+ *  boardLabels: Array<{
+ *    id: number;
+ *    color: string;
+ *    name: string;
+ *  }>;
+ * }} param0
+ */
+export function ModalCreateTask({
+  boardId,
+  listId,
+  onClose,
+  boardUsers,
+  boardLabels,
+}) {
   var { t } = useTranslation(undefined, {
     keyPrefix: "create_task",
   });
@@ -51,6 +77,8 @@ export function ModalCreateTask({ boardId, listId, onClose }) {
           name="description"
           label={t("description")}
         />
+        <UsersPicker data={boardUsers} />
+        <LabelsPicker data={boardLabels} />
         {state?.success === false && (
           <ValidationErrors t={t} data={state} />
         )}

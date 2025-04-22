@@ -1,0 +1,47 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.searchBlock {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchBlock input {
+  flex: 1;
+}
+
+.searchBlock button {
+  padding: 0;
+  width: 21px;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchResult {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.searchResult button {
+  border: none;
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 0.3rem;
+}
+
+.selected {
+  border-color: var(--color-primary) !important;
+  border-width: 2px !important;
+}

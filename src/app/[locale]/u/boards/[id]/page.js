@@ -10,17 +10,36 @@ import styles from "./page.module.css";
 
 var I18N_NAMESPACES = [NAMESPACES.board];
 
+var getBoard = async (boardId) => {
+  var boardData = await query(API_ROUTES.boards.getOne(boardId));
+  return boardData?.data || {};
+};
+
+var getUsers = async (boardId) => {
+  var boardUsers = await query(API_ROUTES.boards.getUsers(boardId));
+  return boardUsers?.data || [];
+};
+
+var getLabels = async (boardId) => {
+  var boardLabels = await query(API_ROUTES.labels.getAll(boardId));
+  return boardLabels?.data || [];
+};
+
+var getLists = async (boardId) => {
+  var boardLists = await query(API_ROUTES.lists.getAll(boardId));
+  return boardLists?.data || [];
+};
+
 export default async function Board({ params }) {
   var { id } = await params;
 
   var { i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
 
-  var boardData = await query(API_ROUTES.boards.getOne(id));
-  var board = boardData?.data || {};
-
-  var listsData = await query(API_ROUTES.lists.getAll(id));
-  var lists = listsData?.data || [];
+  var board = await getBoard(id);
+  var users = await getUsers(id);
+  var labels = await getLabels(id);
+  var lists = await getLists(id);
 
   return (
     <I18nProvider
@@ -37,7 +56,13 @@ export default async function Board({ params }) {
           isFavourite={board.is_favorite}
           canEdit={User.canEditBoard(board.role)}
         />
-        <Lists boardId={board.id} role={board.role} data={lists} />
+        <Lists
+          boardId={board.id}
+          role={board.role}
+          data={lists}
+          boardUsers={users}
+          boardLabels={labels}
+        />
       </div>
     </I18nProvider>
   );

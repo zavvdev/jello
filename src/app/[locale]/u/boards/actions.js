@@ -182,8 +182,8 @@ export async function createTask(_, formData) {
       list_id: Number(listId),
       name,
       description,
-      assigned_users: assignedUsers,
-      assigned_labels: assignedLabels,
+      assigned_users: assignedUsers.map((x) => ({ id: x.id })),
+      assigned_labels: assignedLabels.map((x) => ({ id: x.id })),
     });
 
     revalidatePath(PRIVATE_ROUTES.board(boardId));

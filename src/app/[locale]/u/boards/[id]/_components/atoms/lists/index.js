@@ -13,7 +13,13 @@ import { reorderList } from "../../../../actions";
 import styles from "./styles.module.css";
 import { ModalCreateTask } from "./_components/atoms/modal-create-task";
 
-export function Lists({ boardId, role, data }) {
+export function Lists({
+  boardId,
+  role,
+  data,
+  boardUsers,
+  boardLabels,
+}) {
   var { t } = useTranslation();
   var { 0: mutateList, 1: setMutateList } = useState(null);
   var { 0: createTaskForList, 1: setCreateTaskForList } = useState(0);
@@ -120,6 +126,8 @@ export function Lists({ boardId, role, data }) {
           boardId={boardId}
           listId={createTaskForList}
           onClose={() => setCreateTaskForList(0)}
+          boardUsers={boardUsers}
+          boardLabels={boardLabels}
         />
       )}
     </div>

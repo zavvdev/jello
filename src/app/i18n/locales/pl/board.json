@@ -31,6 +31,8 @@
     "save": "Zapisz",
     "assigned_users": "Przypisani użytkownicy",
     "assigned_labels": "Etykiety",
+    "no_users_selected": "Nie wybrano użytkowników",
+    "no_labels_selected": "Nie wybrano etykiet",
     "error": {
       "fallback": "Błąd. Spróbuj ponownie później.",
       "validation_error": "Nie validne dane. Sprawdź formularz i spróbuj ponownie."

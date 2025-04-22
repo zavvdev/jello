@@ -5,8 +5,7 @@ import { startTransition, useActionState } from "react";
 import { NAMESPACES } from "~/app/i18n/config";
 import { SubmitButton } from "~/app/components/molecules/submit-button";
 import { Input } from "~/app/components/atoms/input";
-import { ErrorEntries } from "~/app/components/atoms/error-entries";
-import { Alert } from "~/app/components/atoms/error";
+import { ValidationErrors } from "~/app/components/molecules/validation-errors";
 import { Success } from "~/app/components/atoms/success";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
@@ -98,17 +97,7 @@ export function MutateBoardForm({
           labels={initialValues?.labels}
         />
         {state?.success === false && (
-          <div>
-            <Alert type="error" center>
-              {t([`error.${state.message}`, "error.fallback"])}
-            </Alert>
-            <ErrorEntries
-              map={state?.extra}
-              render={(key, value) =>
-                t(`validation_error.${key}.${value}`)
-              }
-            />
-          </div>
+          <ValidationErrors t={t} data={state} />
         )}
         {state?.success && <Success>{t("success")}</Success>}
       </div>

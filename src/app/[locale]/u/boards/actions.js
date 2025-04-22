@@ -163,3 +163,39 @@ export async function reorderList({ boardId, listIds }) {
     lists_order: listIds.map(Number),
   });
 }
+
+export async function createTask(_, formData) {
+  try {
+    var boardId = formData.get("boardId");
+    var listId = formData.get("listId");
+    var name = formData.get("name");
+    var description = formData.get("description");
+
+    var assignedUsers =
+      formData.getAll("assigned_users[]")?.map(JSON.parse) || [];
+
+    var assignedLabels =
+      formData.getAll("assigned_labels[]")?.map(JSON.parse) || [];
+
+    await query(API_ROUTES.tasks.create(), "POST", {
+      board_id: Number(boardId),
+      list_id: Number(listId),
+      name,
+      description,
+      assigned_users: assignedUsers.map((x) => ({ id: x.id })),
+      assigned_labels: assignedLabels.map((x) => ({ id: x.id })),
+    });
+
+    revalidatePath(PRIVATE_ROUTES.board(boardId));
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}

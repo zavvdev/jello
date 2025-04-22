@@ -20,6 +20,10 @@ var {
   m5_add_order_index_column_for_tasks,
 } = require("./migrations/m5_add_order_index_column_for_tasks");
 
+var {
+  m6_add_created_by_column_for_tasks,
+} = require("./migrations/m6_add_created_by_column_for_tasks");
+
 /**
  * @typedef {(client: import("pg").Client) => Promise<QueryResult<any>>} MigrationFn
  */
@@ -28,11 +32,14 @@ var {
  * @type {MigrationFn[]}
  */
 var migrations = [
+  // TODO: Add script for autogeneration of migration
+  // files with timestamps instead of index prefixes.
   m1_remove_is_archived_column_from_tasks,
   m2_remove_is_archived_column_from_lists,
   m3_add_order_index_column_for_lists,
   m4_remove_description_column_from_lists,
   m5_add_order_index_column_for_tasks,
+  m6_add_created_by_column_for_tasks,
 ];
 
 /**

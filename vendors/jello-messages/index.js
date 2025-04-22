@@ -11,6 +11,8 @@ export var MESSAGES = {
   alreadyStarred: "already_starred",
   alreadNotStarred: "already_not_starred",
   unauthorizedAction: "unauthorized_action",
+  userNotInBoard: "user_not_in_board",
+  labelNotInBoard: "label_not_in_board",
 };
 
 export var VALIDATION_MESSAGES = {

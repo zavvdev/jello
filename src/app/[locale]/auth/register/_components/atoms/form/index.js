@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { startTransition, useActionState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert } from "~/app/components/atoms/error";
-import { ErrorEntries } from "~/app/components/atoms/error-entries";
 import { PUBLIC_ROUTES } from "~/app/routes";
 import { Input } from "~/app/components/atoms/input";
+import { ValidationErrors } from "~/app/components/molecules/validation-errors";
 import { Success } from "~/app/components/atoms/success";
 import { Button } from "~/app/components/atoms/button";
 import styles from "./styles.module.css";
@@ -44,17 +43,7 @@ export function Form() {
       {!isSuccess && (
         <form onSubmit={handleSubmit} className={styles.form}>
           {state?.success === false && (
-            <div>
-              <Alert type="error" center>
-                {t([`error.${state.message}`, "error.fallback"])}
-              </Alert>
-              <ErrorEntries
-                map={state?.extra}
-                render={(key, value) =>
-                  t(`validation_error.${key}.${value}`)
-                }
-              />
-            </div>
+            <ValidationErrors t={t} data={state} />
           )}
           <Input
             required

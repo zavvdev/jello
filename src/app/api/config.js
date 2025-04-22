@@ -54,6 +54,10 @@ export var API_ROUTES = {
     delete: (id, boardId) =>
       makeApiUrl(`/lists/${id}?board_id=${boardId}`),
   },
+
+  tasks: {
+    create: () => makeApiUrl("/tasks"),
+  },
 };
 
 /**

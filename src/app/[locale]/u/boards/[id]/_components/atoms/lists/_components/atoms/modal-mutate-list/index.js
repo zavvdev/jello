@@ -4,18 +4,12 @@ import { useTranslation } from "react-i18next";
 import { startTransition, useActionState, useEffect } from "react";
 import { Button } from "~/app/components/atoms/button";
 import { Input } from "~/app/components/atoms/input";
+import { ValidationErrors } from "~/app/components/molecules/validation-errors";
 import { Modal } from "~/app/components/atoms/modal";
 import { mutateList } from "~/app/[locale]/u/boards/actions";
-import { Alert } from "~/app/components/atoms/error";
-import { ErrorEntries } from "~/app/components/atoms/error-entries";
 import styles from "./styles.module.css";
 
-export function ModalMutateList({
-  boardId,
-  isOpen,
-  onClose,
-  initialData,
-}) {
+export function ModalMutateList({ boardId, onClose, initialData }) {
   var { t } = useTranslation(undefined, {
     keyPrefix: "mutate_list",
   });
@@ -35,14 +29,14 @@ export function ModalMutateList({
   };
 
   useEffect(() => {
-    if (state?.success && isOpen) {
+    if (state?.success) {
       onClose();
     }
-  }, [state?.success, onClose, isOpen]);
+  }, [state?.success, onClose]);
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen
       onClose={onClose}
       title={initialData?.id ? t("edit") : t("add")}
       className={styles.modal}
@@ -62,17 +56,7 @@ export function ModalMutateList({
           {initialData?.id ? t("save") : t("create")}
         </Button>
         {state?.success === false && (
-          <div>
-            <Alert type="error" center>
-              {t([`error.${state.message}`, "error.fallback"])}
-            </Alert>
-            <ErrorEntries
-              map={state?.extra}
-              render={(key, value) =>
-                t(`validation_error.${key}.${value}`)
-              }
-            />
-          </div>
+          <ValidationErrors t={t} data={state} />
         )}
       </form>
     </Modal>

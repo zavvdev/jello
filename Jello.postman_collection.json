@@ -603,8 +603,40 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/lists/2?board_id=3",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "lists", "2"],
+              "query": [
+                {
+                  "key": "board_id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
+    },
+    {
+      "name": "Tasks",
+      "item": []
     },
     {
       "name": "Me",

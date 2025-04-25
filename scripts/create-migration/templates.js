@@ -13,6 +13,19 @@ module.exports = {
 };
 `;
 
+var getMigrationImportTemplate = ({ fileName }) => {
+  return `
+var {
+  ${fileName},
+} = require("./migrations/${fileName}");`;
+};
+
+var getMigrationIncludeTemplate = ({ fileName }) => {
+  return `  ${fileName},`;
+};
+
 module.exports = {
   getMigrationTemplate,
+  getMigrationImportTemplate,
+  getMigrationIncludeTemplate,
 };

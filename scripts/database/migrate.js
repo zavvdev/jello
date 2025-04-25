@@ -1,6 +1,8 @@
 var db = require("./connect");
 var { sortMigrations } = require("./utilities");
 
+// @migrations
+
 var {
   m1745598509618_remove_is_archived_column_from_tasks,
 } = require("./migrations/m1745598509618_remove_is_archived_column_from_tasks");

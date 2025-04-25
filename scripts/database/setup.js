@@ -1,7 +1,11 @@
 var db = require("./connect");
 
-var { color, username, email } = require("./validations");
-var { sessionExpirationTime } = require("./config");
+var {
+  sessionExpirationTime,
+  colorPattern,
+  usernamePattern,
+  emailPattern,
+} = require("./config");
 
 function clear() {
   return db.transaction(async (client) => {
@@ -72,13 +76,13 @@ function migrate() {
         id SERIAL PRIMARY KEY,
         username VARCHAR(16) NOT NULL UNIQUE
           CHECK (LENGTH(username) >= 2)
-          CHECK (username ~ ${username()}),
+          CHECK (username ~ ${usernamePattern()}),
         first_name VARCHAR(32) NOT NULL
           CHECK (LENGTH(first_name) >= 1),
         last_name VARCHAR(32) NOT NULL
           CHECK (LENGTH(last_name) >= 1),
         email VARCHAR(64) NOT NULL UNIQUE
-          CHECK (email ~ ${email()}),
+          CHECK (email ~ ${emailPattern()}),
         password VARCHAR(255) NOT NULL
           CHECK (LENGTH(password) >= 16),
         bio VARCHAR(255),
@@ -104,7 +108,7 @@ function migrate() {
           CHECK (LENGTH(name) >= 2),
         description VARCHAR(100) DEFAULT NULL,
         color VARCHAR(7) NOT NULL
-          CHECK (color ~ ${color()}),
+          CHECK (color ~ ${colorPattern()}),
         is_archived BOOL NOT NULL DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -142,7 +146,7 @@ function migrate() {
         name VARCHAR(16) NOT NULL
           CHECK (LENGTH(name) >= 1),
         color VARCHAR(7) NOT NULL
-          CHECK (color ~ ${color()}),
+          CHECK (color ~ ${colorPattern()}),
         board_id INT NOT NULL REFERENCES boards(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

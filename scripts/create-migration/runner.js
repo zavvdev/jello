@@ -1,10 +1,17 @@
 var fs = require("node:fs");
+
 var {
   error,
   success,
   appendToFileAfterPattern,
 } = require("../utilities");
-var { getMigrationTemplate } = require("./templates");
+
+var {
+  getMigrationTemplate,
+  getMigrationImportTemplate,
+  getMigrationIncludeTemplate,
+} = require("./templates");
+
 var { MigrationName } = require("./utilities");
 
 try {
@@ -13,14 +20,15 @@ try {
   if (NAME) {
     var FILE_NAME = MigrationName.create(NAME);
     var DIR = `scripts/database/migrations`;
-    var PATH = `${DIR}/${FILE_NAME}.js`;
+    var FILE_PATH = `${DIR}/${FILE_NAME}.js`;
+    var MIGRATE_FILE = "scripts/database/migrate.js";
 
     if (!fs.existsSync(DIR)) {
       fs.mkdirSync(DIR);
     }
 
     fs.appendFile(
-      PATH,
+      FILE_PATH,
       getMigrationTemplate({
         fileName: FILE_NAME,
       }),
@@ -28,11 +36,15 @@ try {
     );
 
     appendToFileAfterPattern({
-      filePath: "scripts/database/migrate.js",
-      pattern: new RegExp(
-        /^(var migrations = \[)|(var migrations = \[])$/,
-      ),
-      content: `  ${FILE_NAME},`,
+      filePath: MIGRATE_FILE,
+      pattern: new RegExp(/^\/\/ @migrations/),
+      content: getMigrationImportTemplate({ fileName: FILE_NAME }),
+    });
+
+    appendToFileAfterPattern({
+      filePath: MIGRATE_FILE,
+      pattern: new RegExp(/^var migrations = \[/),
+      content: getMigrationIncludeTemplate({ fileName: FILE_NAME }),
     });
 
     success();

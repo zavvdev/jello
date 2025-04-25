@@ -10,6 +10,9 @@ analyze:
 prettify:
 	npm run prettify
 
+migration:
+	node ./scripts/create-migration/runner.js $(name)
+
 db-up:
 	docker compose up -d
 

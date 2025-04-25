@@ -1,4 +1,5 @@
-var db = require("./index");
+var db = require("./connect");
+
 var { color, username, email } = require("./validations");
 var { sessionExpirationTime } = require("./config");
 

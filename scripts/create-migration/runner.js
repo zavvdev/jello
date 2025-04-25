@@ -3,13 +3,15 @@ var fs = require("node:fs");
 var {
   error,
   success,
-  appendToFileAfterPattern,
+  appendLineToFile,
+  replaceLineInFile,
 } = require("../utilities");
 
 var {
   getMigrationTemplate,
   getMigrationImportTemplate,
   getMigrationIncludeTemplate,
+  getMigrationInitialIncludeTemplate,
 } = require("./templates");
 
 var { MigrationName } = require("./utilities");
@@ -35,16 +37,24 @@ try {
       () => {},
     );
 
-    appendToFileAfterPattern({
-      filePath: MIGRATE_FILE,
-      pattern: new RegExp(/^\/\/ @migrations/),
+    appendLineToFile({
+      path: MIGRATE_FILE,
+      match: new RegExp(/^\/\/ @migrations/),
       content: getMigrationImportTemplate({ fileName: FILE_NAME }),
     });
 
-    appendToFileAfterPattern({
-      filePath: MIGRATE_FILE,
-      pattern: new RegExp(/^var migrations = \[/),
+    appendLineToFile({
+      path: MIGRATE_FILE,
+      match: new RegExp(/^var migrations = \[$/),
       content: getMigrationIncludeTemplate({ fileName: FILE_NAME }),
+    });
+
+    replaceLineInFile({
+      path: MIGRATE_FILE,
+      match: "var migrations = [];",
+      content: getMigrationInitialIncludeTemplate({
+        fileName: FILE_NAME,
+      }),
     });
 
     success();

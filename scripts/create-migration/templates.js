@@ -24,8 +24,15 @@ var getMigrationIncludeTemplate = ({ fileName }) => {
   return `  ${fileName},`;
 };
 
+var getMigrationInitialIncludeTemplate = ({ fileName }) => {
+  return `var migrations = [
+  ${fileName},
+];`;
+};
+
 module.exports = {
   getMigrationTemplate,
   getMigrationImportTemplate,
   getMigrationIncludeTemplate,
+  getMigrationInitialIncludeTemplate,
 };

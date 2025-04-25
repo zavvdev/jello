@@ -14,27 +14,44 @@ function success(message) {
   }
 }
 
-function appendToFileAfterPattern({ filePath, pattern, content }) {
-  var fileContent = fs.readFileSync(filePath).toString().split("\n");
+function appendLineToFile({ path, match, content }) {
+  var fileContent = fs.readFileSync(path).toString().split("\n");
 
   if (fileContent?.length > 0) {
-    var numberOfLineWithPattern =
-      fileContent.findIndex((index) => pattern.test(index)) + 1;
-    if (numberOfLineWithPattern) {
-      fileContent.splice(numberOfLineWithPattern, 0, content);
-      fs.writeFileSync(filePath, fileContent.join("\n"));
+    var lineNum =
+      fileContent.findIndex((index) => match.test(index)) + 1;
+
+    if (lineNum) {
+      fileContent.splice(lineNum, 0, content);
+      fs.writeFileSync(path, fileContent.join("\n"));
     } else {
-      console.info(
-        `Pattern "${pattern}" not found in file "${filePath}"`,
-      );
+      console.info(`Pattern "${match}" not found in file "${path}"`);
     }
   } else {
-    console.info(`File "${filePath}" is empty`);
+    console.info(`File "${path}" is empty`);
+  }
+}
+
+function replaceLineInFile({ path, match, content }) {
+  var fileContent = fs.readFileSync(path).toString().split("\n");
+
+  if (fileContent?.length > 0) {
+    var lineNum = fileContent.findIndex((index) => match === index);
+
+    if (lineNum) {
+      fileContent.splice(lineNum, 1, content);
+      fs.writeFileSync(path, fileContent.join("\n"));
+    } else {
+      console.info(`Pattern "${match}" not found in file "${path}"`);
+    }
+  } else {
+    console.info(`File "${path}" is empty`);
   }
 }
 
 module.exports = {
   error,
   success,
-  appendToFileAfterPattern,
+  appendLineToFile,
+  replaceLineInFile,
 };

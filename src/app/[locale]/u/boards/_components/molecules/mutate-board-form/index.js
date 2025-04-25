@@ -5,7 +5,7 @@ import { startTransition, useActionState } from "react";
 import { NAMESPACES } from "~/app/i18n/config";
 import { SubmitButton } from "~/app/components/molecules/submit-button";
 import { Input } from "~/app/components/atoms/input";
-import { ValidationErrors } from "~/app/components/molecules/validation-errors";
+import { ApiErrors } from "~/app/components/molecules/api-errors";
 import { Success } from "~/app/components/atoms/success";
 import { TextArea } from "~/app/components/atoms/text-area";
 import styles from "./styles.module.css";
@@ -96,9 +96,7 @@ export function MutateBoardForm({
           t={(k) => t(`labels.${k}`)}
           labels={initialValues?.labels}
         />
-        {state?.success === false && (
-          <ValidationErrors t={t} data={state} />
-        )}
+        {state?.success === false && <ApiErrors t={t} data={state} />}
         {state?.success && <Success>{t("success")}</Success>}
       </div>
       <SubmitButton pending={pending}>{submitText}</SubmitButton>

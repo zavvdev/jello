@@ -5,7 +5,7 @@ import { startTransition, useActionState } from "react";
 import { useTranslation } from "react-i18next";
 import { PUBLIC_ROUTES } from "~/app/routes";
 import { Input } from "~/app/components/atoms/input";
-import { ValidationErrors } from "~/app/components/molecules/validation-errors";
+import { ApiErrors } from "~/app/components/molecules/api-errors";
 import { Success } from "~/app/components/atoms/success";
 import { Button } from "~/app/components/atoms/button";
 import styles from "./styles.module.css";
@@ -43,7 +43,7 @@ export function Form() {
       {!isSuccess && (
         <form onSubmit={handleSubmit} className={styles.form}>
           {state?.success === false && (
-            <ValidationErrors t={t} data={state} />
+            <ApiErrors t={t} data={state} />
           )}
           <Input
             required

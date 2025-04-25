@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { startTransition, useActionState, useEffect } from "react";
 import { Button } from "~/app/components/atoms/button";
 import { Input } from "~/app/components/atoms/input";
-import { ValidationErrors } from "~/app/components/molecules/validation-errors";
+import { ApiErrors } from "~/app/components/molecules/api-errors";
 import { Modal } from "~/app/components/atoms/modal";
 import { mutateList } from "~/app/[locale]/u/boards/actions";
 import styles from "./styles.module.css";
@@ -55,9 +55,7 @@ export function ModalMutateList({ boardId, onClose, initialData }) {
         <Button type="submit" disabled={pending}>
           {initialData?.id ? t("save") : t("create")}
         </Button>
-        {state?.success === false && (
-          <ValidationErrors t={t} data={state} />
-        )}
+        {state?.success === false && <ApiErrors t={t} data={state} />}
       </form>
     </Modal>
   );

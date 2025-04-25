@@ -1,28 +1,31 @@
-var db = require("./index");
+var db = require("./connect");
+var { sortMigrations } = require("./utilities");
+
+// @migrations
 
 var {
-  m1_remove_is_archived_column_from_tasks,
-} = require("./migrations/m1_remove_is_archived_column_from_tasks");
+  m1745598509618_remove_is_archived_column_from_tasks,
+} = require("./migrations/m1745598509618_remove_is_archived_column_from_tasks");
 
 var {
-  m2_remove_is_archived_column_from_lists,
-} = require("./migrations/m2_remove_is_archived_column_from_lists");
+  m1745598585244_remove_is_archived_column_from_lists,
+} = require("./migrations/m1745598585244_remove_is_archived_column_from_lists");
 
 var {
-  m3_add_order_index_column_for_lists,
-} = require("./migrations/m3_add_order_index_column_for_lists");
+  m1745598654965_add_order_index_column_for_lists,
+} = require("./migrations/m1745598654965_add_order_index_column_for_lists");
 
 var {
-  m4_remove_description_column_from_lists,
-} = require("./migrations/m4_remove_description_column_from_lists");
+  m1745598712703_remove_description_column_from_lists,
+} = require("./migrations/m1745598712703_remove_description_column_from_lists");
 
 var {
-  m5_add_order_index_column_for_tasks,
-} = require("./migrations/m5_add_order_index_column_for_tasks");
+  m1745598790538_add_order_index_column_for_tasks,
+} = require("./migrations/m1745598790538_add_order_index_column_for_tasks");
 
 var {
-  m6_add_created_by_column_for_tasks,
-} = require("./migrations/m6_add_created_by_column_for_tasks");
+  m1745598915285_add_created_by_column_for_tasks,
+} = require("./migrations/m1745598915285_add_created_by_column_for_tasks");
 
 /**
  * @typedef {(client: import("pg").Client) => Promise<QueryResult<any>>} MigrationFn
@@ -32,14 +35,12 @@ var {
  * @type {MigrationFn[]}
  */
 var migrations = [
-  // TODO: Add script for autogeneration of migration
-  // files with timestamps instead of index prefixes.
-  m1_remove_is_archived_column_from_tasks,
-  m2_remove_is_archived_column_from_lists,
-  m3_add_order_index_column_for_lists,
-  m4_remove_description_column_from_lists,
-  m5_add_order_index_column_for_tasks,
-  m6_add_created_by_column_for_tasks,
+  m1745598509618_remove_is_archived_column_from_tasks,
+  m1745598585244_remove_is_archived_column_from_lists,
+  m1745598654965_add_order_index_column_for_lists,
+  m1745598712703_remove_description_column_from_lists,
+  m1745598790538_add_order_index_column_for_tasks,
+  m1745598915285_add_created_by_column_for_tasks,
 ];
 
 /**
@@ -47,7 +48,7 @@ var migrations = [
  */
 function main(migrations) {
   return db.transaction(async (client) => {
-    for (const migration of migrations) {
+    for (const migration of sortMigrations(migrations)) {
       await migration(client);
     }
   });

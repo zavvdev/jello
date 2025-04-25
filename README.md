@@ -34,6 +34,8 @@
 
 `make prettify` - apply prettier to files
 
+`make migration name=<name>` - generate migration file
+
 `make db-up` - create a database container from image
 
 `make db-setup` - execute initial database migrations

@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { startTransition, useActionState, useEffect } from "react";
 import { Input } from "~/app/components/atoms/input";
-import { ValidationErrors } from "~/app/components/molecules/validation-errors";
+import { ApiErrors } from "~/app/components/molecules/api-errors";
 import { Modal } from "~/app/components/atoms/modal";
 import { createTask } from "~/app/[locale]/u/boards/actions";
 import { Button } from "~/app/components/atoms/button";
@@ -79,9 +79,7 @@ export function ModalCreateTask({
         />
         <UsersPicker data={boardUsers} />
         <LabelsPicker data={boardLabels} />
-        {state?.success === false && (
-          <ValidationErrors t={t} data={state} />
-        )}
+        {state?.success === false && <ApiErrors t={t} data={state} />}
         <Button type="submit" disabled={pending}>
           {t("submit")}
         </Button>

@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { startTransition, useActionState } from "react";
 import { SubmitButton } from "~/app/components/molecules/submit-button";
-import { ValidationErrors } from "~/app/components/molecules/validation-errors";
+import { ApiErrors } from "~/app/components/molecules/api-errors";
 import { Input } from "~/app/components/atoms/input";
 import { Success } from "~/app/components/atoms/success";
 import { TextArea } from "~/app/components/atoms/text-area";
@@ -82,9 +82,7 @@ export function FormInfo({ initialValues }) {
           label={t("bio")}
           defaultValue={initialValues.bio}
         />
-        {state?.success === false && (
-          <ValidationErrors t={t} data={state} />
-        )}
+        {state?.success === false && <ApiErrors t={t} data={state} />}
         {state?.success && <Success>{t("success")}</Success>}
       </div>
       <SubmitButton pending={pending}>{t("submit")}</SubmitButton>

@@ -14,7 +14,7 @@ var schema = t.object({
   description: t.string().nullable(),
   list_id: Id,
   order_index: OrderIndex,
-  created_by: Id,
+  created_by: Id.nullable(),
   created_at: Timestamp,
   updated_at: Timestamp,
 });

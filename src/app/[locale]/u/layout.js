@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icons } from "~/app/components/icons";
 import { getI18nFromParams } from "~/app/i18n";
-import { APP_LOGOUT_URL, PRIVATE_ROUTES } from "~/app/routes";
+import { LogoutButton } from "~/app/components/atoms/logout-button";
+import { PRIVATE_ROUTES } from "~/app/routes";
 import styles from "./layout.module.css";
 
 var I18N_NAMESPACES = ["common"];
@@ -37,17 +38,9 @@ export default async function AuthLayout({ params, children }) {
             </Link>
           </nav>
         </div>
-        <form action={APP_LOGOUT_URL.base} method="GET">
-          <input
-            type="hidden"
-            name={APP_LOGOUT_URL.queryName}
-            value={APP_LOGOUT_URL.redirectUrl}
-          />
-          <button className={styles.link} type="submit">
-            <Icons.Logout />
-            {t("logout")}
-          </button>
-        </form>
+        <LogoutButton className={styles.link}>
+          {t("logout")}
+        </LogoutButton>
       </aside>
       <div className={styles.content}>{children}</div>
     </main>

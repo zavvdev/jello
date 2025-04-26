@@ -1,0 +1,11 @@
+{
+  "actions": {
+    "delete": "Usuń"
+  },
+  "confirm": {
+    "delete": "Czy na pewno chcesz usunąć tę zadanie?"
+  },
+  "error": {
+    "board_not_found": "Nie znaleziono tablicy"
+  }
+}

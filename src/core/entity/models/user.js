@@ -43,6 +43,10 @@ export var User = {
   canCreateList: (role) => [ROLES[0], ROLES[1]].includes(role),
   canEditList: (role) => [ROLES[0], ROLES[1]].includes(role),
   canDeleteList: (role) => [ROLES[0], ROLES[1]].includes(role),
+  canDeleteTask:
+    ({ userId, taskCreatorId }) =>
+    (role) =>
+      [ROLES[0], ROLES[1]].includes(role) || userId === taskCreatorId,
 };
 
 export var UserRole = {

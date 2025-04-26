@@ -152,7 +152,7 @@ export async function mutateList(_, formData) {
 }
 
 export async function deleteList(_, { boardId, id }) {
-  await query(API_ROUTES.lists.delete(id, boardId), "DELETE");
+  await query(API_ROUTES.lists.delete(id), "DELETE");
   revalidatePath(PRIVATE_ROUTES.board(boardId));
 }
 

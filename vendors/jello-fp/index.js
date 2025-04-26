@@ -199,7 +199,7 @@ export class Either {
     return (x) => (x?.isRight ? fn(x.join()) : x);
   }
 
-  static forwardAsync(fn) {
+  static passAsync(fn) {
     return async (x) => {
       if (x?.isRight) {
         var res = await fn(x.join());
@@ -411,6 +411,10 @@ export var map = (fn) => (f) => f.map(fn);
  * @returns {(x: T) => R}
  */
 export var prop = (k) => (x) => x[k];
+
+export var toObject = (k) => (x) => ({
+  [k]: x,
+});
 
 /**
  * safeProp :: String -> Object -> Maybe a

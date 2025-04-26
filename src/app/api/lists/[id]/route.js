@@ -2,11 +2,7 @@ import { applyMiddlewares } from "jello-utils";
 import { Task } from "jello-fp";
 import { updateListController } from "~/core/gateway/controllers/lists/update-list.controller";
 import { deleteListController } from "~/core/gateway/controllers/lists/delete-list.controller";
-import {
-  withQueryParams,
-  withRequestBody,
-  withSession,
-} from "~/app/api/middleware";
+import { withRequestBody, withSession } from "~/app/api/middleware";
 import { catch_, forward_ } from "~/app/api/utilities";
 
 /**
@@ -37,8 +33,8 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   var { id } = await params;
 
-  return applyMiddlewares(request)(withSession, withQueryParams)(
-    async (session_token, queryParams) => {
+  return applyMiddlewares(request)(withSession)(
+    async (session_token) => {
       var $task = Task.of(deleteListController)
         .map(forward_())
         .map(catch_())
@@ -47,7 +43,6 @@ export async function DELETE(request, { params }) {
       return await $task({
         session_token,
         id: Number(id),
-        board_id: Number(queryParams.get("board_id")),
       });
     },
   );

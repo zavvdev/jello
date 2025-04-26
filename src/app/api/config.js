@@ -118,4 +118,5 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.alreadNotStarred]: 400,
   [MESSAGES.alreadyStarred]: 400,
   [MESSAGES.unauthorizedAction]: 403,
+  [MESSAGES.listNotInBoard]: 400,
 };

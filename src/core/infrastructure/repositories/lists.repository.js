@@ -1,4 +1,6 @@
 import { Either as E } from "jello-fp";
+import { MESSAGES } from "jello-messages";
+import { Result } from "~/core/domain/result";
 import { db } from "~/core/infrastructure/database";
 
 export class ListsRepo {
@@ -111,6 +113,34 @@ export class ListsRepo {
         id,
       ]);
       return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  ids: number[];
+   *  board_id: number;
+   * }} param0
+   */
+  async belongToBoard({ ids, board_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT board_id FROM lists
+        WHERE id = ANY($1) GROUP BY board_id`,
+        [ids],
+      );
+
+      if (res.rowCount === 1 && res.rows[0].board_id === board_id) {
+        return E.right();
+      }
+
+      return E.left(
+        Result.of({
+          message: MESSAGES.listNotInBoard,
+        }),
+      );
     } catch {
       return E.left();
     }

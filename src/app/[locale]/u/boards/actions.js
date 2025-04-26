@@ -177,7 +177,6 @@ export async function createTask(_, formData) {
       formData.getAll("assigned_labels[]")?.map(JSON.parse) || [];
 
     await query(API_ROUTES.tasks.create(), "POST", {
-      board_id: Number(boardId),
       list_id: Number(listId),
       name,
       description,

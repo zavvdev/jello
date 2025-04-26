@@ -17,7 +17,6 @@ export async function POST(request) {
 
       return await $task({
         session_token,
-        board_id: body.board_id,
         list_id: body.list_id,
         name: body.name,
         description: body.description,

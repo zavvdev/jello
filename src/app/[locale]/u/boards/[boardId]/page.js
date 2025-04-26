@@ -31,15 +31,15 @@ var getLists = async (boardId) => {
 };
 
 export default async function Board({ params }) {
-  var { id } = await params;
+  var { boardId } = await params;
 
   var { i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
 
-  var board = await getBoard(id);
-  var users = await getUsers(id);
-  var labels = await getLabels(id);
-  var lists = await getLists(id);
+  var board = await getBoard(boardId);
+  var users = await getUsers(boardId);
+  var labels = await getLabels(boardId);
+  var lists = await getLists(boardId);
 
   return (
     <I18nProvider

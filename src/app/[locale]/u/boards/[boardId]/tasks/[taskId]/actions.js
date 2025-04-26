@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { API_ROUTES } from "~/app/api/config";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import { query } from "~/app/utilities/query";

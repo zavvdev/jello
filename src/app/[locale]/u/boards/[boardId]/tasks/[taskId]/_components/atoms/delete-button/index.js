@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { startTransition, useActionState } from "react";
 import { Button } from "~/app/components/atoms/button";
-import { deleteTask } from "~/app/[locale]/u/tasks/[id]/actions";
+import { deleteTask } from "~/app/[locale]/u/boards/[boardId]/tasks/[taskId]/actions";
 import { ApiErrors } from "~/app/components/molecules/api-errors";
 
 export function DeleteButton({ boardId, id }) {

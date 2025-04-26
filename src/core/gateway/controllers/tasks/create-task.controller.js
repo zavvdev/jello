@@ -23,7 +23,6 @@ var dtoSchema = {
   request: authSchema.concat(
     TaskModel.schema.pick(["name", "description"]).concat(
       t.object({
-        board_id: Id,
         list_id: Id,
         assigned_users: t
           .array()
@@ -58,7 +57,6 @@ export async function createTaskController(dto) {
 
       return await $task({
         user_id: user.id,
-        board_id: request.board_id,
         list_id: request.list_id,
         name: request.name,
         description: request.description || null,

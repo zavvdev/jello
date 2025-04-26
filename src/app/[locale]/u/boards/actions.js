@@ -130,7 +130,6 @@ export async function mutateList(_, formData) {
   try {
     if (id) {
       await query(API_ROUTES.lists.update(id), "PATCH", {
-        board_id: Number(boardId),
         name,
       });
     } else {
@@ -153,7 +152,7 @@ export async function mutateList(_, formData) {
 }
 
 export async function deleteList(_, { boardId, id }) {
-  await query(API_ROUTES.lists.delete(id, boardId), "DELETE");
+  await query(API_ROUTES.lists.delete(id), "DELETE");
   revalidatePath(PRIVATE_ROUTES.board(boardId));
 }
 
@@ -178,7 +177,6 @@ export async function createTask(_, formData) {
       formData.getAll("assigned_labels[]")?.map(JSON.parse) || [];
 
     await query(API_ROUTES.tasks.create(), "POST", {
-      board_id: Number(boardId),
       list_id: Number(listId),
       name,
       description,

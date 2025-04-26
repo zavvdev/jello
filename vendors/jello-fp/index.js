@@ -199,6 +199,21 @@ export class Either {
     return (x) => (x?.isRight ? fn(x.join()) : x);
   }
 
+  static passAsync(fn) {
+    return async (x) => {
+      if (x?.isRight) {
+        var res = await fn(x.join());
+
+        if (res?.isRight) {
+          return x;
+        }
+
+        return res;
+      }
+      return x;
+    };
+  }
+
   static joinAll(fn) {
     return (xs) =>
       xs.every((x) => x.isRight)
@@ -396,6 +411,10 @@ export var map = (fn) => (f) => f.map(fn);
  * @returns {(x: T) => R}
  */
 export var prop = (k) => (x) => x[k];
+
+export var toObject = (k) => (x) => ({
+  [k]: x,
+});
 
 /**
  * safeProp :: String -> Object -> Maybe a

@@ -1,4 +1,6 @@
 import { Either as E } from "jello-fp";
+import { MESSAGES } from "jello-messages";
+import { Result } from "~/core/domain/result";
 import { db } from "~/core/infrastructure/database";
 
 export class TasksRepo {
@@ -73,6 +75,80 @@ export class TasksRepo {
         [task_id, label_id],
       );
       return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async delete({ task_id }) {
+    try {
+      await this.#client.query(`DELETE FROM tasks WHERE id = $1`, [
+        task_id,
+      ]);
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async get({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT * FROM tasks WHERE id = $1`,
+        [task_id],
+      );
+
+      var task = res.rows?.[0];
+
+      if (!task) {
+        return E.left(
+          Result.of({
+            message: MESSAGES.notFound,
+          }),
+        );
+      }
+
+      return E.right(task);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async getBoard({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT r.board_id FROM tasks l
+        INNER JOIN lists r ON l.list_id = r.id
+        WHERE l.id = $1`,
+        [task_id],
+      );
+
+      var data = res.rows?.[0];
+
+      if (!data) {
+        return E.left(
+          Result.of({
+            message: MESSAGES.notFound,
+          }),
+        );
+      }
+
+      return E.right({ board_id: data.board_id });
     } catch {
       return E.left();
     }

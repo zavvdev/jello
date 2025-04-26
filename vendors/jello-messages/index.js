@@ -13,6 +13,7 @@ export var MESSAGES = {
   unauthorizedAction: "unauthorized_action",
   userNotInBoard: "user_not_in_board",
   labelNotInBoard: "label_not_in_board",
+  listNotInBoard: "list_not_in_board",
 };
 
 export var VALIDATION_MESSAGES = {

@@ -25,10 +25,15 @@ export async function reorderListsProcess(dto) {
       .map(E.all(head))
       .run();
 
+  var $checkListsExistance = Task.of(({ board_id, lists_order }) =>
+    listsRepo.belongToBoard({ board_id, ids: lists_order }),
+  );
+
   var $task = Task.all(
     Task.of(E.asyncRight),
     $checkBoardExistance(),
     $checkAuthority(User.canEditList),
+    $checkListsExistance,
   )
     .map(E.all(head))
     .map(E.chain(reorder))

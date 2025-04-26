@@ -16,4 +16,5 @@ export var NAMESPACES = {
   editBoard: "edit-board",
   profile: "profile",
   board: "board",
+  task: "task",
 };

@@ -9,9 +9,7 @@ import { List } from "~/core/entity/models/list";
 import { updateListProcess } from "~/core/domain/processes/lists/update-list.process";
 
 var dtoSchema = {
-  request: authSchema.concat(
-    List.schema.pick(["id", "board_id", "name"]),
-  ),
+  request: authSchema.concat(List.schema.pick(["id", "name"])),
 };
 
 export async function updateListController(dto) {
@@ -22,7 +20,6 @@ export async function updateListController(dto) {
     )(async (user, request) => {
       return await updateListProcess({
         user_id: user.id,
-        board_id: request.board_id,
         id: request.id,
         name: request.name,
       });

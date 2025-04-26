@@ -51,12 +51,12 @@ export var API_ROUTES = {
     create: () => makeApiUrl("/lists"),
     reorder: () => makeApiUrl("/lists/order"),
     update: (id) => makeApiUrl(`/lists/${id}`),
-    delete: (id, boardId) =>
-      makeApiUrl(`/lists/${id}?board_id=${boardId}`),
+    delete: (id) => makeApiUrl(`/lists/${id}`),
   },
 
   tasks: {
     create: () => makeApiUrl("/tasks"),
+    delete: (id) => makeApiUrl(`/tasks/${id}`),
   },
 };
 
@@ -116,4 +116,5 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.alreadNotStarred]: 400,
   [MESSAGES.alreadyStarred]: 400,
   [MESSAGES.unauthorizedAction]: 403,
+  [MESSAGES.listNotInBoard]: 400,
 };

@@ -5,6 +5,7 @@ import {
   mergeObjects,
   prop,
   Task,
+  toObject,
 } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { db } from "~/core/infrastructure/database";
@@ -13,11 +14,11 @@ import { TasksRepo } from "~/core/infrastructure/repositories/tasks.repository";
 import { BoardsRepo } from "~/core/infrastructure/repositories/boards.repository";
 import { $checkBoardExistance } from "~/core/domain/utilities";
 import { LabelsRepo } from "~/core/infrastructure/repositories/labels.repository";
+import { ListsRepo } from "~/core/infrastructure/repositories/lists.repository";
 
 /**
  * @param {{
  *  user_id: number;
- *  board_id: number;
  *  list_id: number;
  *  name: string;
  *  description: string | null;
@@ -30,27 +31,7 @@ export async function createTaskProcess(dto) {
     var tasksRepo = new TasksRepo(client);
     var boardsRepo = new BoardsRepo(client);
     var labelsRepo = new LabelsRepo(client);
-
-    var assignUsers = async (mergedData) => {
-      var { assigned_users } = mergedData;
-
-      if (assigned_users.length === 0) {
-        return E.right(mergedData);
-      }
-
-      var $assignUsersTasks = assigned_users.map(({ id }) =>
-        Task.of(({ task_id }) =>
-          tasksRepo.assignUser({ user_id: id, task_id }),
-        ),
-      );
-
-      return await Task.all(
-        Task.of(E.asyncRight),
-        ...$assignUsersTasks,
-      )
-        .map(E.all(head))
-        .run(mergedData);
-    };
+    var listsRepo = new ListsRepo(client);
 
     var assignLabels = async (mergedData) => {
       var { assigned_labels } = mergedData;
@@ -73,26 +54,39 @@ export async function createTaskProcess(dto) {
         .run(mergedData);
     };
 
-    var $checkBoardUsers = () => {
-      var check = ([{ assigned_users }, board_users]) =>
-        assigned_users.length === 0 ||
-        assigned_users.every((u) =>
-          board_users.find((bu) => bu.id === u.id),
-        )
-          ? E.right()
-          : E.left(
-              Result.of({
-                message: MESSAGES.userNotInBoard,
-              }),
-            );
+    var assignUsers = async (mergedData) => {
+      var { assigned_users } = mergedData;
 
-      return Task.all(
+      if (assigned_users.length === 0) {
+        return E.right(mergedData);
+      }
+
+      var $assignUsersTasks = assigned_users.map(({ id }) =>
+        Task.of(({ task_id }) =>
+          tasksRepo.assignUser({ user_id: id, task_id }),
+        ),
+      );
+
+      return await Task.all(
         Task.of(E.asyncRight),
-        Task.of(boardsRepo.getAssignedUsers.bind(boardsRepo)),
-      ).map(E.joinAll(check));
+        ...$assignUsersTasks,
+      )
+        .map(E.all(head))
+        .run(mergedData);
     };
 
-    var $checkBoardLabels = () => {
+    var createTask = (dto) => {
+      return Task.of(tasksRepo.create.bind(tasksRepo))
+        .map(
+          E.map((task) => ({
+            ...dto,
+            task_id: task.task_id,
+          })),
+        )
+        .run(dto);
+    };
+
+    var checkBoardLabels = () => {
       var check = ([{ assigned_labels }, board_labels]) =>
         assigned_labels.length === 0 ||
         assigned_labels.every((l) =>
@@ -108,21 +102,46 @@ export async function createTaskProcess(dto) {
       return Task.all(
         Task.of(E.asyncRight),
         Task.of(labelsRepo.getAll.bind(labelsRepo)),
-      ).map(E.joinAll(check));
+      )
+        .map(E.joinAll(check))
+        .join();
     };
 
-    var $task = Task.all(
-      Task.of(E.asyncRight),
-      $checkBoardExistance(),
-      $checkBoardUsers(),
-      $checkBoardLabels(),
-      Task.of(tasksRepo.create.bind(tasksRepo)),
-    )
+    var checkBoardUsers = () => {
+      var check = ([{ assigned_users }, board_users]) =>
+        assigned_users.length === 0 ||
+        assigned_users.every((u) =>
+          board_users.find((bu) => bu.id === u.id),
+        )
+          ? E.right()
+          : E.left(
+              Result.of({
+                message: MESSAGES.userNotInBoard,
+              }),
+            );
+
+      return Task.all(
+        Task.of(E.asyncRight),
+        Task.of(boardsRepo.getAssignedUsers.bind(boardsRepo)),
+      )
+        .map(E.joinAll(check))
+        .join();
+    };
+
+    var $getList = Task.of((dto) =>
+      listsRepo.getOne({ id: dto.list_id }),
+    ).map(E.map(compose(toObject("board_id"), prop("board_id"))));
+
+    var $task = Task.all(Task.of(E.asyncRight), $getList)
       .map(E.joinAll(compose(E.right, mergeObjects)))
+      .map(E.passAsync($checkBoardExistance().join()))
+      .map(E.passAsync(checkBoardUsers()))
+      .map(E.passAsync(checkBoardLabels()))
+      .map(E.chain(createTask))
       .map(E.chain(assignUsers))
       .map(E.chain(assignLabels))
       .map(E.map(prop("task_id")))
-      .map(E.map((x) => ({ task_id: x })))
+      .map(E.map(toObject("task_id")))
       .map(Result.fromEither)
       .join();
 

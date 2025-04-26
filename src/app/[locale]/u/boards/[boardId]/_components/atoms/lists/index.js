@@ -82,7 +82,7 @@ export function Lists({
               {list.tasks.map((task) => (
                 <Link
                   key={task.id}
-                  href={PRIVATE_ROUTES.task(task.id)}
+                  href={PRIVATE_ROUTES.task(boardId, task.id)}
                   className={styles.task}
                 >
                   {task.name}

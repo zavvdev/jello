@@ -14,10 +14,10 @@ var I18N_NAMESPACES = [NAMESPACES.editBoard, NAMESPACES.boards];
 var notOwner = (x) => x.role !== UserRole.Owner;
 
 export default async function EditBoard({ params }) {
-  var { id } = await params;
+  var { boardId } = await params;
 
   var boardResponse = await query(
-    API_ROUTES.boards.getOne(id),
+    API_ROUTES.boards.getOne(boardId),
     "GET",
     null,
     true,
@@ -26,7 +26,7 @@ export default async function EditBoard({ params }) {
   var board = boardResponse?.data;
 
   var labelsResponse = await query(
-    API_ROUTES.labels.getAll(id),
+    API_ROUTES.labels.getAll(boardId),
     "GET",
     null,
     true,
@@ -35,7 +35,7 @@ export default async function EditBoard({ params }) {
   var labels = labelsResponse?.data || [];
 
   var usersResponse = await query(
-    API_ROUTES.boards.getUsers(id),
+    API_ROUTES.boards.getUsers(boardId),
     "GET",
     null,
     true,
@@ -65,7 +65,7 @@ export default async function EditBoard({ params }) {
         title={t("title")}
         submitText={t("submit")}
         initialValues={{
-          id: Number(id),
+          id: Number(boardId),
           name: board.name,
           description: board.description,
           color: board.color,

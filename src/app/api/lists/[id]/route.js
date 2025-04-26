@@ -25,7 +25,6 @@ export async function PATCH(request, { params }) {
       return await $task({
         session_token,
         id: Number(id),
-        board_id: Number(body.board_id),
         name: body.name,
       });
     },

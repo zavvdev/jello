@@ -199,6 +199,21 @@ export class Either {
     return (x) => (x?.isRight ? fn(x.join()) : x);
   }
 
+  static forwardAsync(fn) {
+    return async (x) => {
+      if (x?.isRight) {
+        var res = await fn(x.join());
+
+        if (res?.isRight) {
+          return x;
+        }
+
+        return res;
+      }
+      return x;
+    };
+  }
+
   static joinAll(fn) {
     return (xs) =>
       xs.every((x) => x.isRight)

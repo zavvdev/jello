@@ -1,4 +1,4 @@
-import { Either as E, head, Task } from "jello-fp";
+import { Either as E, Task } from "jello-fp";
 import { User } from "~/core/entity/models/user";
 import { listsRepo } from "~/core/infrastructure/repositories/lists.repository";
 import {
@@ -9,19 +9,21 @@ import {
 /**
  * @param {{
  *  user_id: number;
- *  board_id: number;
  *  id: number;
  *  name?: string;
  *  order_index?: number;
  * }} dto
  */
 export async function updateListProcess(dto) {
+  var merge = ([dto, { board_id }]) => E.right({ ...dto, board_id });
+
   var $task = Task.all(
     Task.of(E.asyncRight),
-    $checkBoardExistance(),
-    $checkAuthority(User.canEditList),
+    Task.of(listsRepo.getOne.bind(listsRepo)),
   )
-    .map(E.all(head))
+    .map(E.joinAll(merge))
+    .map(E.forwardAsync($checkBoardExistance().join()))
+    .map(E.forwardAsync($checkAuthority(User.canEditList).join()))
     .map(E.chain(listsRepo.update.bind(listsRepo)))
     .join();
 

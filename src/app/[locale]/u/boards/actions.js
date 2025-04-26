@@ -130,7 +130,6 @@ export async function mutateList(_, formData) {
   try {
     if (id) {
       await query(API_ROUTES.lists.update(id), "PATCH", {
-        board_id: Number(boardId),
         name,
       });
     } else {

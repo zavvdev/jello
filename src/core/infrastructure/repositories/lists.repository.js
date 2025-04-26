@@ -145,6 +145,34 @@ export class ListsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async getOne({ id }) {
+    try {
+      var result = await this.#client.query(
+        `SELECT * FROM lists WHERE id = $1`,
+        [id],
+      );
+
+      var list = result.rows?.[0];
+
+      if (!list) {
+        return E.left(
+          Result.of({
+            message: MESSAGES.notFound,
+          }),
+        );
+      }
+
+      return E.right(list);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var listsRepo = new ListsRepo({

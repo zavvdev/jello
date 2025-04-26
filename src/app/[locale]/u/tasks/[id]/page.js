@@ -11,6 +11,8 @@ export default async function Task({ params }) {
   var { i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
 
+  // TODO: Add authorization check for delete button
+
   return (
     <I18nProvider
       namespaces={I18N_NAMESPACES}

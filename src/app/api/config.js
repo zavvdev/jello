@@ -56,8 +56,7 @@ export var API_ROUTES = {
 
   tasks: {
     create: () => makeApiUrl("/tasks"),
-    delete: (id, boardId) =>
-      makeApiUrl(`/tasks/${id}?board_id=${boardId}`),
+    delete: (id) => makeApiUrl(`/tasks/${id}`),
   },
 };
 

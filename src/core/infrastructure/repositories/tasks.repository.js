@@ -123,6 +123,36 @@ export class TasksRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async getBoard({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT r.board_id FROM tasks l
+        INNER JOIN lists r ON l.list_id = r.id
+        WHERE l.id = $1`,
+        [task_id],
+      );
+
+      var data = res.rows?.[0];
+
+      if (!data) {
+        return E.left(
+          Result.of({
+            message: MESSAGES.notFound,
+          }),
+        );
+      }
+
+      return E.right({ board_id: data.board_id });
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var tasksRepo = new TasksRepo({

@@ -8,7 +8,7 @@ import { query } from "~/app/utilities/query";
 
 export async function deleteTask(_, { boardId, taskId }) {
   var res = await query(
-    API_ROUTES.tasks.delete(taskId, boardId),
+    API_ROUTES.tasks.delete(taskId),
     "DELETE",
     null,
     true,

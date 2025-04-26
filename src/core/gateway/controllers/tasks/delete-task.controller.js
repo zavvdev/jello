@@ -13,7 +13,6 @@ var dtoSchema = {
   request: authSchema.concat(
     t
       .object({
-        board_id: Id,
         task_id: Id,
       })
       .required(),
@@ -28,7 +27,6 @@ export async function deleteTaskController(dto) {
     )(async (user, request) => {
       return await deleteTaskProcess({
         user_id: user.id,
-        board_id: request.board_id,
         task_id: request.task_id,
       });
     }),

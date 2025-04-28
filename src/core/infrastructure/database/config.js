@@ -18,4 +18,7 @@ export var MESSAGE_BY_CONSTRAINT = {
     users_username_key: MESSAGES.usernameExists,
     users_email_key: MESSAGES.emailExists,
   },
+  tasks: {
+    tasks_list_id_fkey: MESSAGES.listNotFound,
+  },
 };

@@ -14,6 +14,7 @@ export var MESSAGES = {
   userNotInBoard: "user_not_in_board",
   labelNotInBoard: "label_not_in_board",
   listNotInBoard: "list_not_in_board",
+  listNotFound: "list_not_found",
 };
 
 export var VALIDATION_MESSAGES = {

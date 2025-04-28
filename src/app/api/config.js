@@ -57,6 +57,7 @@ export var API_ROUTES = {
   tasks: {
     create: () => makeApiUrl("/tasks"),
     delete: (id) => makeApiUrl(`/tasks/${id}`),
+    update: (id) => makeApiUrl(`/tasks/${id}`),
   },
 };
 
@@ -117,4 +118,5 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.alreadyStarred]: 400,
   [MESSAGES.unauthorizedAction]: 403,
   [MESSAGES.listNotInBoard]: 400,
+  [MESSAGES.listNotFound]: 400,
 };

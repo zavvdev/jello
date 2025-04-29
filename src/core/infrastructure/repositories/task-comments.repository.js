@@ -36,6 +36,27 @@ export class TaskCommentsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   *  body: string;
+   *  author_id: number;
+   * }} param0
+   */
+  async create({ task_id, body, author_id }) {
+    try {
+      var res = await this.#client.query(
+        `INSERT INTO task_comments (task_id, body, author_id)
+        VALUES ($1, $2, $3) RETURNING id`,
+        [task_id, body, author_id],
+      );
+
+      return E.right(res?.rows[0]);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var taskCommentsRepo = new TaskCommentsRepo({

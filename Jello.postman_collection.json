@@ -58,7 +58,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"usernameOrEmail\": \"jdoe\",\n    \"password\": \"11111111\"\n}",
+              "raw": "{\n    \"usernameOrEmail\": \"musk\",\n    \"password\": \"11111111\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -139,7 +139,7 @@
           "response": []
         },
         {
-          "name": "All",
+          "name": "Boards",
           "request": {
             "auth": {
               "type": "noauth"
@@ -241,7 +241,7 @@
           "response": []
         },
         {
-          "name": "Delete",
+          "name": "Board",
           "request": {
             "auth": {
               "type": "noauth"
@@ -263,7 +263,7 @@
           "response": []
         },
         {
-          "name": "Create",
+          "name": "Board",
           "request": {
             "auth": {
               "type": "noauth"
@@ -294,7 +294,7 @@
           "response": []
         },
         {
-          "name": "One",
+          "name": "Board",
           "request": {
             "auth": {
               "type": "noauth"
@@ -308,9 +308,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/boards/52",
+              "raw": "{{API_URL}}/api/boards/3",
               "host": ["{{API_URL}}"],
-              "path": ["api", "boards", "52"]
+              "path": ["api", "boards", "3"]
             }
           },
           "response": []
@@ -338,7 +338,7 @@
           "response": []
         },
         {
-          "name": "Update",
+          "name": "Board",
           "request": {
             "auth": {
               "type": "noauth"
@@ -451,7 +451,7 @@
       "name": "Labels",
       "item": [
         {
-          "name": "All",
+          "name": "Labels",
           "request": {
             "auth": {
               "type": "noauth"
@@ -484,7 +484,7 @@
       "name": "Lists",
       "item": [
         {
-          "name": "All",
+          "name": "Lists",
           "request": {
             "auth": {
               "type": "noauth"
@@ -498,13 +498,13 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/lists?board_id=21",
+              "raw": "{{API_URL}}/api/lists?board_id=26",
               "host": ["{{API_URL}}"],
               "path": ["api", "lists"],
               "query": [
                 {
                   "key": "board_id",
-                  "value": "21"
+                  "value": "26"
                 }
               ]
             }
@@ -512,7 +512,7 @@
           "response": []
         },
         {
-          "name": "Create",
+          "name": "List",
           "request": {
             "auth": {
               "type": "noauth"
@@ -558,7 +558,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"board_id\": 21,\n    \"lists_order\": [13, 14, 16]\n}",
+              "raw": "{\n    \"board_id\": 50,\n    \"lists_order\": [7, 6, 5]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -574,7 +574,7 @@
           "response": []
         },
         {
-          "name": "Update",
+          "name": "List",
           "request": {
             "auth": {
               "type": "noauth"
@@ -589,7 +589,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"todo222\",\n    \"board_id\": 3\n}",
+              "raw": "{\n    \"name\": \"Testing\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -597,15 +597,15 @@
               }
             },
             "url": {
-              "raw": "{{API_URL}}/api/lists/2",
+              "raw": "{{API_URL}}/api/lists/7",
               "host": ["{{API_URL}}"],
-              "path": ["api", "lists", "2"]
+              "path": ["api", "lists", "7"]
             }
           },
           "response": []
         },
         {
-          "name": "Delete",
+          "name": "List",
           "request": {
             "auth": {
               "type": "noauth"
@@ -619,15 +619,9 @@
               }
             ],
             "url": {
-              "raw": "{{API_URL}}/api/lists/2?board_id=3",
+              "raw": "{{API_URL}}/api/lists/2",
               "host": ["{{API_URL}}"],
-              "path": ["api", "lists", "2"],
-              "query": [
-                {
-                  "key": "board_id",
-                  "value": "3"
-                }
-              ]
+              "path": ["api", "lists", "2"]
             }
           },
           "response": []
@@ -636,7 +630,220 @@
     },
     {
       "name": "Tasks",
-      "item": []
+      "item": [
+        {
+          "name": "Task",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"list_id\": 88,\n    \"name\": \"Add an ability to delete task\",\n    \"description\": \"We need to add an ability for users to delete task\",\n    \"assigned_users\": [{ \"id\": 10 }],\n    \"assigned_labels\": [{ \"id\": 11 }]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/tasks",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/2",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Some new name\",\n    \"description\": \"Some new description\",\n    \"list_id\": 262\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Comments",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/20/comments",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "20", "comments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Comment",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"body\": \"Hey!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/20/comments",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "20", "comments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Comment",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"body\": \"new\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/20/comments/4",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "20", "comments", "4"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Comment",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/20/comments/4",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "20", "comments", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Me",

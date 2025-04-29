@@ -10,7 +10,12 @@ var schema = t.object({
     .min(1, T.minLength)
     .required(T.required)
     .typeError(T.typeString),
-  author_id: Id,
+  author: t.object({
+    id: Id,
+    username: t.string().required(T.required),
+    first_name: t.string().required(T.required),
+    last_name: t.string().required(T.required),
+  }),
   task_id: Id,
   created_at: Timestamp,
   updated_at: Timestamp,

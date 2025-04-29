@@ -102,6 +102,23 @@ export class TaskCommentsRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async delete({ id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM task_comments WHERE id = $1`,
+        [id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var taskCommentsRepo = new TaskCommentsRepo({

@@ -61,6 +61,8 @@ export var API_ROUTES = {
     get: (id) => makeApiUrl(`/tasks/${id}`),
     getComments: (id) => makeApiUrl(`/tasks/${id}/comments`),
     createComment: (id) => makeApiUrl(`/tasks/${id}/comments`),
+    updateComment: (taskId, commentId) =>
+      makeApiUrl(`/tasks/${taskId}/comments/${commentId}`),
   },
 };
 

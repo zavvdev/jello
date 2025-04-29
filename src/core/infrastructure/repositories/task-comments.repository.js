@@ -1,4 +1,6 @@
 import { Either as E } from "jello-fp";
+import { MESSAGES } from "jello-messages";
+import { Result } from "~/core/domain/result";
 import { db } from "~/core/infrastructure/database";
 
 export class TaskCommentsRepo {
@@ -39,6 +41,31 @@ export class TaskCommentsRepo {
 
   /**
    * @param {{
+   *  id: number;
+   * }} param0
+   */
+  async getMeta({ id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT id, task_id, author_id FROM task_comments
+        WHERE id = $1`,
+        [id],
+      );
+
+      var comment = res?.rows?.[0];
+
+      if (!comment) {
+        return E.left(Result.of({ message: MESSAGES.notFound }));
+      }
+
+      return E.right(comment);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
    *  task_id: number;
    *  body: string;
    *  author_id: number;
@@ -53,6 +80,24 @@ export class TaskCommentsRepo {
       );
 
       return E.right(res?.rows[0]);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   *  body: string;
+   * }} param0
+   */
+  async update({ id, body }) {
+    try {
+      await this.#client.query(
+        `UPDATE task_comments SET body = $1 WHERE id = $2`,
+        [body, id],
+      );
+      return E.right();
     } catch {
       return E.left();
     }

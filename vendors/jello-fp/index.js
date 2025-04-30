@@ -146,9 +146,10 @@ export class Task {
 
   static all(...tasks) {
     return new Task(async (...args) => {
-      var result = [];
-      for (let task of tasks) {
-        result.push(await task.runner(...args));
+      var len = tasks.length;
+      var result = Array(len);
+      for (let i = 0; i < len; ++i) {
+        result[i] = await tasks[i].runner(...args);
       }
       return result;
     });

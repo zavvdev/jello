@@ -218,6 +218,26 @@ export class TasksRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async getLabels({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT r.id, r.name, r.color
+        FROM tasks_labels l
+        INNER JOIN labels r ON l.label_id = r.id
+        WHERE l.task_id = $1`,
+        [task_id],
+      );
+      return E.right(res.rows ?? []);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var tasksRepo = new TasksRepo({

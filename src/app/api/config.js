@@ -69,6 +69,7 @@ export var API_ROUTES = {
     assignUser: (taskId) => makeApiUrl(`/tasks/${taskId}/users`),
     removeUser: (taskId, userId) =>
       makeApiUrl(`/tasks/${taskId}/users/${userId}`),
+    getLabels: (taskId) => makeApiUrl(`/tasks/${taskId}/labels`),
   },
 };
 

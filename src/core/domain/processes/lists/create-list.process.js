@@ -1,4 +1,4 @@
-import { Either as E, log, Task } from "jello-fp";
+import { Either as E, Task } from "jello-fp";
 import { User } from "~/core/entity/models/user";
 import { listsRepo } from "~/core/infrastructure/repositories/lists.repository";
 import {
@@ -27,7 +27,6 @@ export async function createListProcess(dto) {
     $checkAuthority(User.canCreateList),
   )
     .map(E.joinAll(updateOrderIndex))
-    .map(log())
     .map(E.chain(listsRepo.create.bind(listsRepo)))
     .join();
 

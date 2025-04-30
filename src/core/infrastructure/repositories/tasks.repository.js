@@ -177,6 +177,27 @@ export class TasksRepo {
       );
     }
   }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async getUsers({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT r.id, r.username, r.first_name, r.last_name
+        FROM users_tasks l
+        INNER JOIN users r ON l.user_id = r.id
+        WHERE l.task_id = $1`,
+        [task_id],
+      );
+
+      return E.right(res.rows ?? []);
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var tasksRepo = new TasksRepo({

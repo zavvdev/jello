@@ -65,6 +65,7 @@ export var API_ROUTES = {
       makeApiUrl(`/tasks/${taskId}/comments/${commentId}`),
     deleteComment: (taskId, commentId) =>
       makeApiUrl(`/tasks/${taskId}/comments/${commentId}`),
+    getUsers: (taskId) => makeApiUrl(`/tasks/${taskId}/users`),
   },
 };
 

@@ -207,7 +207,7 @@ export class TasksRepo {
    *  user_id: number;
    * }} param0
    */
-  async removeUsers({ task_id, user_id }) {
+  async removeUser({ task_id, user_id }) {
     try {
       await this.#client.query(
         `DELETE FROM users_tasks WHERE user_id = $1 AND task_id = $2`,

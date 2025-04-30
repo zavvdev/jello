@@ -240,6 +240,24 @@ export class TasksRepo {
       return E.left();
     }
   }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   *  label_id: number;
+   * }} param0
+   */
+  async removeLabel({ task_id, label_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM tasks_labels WHERE label_id = $1 AND task_id = $2`,
+        [label_id, task_id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
 }
 
 export var tasksRepo = new TasksRepo({

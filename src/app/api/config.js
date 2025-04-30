@@ -66,6 +66,7 @@ export var API_ROUTES = {
     deleteComment: (taskId, commentId) =>
       makeApiUrl(`/tasks/${taskId}/comments/${commentId}`),
     getUsers: (taskId) => makeApiUrl(`/tasks/${taskId}/users`),
+    assignUser: (taskId) => makeApiUrl(`/tasks/${taskId}/users`),
   },
 };
 
@@ -127,4 +128,6 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.unauthorizedAction]: 403,
   [MESSAGES.listNotInBoard]: 400,
   [MESSAGES.listNotFound]: 400,
+  [MESSAGES.alreadyAssigned]: 400,
+  [MESSAGES.userNotFound]: 404,
 };

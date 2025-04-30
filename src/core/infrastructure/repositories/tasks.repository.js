@@ -58,8 +58,10 @@ export class TasksRepo {
         [user_id, task_id],
       );
       return E.right();
-    } catch {
-      return E.left();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.users_tasks)(e),
+      );
     }
   }
 
@@ -194,6 +196,24 @@ export class TasksRepo {
       );
 
       return E.right(res.rows ?? []);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   *  user_id: number;
+   * }} param0
+   */
+  async removeUsers({ task_id, user_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM users_tasks WHERE user_id = $1 AND task_id = $2`,
+        [user_id, task_id],
+      );
+      return E.right();
     } catch {
       return E.left();
     }

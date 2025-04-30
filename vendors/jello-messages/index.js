@@ -17,6 +17,7 @@ export var MESSAGES = {
   listNotFound: "list_not_found",
   alreadyAssigned: "already_assigned",
   userNotFound: "user_not_found",
+  labelNotFound: "label_not_found",
 };
 
 export var VALIDATION_MESSAGES = {

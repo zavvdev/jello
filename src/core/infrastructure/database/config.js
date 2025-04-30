@@ -25,4 +25,8 @@ export var MESSAGE_BY_CONSTRAINT = {
     users_tasks_pkey: MESSAGES.alreadyAssigned,
     users_tasks_user_id_fkey: MESSAGES.userNotFound,
   },
+  tasks_labels: {
+    tasks_labels_pkey: MESSAGES.alreadyAssigned,
+    tasks_labels_label_id_fkey: MESSAGES.labelNotFound,
+  },
 };

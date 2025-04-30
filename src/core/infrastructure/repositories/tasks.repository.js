@@ -79,8 +79,10 @@ export class TasksRepo {
         [task_id, label_id],
       );
       return E.right();
-    } catch {
-      return E.left();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.tasks_labels)(e),
+      );
     }
   }
 

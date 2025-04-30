@@ -70,6 +70,7 @@ export var API_ROUTES = {
     removeUser: (taskId, userId) =>
       makeApiUrl(`/tasks/${taskId}/users/${userId}`),
     getLabels: (taskId) => makeApiUrl(`/tasks/${taskId}/labels`),
+    assignLabel: (taskId) => makeApiUrl(`/tasks/${taskId}/labels`),
   },
 };
 
@@ -133,4 +134,5 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.listNotFound]: 400,
   [MESSAGES.alreadyAssigned]: 400,
   [MESSAGES.userNotFound]: 404,
+  [MESSAGES.labelNotFound]: 404,
 };

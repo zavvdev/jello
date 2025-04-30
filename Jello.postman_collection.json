@@ -842,6 +842,156 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Users",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18/users",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18/users",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18/users/2",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18", "users", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Labels",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18/labels",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18", "labels"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Label",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"label_id\": 17\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18/labels",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18", "labels"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Label",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{AUTH_TOKEN}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{API_URL}}/api/tasks/18/labels/17",
+              "host": ["{{API_URL}}"],
+              "path": ["api", "tasks", "18", "labels", "17"]
+            }
+          },
+          "response": []
         }
       ]
     },

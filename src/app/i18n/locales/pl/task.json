@@ -1,4 +1,6 @@
 {
+  "task_not_found": "Nie znaleziono zadania",
+  "board_not_found": "Nie znaleziono tablicy",
   "back_to_board": "Powrót do tablicy",
   "actions": {
     "delete": "Usuń"

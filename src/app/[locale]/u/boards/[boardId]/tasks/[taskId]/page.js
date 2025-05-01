@@ -18,17 +18,27 @@ async function getUser() {
 }
 
 async function getBoard(id) {
-  var board = await query(API_ROUTES.boards.getOne(id));
+  var board = await query(
+    API_ROUTES.boards.getOne(id),
+    "GET",
+    null,
+    true,
+  );
   return board.data;
 }
 
 async function getTask(id) {
-  var task = await query(API_ROUTES.tasks.get(id));
+  var task = await query(API_ROUTES.tasks.get(id), "GET", null, true);
   return task.data;
 }
 
 async function getLists(boardId) {
-  var lists = await query(API_ROUTES.lists.getAll(boardId));
+  var lists = await query(
+    API_ROUTES.lists.getAll(boardId),
+    "GET",
+    null,
+    true,
+  );
   return lists.data;
 }
 
@@ -49,30 +59,34 @@ export default async function Task({ params }) {
       locale={i18n.language}
       resources={resources}
     >
-      <div>
-        <Link
-          href={PRIVATE_ROUTES.board(boardId)}
-          className={styles.back}
-        >
-          <Icons.ArrowLeft width="1.2rem" />
-          {t("back_to_board")}
-        </Link>
-        <FormBaseInfo
-          boardId={boardId}
-          taskId={taskId}
-          canDelete={User.canDeleteTask({
-            userId: user.id,
-            taskCreatorId: task.created_by,
-          })(board.role)}
-          lists={lists}
-          initialValues={{
-            name: task.name,
-            description: task.description,
-            listId: task.list_id,
-          }}
-        />
-        <hr />
-      </div>
+      {!board && <p>{t("board_not_found")}</p>}
+      {!task && <p>{t("task_not_found")}</p>}
+      {board && task && (
+        <div>
+          <Link
+            href={PRIVATE_ROUTES.board(boardId)}
+            className={styles.back}
+          >
+            <Icons.ArrowLeft width="1.2rem" />
+            {t("back_to_board")}
+          </Link>
+          <FormBaseInfo
+            boardId={boardId}
+            taskId={taskId}
+            canDelete={User.canDeleteTask({
+              userId: user.id,
+              taskCreatorId: task.created_by,
+            })(board.role)}
+            lists={lists}
+            initialValues={{
+              name: task.name,
+              description: task.description,
+              listId: task.list_id,
+            }}
+          />
+          <hr />
+        </div>
+      )}
     </I18nProvider>
   );
 }

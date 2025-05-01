@@ -1,4 +1,6 @@
 {
+  "task_not_found": "Task not found",
+  "board_not_found": "Board not found",
   "back_to_board": "Back to board",
   "actions": {
     "delete": "Delete"

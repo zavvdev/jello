@@ -1,7 +1,6 @@
 "use client";
 
-import { startTransition, useEffect, useRef, useState } from "react";
-import { createSwapy } from "swapy";
+import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { User } from "~/core/entity/models/user";
@@ -9,7 +8,6 @@ import { Icons } from "~/app/components/icons";
 import { PRIVATE_ROUTES } from "~/app/routes";
 import { ModalMutateList } from "./_components/atoms/modal-mutate-list";
 import { DeleteButton } from "./_components/atoms/delete-button";
-import { reorderList } from "../../../../actions";
 import styles from "./styles.module.css";
 import { ModalCreateTask } from "./_components/atoms/modal-create-task";
 
@@ -24,47 +22,12 @@ export function Lists({
   var { 0: mutateList, 1: setMutateList } = useState(null);
   var { 0: createTaskForList, 1: setCreateTaskForList } = useState(0);
 
-  var swapy = useRef(null);
-  var container = useRef(null);
-
-  // TODO: Reorder does not work for newly created lists
-  // This needs to be rewritten and maybe moved to separate hook
-  useEffect(() => {
-    if (container.current && User.canEditList(role)) {
-      swapy.current = createSwapy(container.current, {
-        animation: "none",
-      });
-
-      swapy.current.onSwapEnd((event) => {
-        var nextIds = event.slotItemMap.asArray.map((x) => x.item);
-        startTransition(() =>
-          reorderList({ boardId, listIds: nextIds }),
-        );
-      });
-    }
-
-    return () => {
-      swapy.current?.destroy();
-    };
-  }, [role, boardId]);
-
   return (
-    <div ref={container} className={styles.root}>
+    <div className={styles.root}>
       {data.map((list) => (
-        <div
-          key={list.id}
-          data-swapy-slot={list.id}
-          className={styles.listWrap}
-        >
-          <div
-            key={list.id}
-            data-swapy-item={list.id}
-            className={styles.list}
-          >
+        <div key={list.id} className={styles.listWrap}>
+          <div key={list.id} className={styles.list}>
             <div className={styles.listHeader}>
-              {User.canEditList(role) && (
-                <Icons.GripVertical data-swapy-handle width="1rem" />
-              )}
               {list.name}{" "}
               {User.canEditList(role) && (
                 <button

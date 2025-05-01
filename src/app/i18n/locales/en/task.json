@@ -1,4 +1,5 @@
 {
+  "back_to_board": "Back to board",
   "actions": {
     "delete": "Delete"
   },
@@ -7,5 +8,13 @@
   },
   "error": {
     "board_not_found": "Board not found"
+  },
+
+  "base_info": {
+    "name": "Name",
+    "description": "Description",
+    "list": "List",
+    "submit": "Save",
+    "success": "Task updated successfully"
   }
 }

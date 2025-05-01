@@ -1,4 +1,5 @@
 {
+  "back_to_board": "Powrót do tablicy",
   "actions": {
     "delete": "Usuń"
   },
@@ -7,5 +8,13 @@
   },
   "error": {
     "board_not_found": "Nie znaleziono tablicy"
+  },
+
+  "base_info": {
+    "name": "Nazwa",
+    "description": "Opis",
+    "list": "Lista",
+    "submit": "Zapisz",
+    "success": "Zapisano"
   }
 }

@@ -10,6 +10,7 @@ import styles from "./styles.module.css";
  *  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
  *  defaultValue?: string;
  *  placeholder?: string;
+ *  rows?: number;
  * }} param0
  */
 export function TextArea({
@@ -21,6 +22,7 @@ export function TextArea({
   onChange,
   defaultValue,
   placeholder,
+  rows,
 }) {
   return (
     <div className={styles.root}>
@@ -33,6 +35,7 @@ export function TextArea({
         onChange={onChange}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        rows={rows}
       />
     </div>
   );

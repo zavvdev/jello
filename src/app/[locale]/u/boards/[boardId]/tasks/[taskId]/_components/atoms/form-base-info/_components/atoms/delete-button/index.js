@@ -21,6 +21,7 @@ export function DeleteButton({ boardId, id }) {
   return (
     <div>
       <Button
+        type="button"
         variant="danger"
         disabled={pending}
         onClick={() => {

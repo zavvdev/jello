@@ -1,5 +1,6 @@
 "use server";
 
+import { MESSAGES } from "jello-messages";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { API_ROUTES } from "~/app/api/config";
@@ -20,4 +21,24 @@ export async function deleteTask(_, { boardId, taskId }) {
   }
 
   return res;
+}
+
+export async function updateTask(_, formData) {
+  try {
+    await query(API_ROUTES.tasks.update(formData.get("id")), "PUT", {
+      name: formData.get("name"),
+      description: formData.get("description"),
+      list_id: parseInt(formData.get("listId")),
+    });
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
 }

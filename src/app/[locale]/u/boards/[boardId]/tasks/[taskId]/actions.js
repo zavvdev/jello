@@ -86,3 +86,47 @@ export async function removeUser(_, formData) {
     };
   }
 }
+
+export async function assignLabel(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.assignLabel(formData.get("taskId")),
+      "POST",
+      {
+        label_id: parseInt(formData.get("labelId")),
+      },
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function removeLabel(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.removeLabel(
+        formData.get("taskId"),
+        formData.get("labelId"),
+      ),
+      "DELETE",
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}

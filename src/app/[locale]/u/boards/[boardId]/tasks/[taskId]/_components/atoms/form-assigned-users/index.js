@@ -5,8 +5,7 @@ import { useTranslation } from "react-i18next";
 import { UsersPicker } from "~/app/components/organisms/users-picker";
 import { ApiErrors } from "~/app/components/molecules/api-errors";
 import styles from "./styles.module.css";
-import { assignUser } from "../../../actions";
-import { removeUser } from "../../../actions";
+import { assignUser, removeUser } from "../../../actions";
 
 /**
  * @typedef {{

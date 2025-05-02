@@ -25,7 +25,16 @@
     "empty": "No users assigned",
     "error": {
       "already_assigned": "User already assigned to this task",
-      "fallback": "Failed to assign user. Try again later."
+      "fallback": "Unexpected error. Try again later."
+    }
+  },
+
+  "assigned_labels": {
+    "title": "Assigned Labels",
+    "empty": "No labels assigned",
+    "error": {
+      "already_assigned": "Label already assigned to this task",
+      "fallback": "Unexpected error. Try again later."
     }
   }
 }

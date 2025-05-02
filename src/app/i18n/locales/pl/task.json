@@ -25,7 +25,16 @@
     "empty": "Brak przypisanych użytkowników",
     "error": {
       "already_assigned": "Użytkownik już przypisany do tego zadania",
-      "fallback": "Nie można przypisać użytkownika do zadania"
+      "fallback": "Błąd. Sprobuj ponownie później"
+    }
+  },
+
+  "assigned_labels": {
+    "title": "Przypisane etykiety",
+    "empty": "Brak przypisanych etykiet",
+    "error": {
+      "already_assigned": "Etykieta już przypisana do tego zadania",
+      "fallback": "Błąd. Sprobuj ponownie później"
     }
   }
 }

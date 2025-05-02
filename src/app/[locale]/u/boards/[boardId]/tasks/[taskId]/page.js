@@ -10,6 +10,7 @@ import { Icons } from "~/app/components/icons";
 import { FormBaseInfo } from "./_components/atoms/form-base-info";
 import styles from "./page.module.css";
 import { FormAssignedUsers } from "./_components/atoms/form-assigned-users";
+import { FormAssignedLabels } from "./_components/atoms/form-assigned-labels";
 
 var I18N_NAMESPACES = [NAMESPACES.task];
 
@@ -63,6 +64,26 @@ async function getTaskUsers(taskId) {
   return users.data || [];
 }
 
+async function getBoardLabels(boardId) {
+  var users = await query(
+    API_ROUTES.labels.getAll(boardId),
+    "GET",
+    null,
+    true,
+  );
+  return users.data || [];
+}
+
+async function getTaskLabels(taskId) {
+  var users = await query(
+    API_ROUTES.tasks.getLabels(taskId),
+    "GET",
+    null,
+    true,
+  );
+  return users.data || [];
+}
+
 export default async function Task({ params }) {
   var { boardId, taskId } = await params;
 
@@ -72,6 +93,8 @@ export default async function Task({ params }) {
   var lists = await getLists(boardId);
   var boardUsers = await getBoardUsers(boardId);
   var taskUsers = await getTaskUsers(taskId);
+  var boardLabels = await getBoardLabels(boardId);
+  var taskLabels = await getTaskLabels(taskId);
 
   var { t, i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
@@ -107,11 +130,21 @@ export default async function Task({ params }) {
               listId: task.list_id,
             }}
           />
+          <br />
           <hr />
+          <br />
           <FormAssignedUsers
             taskId={taskId}
             boardUsers={boardUsers}
             taskUsers={taskUsers}
+          />
+          <br />
+          <hr />
+          <br />
+          <FormAssignedLabels
+            taskId={taskId}
+            boardLabels={boardLabels}
+            taskLabels={taskLabels}
           />
         </div>
       )}

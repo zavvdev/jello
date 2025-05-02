@@ -9,6 +9,7 @@ import { PRIVATE_ROUTES } from "~/app/routes";
 import { Icons } from "~/app/components/icons";
 import { FormBaseInfo } from "./_components/atoms/form-base-info";
 import styles from "./page.module.css";
+import { FormAssignedUsers } from "./_components/atoms/form-assigned-users";
 
 var I18N_NAMESPACES = [NAMESPACES.task];
 
@@ -42,6 +43,26 @@ async function getLists(boardId) {
   return lists.data;
 }
 
+async function getBoardUsers(boardId) {
+  var users = await query(
+    API_ROUTES.boards.getUsers(boardId),
+    "GET",
+    null,
+    true,
+  );
+  return users.data || [];
+}
+
+async function getTaskUsers(taskId) {
+  var users = await query(
+    API_ROUTES.tasks.getUsers(taskId),
+    "GET",
+    null,
+    true,
+  );
+  return users.data || [];
+}
+
 export default async function Task({ params }) {
   var { boardId, taskId } = await params;
 
@@ -49,6 +70,8 @@ export default async function Task({ params }) {
   var board = await getBoard(boardId);
   var task = await getTask(taskId);
   var lists = await getLists(boardId);
+  var boardUsers = await getBoardUsers(boardId);
+  var taskUsers = await getTaskUsers(taskId);
 
   var { t, i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
@@ -85,6 +108,11 @@ export default async function Task({ params }) {
             }}
           />
           <hr />
+          <FormAssignedUsers
+            taskId={taskId}
+            boardUsers={boardUsers}
+            taskUsers={taskUsers}
+          />
         </div>
       )}
     </I18nProvider>

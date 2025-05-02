@@ -18,5 +18,14 @@
     "list": "Lista",
     "submit": "Zapisz",
     "success": "Zapisano"
+  },
+
+  "assigned_users": {
+    "title": "Przypisani użytkownicy",
+    "empty": "Brak przypisanych użytkowników",
+    "error": {
+      "already_assigned": "Użytkownik już przypisany do tego zadania",
+      "fallback": "Nie można przypisać użytkownika do zadania"
+    }
   }
 }

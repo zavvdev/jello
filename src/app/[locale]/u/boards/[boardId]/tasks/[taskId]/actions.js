@@ -42,3 +42,47 @@ export async function updateTask(_, formData) {
     };
   }
 }
+
+export async function assignUser(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.assignUser(formData.get("taskId")),
+      "POST",
+      {
+        user_id: parseInt(formData.get("userId")),
+      },
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function removeUser(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.removeUser(
+        formData.get("taskId"),
+        formData.get("userId"),
+      ),
+      "DELETE",
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}

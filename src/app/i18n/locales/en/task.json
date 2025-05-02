@@ -18,5 +18,14 @@
     "list": "List",
     "submit": "Save",
     "success": "Task updated successfully"
+  },
+
+  "assigned_users": {
+    "title": "Assigned Users",
+    "empty": "No users assigned",
+    "error": {
+      "already_assigned": "User already assigned to this task",
+      "fallback": "Failed to assign user. Try again later."
+    }
   }
 }

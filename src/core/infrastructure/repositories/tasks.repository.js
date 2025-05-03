@@ -2,6 +2,8 @@ import { Either as E } from "jello-fp";
 import { MESSAGES } from "jello-messages";
 import { Result } from "~/core/domain/result";
 import { db } from "~/core/infrastructure/database";
+import { handleConstraintError } from "../database/utilities";
+import { MESSAGE_BY_CONSTRAINT } from "../database/config";
 
 export class TasksRepo {
   /**
@@ -56,8 +58,10 @@ export class TasksRepo {
         [user_id, task_id],
       );
       return E.right();
-    } catch {
-      return E.left();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.users_tasks)(e),
+      );
     }
   }
 
@@ -75,8 +79,10 @@ export class TasksRepo {
         [task_id, label_id],
       );
       return E.right();
-    } catch {
-      return E.left();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.tasks_labels)(e),
+      );
     }
   }
 
@@ -149,6 +155,105 @@ export class TasksRepo {
       }
 
       return E.right({ board_id: data.board_id });
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  id: number;
+   *  name: string;
+   *  description?: string;
+   *  list_id: number;
+   *  }} param0
+   */
+  async update({ id, name, description, list_id }) {
+    try {
+      await this.#client.query(
+        `UPDATE tasks SET name = $1, description = $2, list_id = $3 WHERE id = $4`,
+        [name, description || null, list_id, id],
+      );
+      return E.right();
+    } catch (e) {
+      return E.left(
+        handleConstraintError(MESSAGE_BY_CONSTRAINT.tasks)(e),
+      );
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async getUsers({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT r.id, r.username, r.first_name, r.last_name
+        FROM users_tasks l
+        INNER JOIN users r ON l.user_id = r.id
+        WHERE l.task_id = $1`,
+        [task_id],
+      );
+
+      return E.right(res.rows ?? []);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   *  user_id: number;
+   * }} param0
+   */
+  async removeUser({ task_id, user_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM users_tasks WHERE user_id = $1 AND task_id = $2`,
+        [user_id, task_id],
+      );
+      return E.right();
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   * }} param0
+   */
+  async getLabels({ task_id }) {
+    try {
+      var res = await this.#client.query(
+        `SELECT r.id, r.name, r.color
+        FROM tasks_labels l
+        INNER JOIN labels r ON l.label_id = r.id
+        WHERE l.task_id = $1`,
+        [task_id],
+      );
+      return E.right(res.rows ?? []);
+    } catch {
+      return E.left();
+    }
+  }
+
+  /**
+   * @param {{
+   *  task_id: number;
+   *  label_id: number;
+   * }} param0
+   */
+  async removeLabel({ task_id, label_id }) {
+    try {
+      await this.#client.query(
+        `DELETE FROM tasks_labels WHERE label_id = $1 AND task_id = $2`,
+        [label_id, task_id],
+      );
+      return E.right();
     } catch {
       return E.left();
     }

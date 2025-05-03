@@ -1,4 +1,7 @@
 {
+  "task_not_found": "Nie znaleziono zadania",
+  "board_not_found": "Nie znaleziono tablicy",
+  "back_to_board": "Powrót do tablicy",
   "actions": {
     "delete": "Usuń"
   },
@@ -7,5 +10,45 @@
   },
   "error": {
     "board_not_found": "Nie znaleziono tablicy"
+  },
+
+  "base_info": {
+    "name": "Nazwa",
+    "description": "Opis",
+    "list": "Lista",
+    "submit": "Zapisz",
+    "success": "Zapisano"
+  },
+
+  "assigned_users": {
+    "title": "Przypisani użytkownicy",
+    "empty": "Brak przypisanych użytkowników",
+    "error": {
+      "already_assigned": "Użytkownik już przypisany do tego zadania",
+      "fallback": "Błąd. Sprobuj ponownie później"
+    }
+  },
+
+  "assigned_labels": {
+    "title": "Przypisane etykiety",
+    "empty": "Brak przypisanych etykiet",
+    "error": {
+      "already_assigned": "Etykieta już przypisana do tego zadania",
+      "fallback": "Błąd. Sprobuj ponownie później"
+    }
+  },
+
+  "comments": {
+    "title": "Komentarze",
+    "empty": "Brak komentarzy",
+    "add": "Dodaj komentarz",
+    "save": "Zapisz",
+    "placeholder": "Napisz komentarz...",
+    "error": {
+      "fallback": "Błąd. Sprobuj ponownie później"
+    },
+    "confirm": {
+      "delete": "Czy na pewno chcesz usunąć ten komentarz?"
+    }
   }
 }

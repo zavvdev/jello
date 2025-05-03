@@ -1,5 +1,6 @@
 "use server";
 
+import { MESSAGES } from "jello-messages";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { API_ROUTES } from "~/app/api/config";
@@ -20,4 +21,171 @@ export async function deleteTask(_, { boardId, taskId }) {
   }
 
   return res;
+}
+
+export async function updateTask(_, formData) {
+  try {
+    await query(API_ROUTES.tasks.update(formData.get("id")), "PUT", {
+      name: formData.get("name"),
+      description: formData.get("description"),
+      list_id: parseInt(formData.get("listId")),
+    });
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function assignUser(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.assignUser(formData.get("taskId")),
+      "POST",
+      {
+        user_id: parseInt(formData.get("userId")),
+      },
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function removeUser(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.removeUser(
+        formData.get("taskId"),
+        formData.get("userId"),
+      ),
+      "DELETE",
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function assignLabel(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.assignLabel(formData.get("taskId")),
+      "POST",
+      {
+        label_id: parseInt(formData.get("labelId")),
+      },
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function removeLabel(_, formData) {
+  try {
+    await query(
+      API_ROUTES.tasks.removeLabel(
+        formData.get("taskId"),
+        formData.get("labelId"),
+      ),
+      "DELETE",
+    );
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+}
+
+export async function mutateComment(_, formData) {
+  var boardId = formData.get("boardId");
+  var taskId = formData.get("taskId");
+  var body = formData.get("body");
+  var commentId = formData.get("commentId");
+
+  try {
+    if (commentId) {
+      await query(
+        API_ROUTES.tasks.updateComment(taskId, commentId),
+        "PUT",
+        {
+          body,
+        },
+      );
+    } else {
+      await query(API_ROUTES.tasks.createComment(taskId), "POST", {
+        body,
+      });
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+
+  revalidatePath(PRIVATE_ROUTES.task(boardId, taskId));
+
+  return {
+    success: true,
+  };
+}
+
+export async function deleteComment(
+  _,
+  { boardId, taskId, commentId },
+) {
+  try {
+    await query(
+      API_ROUTES.tasks.deleteComment(taskId, commentId),
+      "DELETE",
+    );
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+
+  revalidatePath(PRIVATE_ROUTES.task(boardId, taskId));
+
+  return {
+    success: true,
+  };
 }

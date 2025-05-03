@@ -57,6 +57,22 @@ export var API_ROUTES = {
   tasks: {
     create: () => makeApiUrl("/tasks"),
     delete: (id) => makeApiUrl(`/tasks/${id}`),
+    update: (id) => makeApiUrl(`/tasks/${id}`),
+    get: (id) => makeApiUrl(`/tasks/${id}`),
+    getComments: (id) => makeApiUrl(`/tasks/${id}/comments`),
+    createComment: (id) => makeApiUrl(`/tasks/${id}/comments`),
+    updateComment: (taskId, commentId) =>
+      makeApiUrl(`/tasks/${taskId}/comments/${commentId}`),
+    deleteComment: (taskId, commentId) =>
+      makeApiUrl(`/tasks/${taskId}/comments/${commentId}`),
+    getUsers: (taskId) => makeApiUrl(`/tasks/${taskId}/users`),
+    assignUser: (taskId) => makeApiUrl(`/tasks/${taskId}/users`),
+    removeUser: (taskId, userId) =>
+      makeApiUrl(`/tasks/${taskId}/users/${userId}`),
+    getLabels: (taskId) => makeApiUrl(`/tasks/${taskId}/labels`),
+    assignLabel: (taskId) => makeApiUrl(`/tasks/${taskId}/labels`),
+    removeLabel: (taskId, labelId) =>
+      makeApiUrl(`/tasks/${taskId}/labels/${labelId}`),
   },
 };
 
@@ -117,4 +133,8 @@ export var MESSAGE_STATUS_MAP = {
   [MESSAGES.alreadyStarred]: 400,
   [MESSAGES.unauthorizedAction]: 403,
   [MESSAGES.listNotInBoard]: 400,
+  [MESSAGES.listNotFound]: 400,
+  [MESSAGES.alreadyAssigned]: 400,
+  [MESSAGES.userNotFound]: 404,
+  [MESSAGES.labelNotFound]: 404,
 };

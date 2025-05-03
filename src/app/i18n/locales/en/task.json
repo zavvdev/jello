@@ -1,4 +1,7 @@
 {
+  "task_not_found": "Task not found",
+  "board_not_found": "Board not found",
+  "back_to_board": "Back to board",
   "actions": {
     "delete": "Delete"
   },
@@ -7,5 +10,45 @@
   },
   "error": {
     "board_not_found": "Board not found"
+  },
+
+  "base_info": {
+    "name": "Name",
+    "description": "Description",
+    "list": "List",
+    "submit": "Save",
+    "success": "Task updated successfully"
+  },
+
+  "assigned_users": {
+    "title": "Assigned Users",
+    "empty": "No users assigned",
+    "error": {
+      "already_assigned": "User already assigned to this task",
+      "fallback": "Unexpected error. Try again later."
+    }
+  },
+
+  "assigned_labels": {
+    "title": "Assigned Labels",
+    "empty": "No labels assigned",
+    "error": {
+      "already_assigned": "Label already assigned to this task",
+      "fallback": "Unexpected error. Try again later."
+    }
+  },
+
+  "comments": {
+    "title": "Comments",
+    "empty": "No comments yet",
+    "add": "Add",
+    "save": "Save",
+    "placeholder": "Write a comment...",
+    "error": {
+      "fallback": "Unexpected error. Try again later."
+    },
+    "confirm": {
+      "delete": "Are you sure you want to delete this comment?"
+    }
   }
 }

@@ -130,3 +130,62 @@ export async function removeLabel(_, formData) {
     };
   }
 }
+
+export async function mutateComment(_, formData) {
+  var boardId = formData.get("boardId");
+  var taskId = formData.get("taskId");
+  var body = formData.get("body");
+  var commentId = formData.get("commentId");
+
+  try {
+    if (commentId) {
+      await query(
+        API_ROUTES.tasks.updateComment(taskId, commentId),
+        "PUT",
+        {
+          body,
+        },
+      );
+    } else {
+      await query(API_ROUTES.tasks.createComment(taskId), "POST", {
+        body,
+      });
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+
+  revalidatePath(PRIVATE_ROUTES.task(boardId, taskId));
+
+  return {
+    success: true,
+  };
+}
+
+export async function deleteComment(
+  _,
+  { boardId, taskId, commentId },
+) {
+  try {
+    await query(
+      API_ROUTES.tasks.deleteComment(taskId, commentId),
+      "DELETE",
+    );
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || MESSAGES.unexpectedError,
+      extra: error.response?.data,
+    };
+  }
+
+  revalidatePath(PRIVATE_ROUTES.task(boardId, taskId));
+
+  return {
+    success: true,
+  };
+}

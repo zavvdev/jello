@@ -11,6 +11,7 @@ import { FormBaseInfo } from "./_components/atoms/form-base-info";
 import styles from "./page.module.css";
 import { FormAssignedUsers } from "./_components/atoms/form-assigned-users";
 import { FormAssignedLabels } from "./_components/atoms/form-assigned-labels";
+import { FormComments } from "./_components/atoms/form-comments";
 
 var I18N_NAMESPACES = [NAMESPACES.task];
 
@@ -84,6 +85,16 @@ async function getTaskLabels(taskId) {
   return users.data || [];
 }
 
+async function getComments(taskId) {
+  var users = await query(
+    API_ROUTES.tasks.getComments(taskId),
+    "GET",
+    null,
+    true,
+  );
+  return users.data || [];
+}
+
 export default async function Task({ params }) {
   var { boardId, taskId } = await params;
 
@@ -95,6 +106,7 @@ export default async function Task({ params }) {
   var taskUsers = await getTaskUsers(taskId);
   var boardLabels = await getBoardLabels(boardId);
   var taskLabels = await getTaskLabels(taskId);
+  var comments = await getComments(taskId);
 
   var { t, i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
@@ -108,7 +120,7 @@ export default async function Task({ params }) {
       {!board && <p>{t("board_not_found")}</p>}
       {!task && <p>{t("task_not_found")}</p>}
       {board && task && (
-        <div>
+        <div className={styles.root}>
           <Link
             href={PRIVATE_ROUTES.board(boardId)}
             className={styles.back}
@@ -145,6 +157,12 @@ export default async function Task({ params }) {
             taskId={taskId}
             boardLabels={boardLabels}
             taskLabels={taskLabels}
+          />
+          <FormComments
+            userId={user.id}
+            taskId={taskId}
+            boardId={boardId}
+            comments={comments}
           />
         </div>
       )}

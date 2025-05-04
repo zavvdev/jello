@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.inputWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.archivedCheckbox {
+  margin-top: 1.1rem;
+}

@@ -1,3 +1,4 @@
+import { removeEmptyValues } from "jello-utils";
 import { User } from "~/core/entity/models/user";
 import { I18nProvider } from "~/app/i18n/provider";
 import { API_ROUTES } from "~/app/api/config";
@@ -7,6 +8,7 @@ import { getI18nFromParams } from "~/app/i18n";
 import { Header } from "./_components/atoms/header";
 import { Lists } from "./_components/atoms/lists";
 import styles from "./page.module.css";
+import { Filter } from "./_components/atoms/filter";
 
 var I18N_NAMESPACES = [NAMESPACES.board];
 
@@ -40,9 +42,9 @@ var getLabels = async (boardId) => {
   return boardLabels?.data || [];
 };
 
-var getLists = async (boardId) => {
+var getLists = async (boardId, searchParams) => {
   var boardLists = await query(
-    API_ROUTES.lists.getAll(boardId),
+    API_ROUTES.lists.getAll(boardId, removeEmptyValues(searchParams)),
     "GET",
     null,
     true,
@@ -50,8 +52,9 @@ var getLists = async (boardId) => {
   return boardLists?.data || [];
 };
 
-export default async function Board({ params }) {
+export default async function Board({ params, searchParams }) {
   var { boardId } = await params;
+  searchParams = await searchParams;
 
   var { t, i18n, resources } =
     await getI18nFromParams(params)(I18N_NAMESPACES);
@@ -59,7 +62,7 @@ export default async function Board({ params }) {
   var board = await getBoard(boardId);
   var users = await getUsers(boardId);
   var labels = await getLabels(boardId);
-  var lists = await getLists(boardId);
+  var lists = await getLists(boardId, searchParams);
 
   return (
     <I18nProvider
@@ -77,6 +80,12 @@ export default async function Board({ params }) {
             color={board.color}
             isFavourite={board.is_favorite}
             canEdit={User.canEditBoard(board.role)}
+          />
+          <Filter
+            boardId={boardId}
+            users={users}
+            labels={labels}
+            searchParams={searchParams}
           />
           <Lists
             boardId={board.id}

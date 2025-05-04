@@ -17,6 +17,9 @@ var dtoSchema = {
   request: authSchema.concat(
     t.object({
       board_id: Id,
+      user_id: Id.nullable(),
+      label_id: Id.nullable(),
+      search: t.string().nullable(),
     }),
   ),
   response: Result.schema(
@@ -38,6 +41,9 @@ export async function getListsController(dto) {
       return await $task({
         user_id: user.id,
         board_id: request.board_id,
+        filter_user_id: request.user_id,
+        filter_label_id: request.label_id,
+        search: request.search,
       });
     }),
   );

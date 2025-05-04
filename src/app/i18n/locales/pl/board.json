@@ -45,5 +45,13 @@
         "required": "Nazwa jest wymagana."
       }
     }
+  },
+
+  "filter": {
+    "apply": "Zastosuj",
+    "user": "Użytkownik",
+    "label": "Etykieta",
+    "any": "Jakiekolwiek",
+    "search": "Szukaj"
   }
 }

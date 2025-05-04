@@ -45,5 +45,13 @@
         "required": "Name is required."
       }
     }
+  },
+
+  "filter": {
+    "apply": "Apply",
+    "user": "User",
+    "label": "Label",
+    "any": "Any",
+    "search": "Search"
   }
 }

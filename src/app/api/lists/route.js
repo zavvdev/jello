@@ -15,6 +15,11 @@ import { catch_, forward_ } from "~/app/api/utilities";
 export async function GET(request) {
   return applyMiddlewares(request)(withSession, withQueryParams)(
     async (session_token, queryParams) => {
+      var board_id = queryParams.get("board_id");
+      var user_id = queryParams.get("user_id");
+      var label_id = queryParams.get("label_id");
+      var search = queryParams.get("search");
+
       var $task = Task.of(getListsController)
         .map(forward_())
         .map(catch_())
@@ -22,7 +27,10 @@ export async function GET(request) {
 
       return await $task({
         session_token,
-        board_id: Number(queryParams.get("board_id")),
+        board_id: parseInt(board_id),
+        user_id: user_id ? parseInt(user_id) : null,
+        label_id: label_id ? parseInt(label_id) : null,
+        search: search || null,
       });
     },
   );

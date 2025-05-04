@@ -16,9 +16,12 @@ export class ListsRepo {
   /**
    * @param {{
    *  board_id: number;
+   *  user_id?: number;
+   *  label_id?: number;
+   *  search?: string;
    * }} param0
    */
-  async getAll({ board_id }) {
+  async getAll({ board_id, user_id, label_id, search }) {
     try {
       var result = await this.#client.query(
         `SELECT l.*, (
@@ -27,11 +30,30 @@ export class ListsRepo {
           )
           FROM tasks AS t
           WHERE t.list_id = l.id
+          AND t.name ILIKE '%' || $4 || '%'
+          AND (
+            $2::INT IS NULL
+            OR EXISTS (
+              SELECT 1
+              FROM users_tasks ut
+              WHERE ut.task_id = t.id
+              AND ut.user_id = $2
+            )
+          )
+          AND (
+            $3::INT IS NULL
+            OR EXISTS (
+              SELECT 1
+              FROM tasks_labels tl
+              WHERE tl.task_id = t.id
+              AND tl.label_id = $3
+            )
+          )
         ) AS tasks
         FROM lists AS l
         WHERE board_id = $1
         ORDER BY order_index ASC, created_at ASC`,
-        [board_id],
+        [board_id, user_id, label_id, search || ""],
       );
       return E.right(result.rows || []);
     } catch {

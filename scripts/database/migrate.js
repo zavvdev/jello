@@ -1,5 +1,9 @@
 var db = require("./connect");
-var { sortMigrations } = require("./utilities");
+var {
+  sortMigrations,
+  filterMigrations,
+  getMigrationFlags,
+} = require("./utilities");
 
 // @migrations
 
@@ -47,9 +51,15 @@ var migrations = [
  * @param {MigrationFn[]} migrations
  */
 function main(migrations) {
+  var { mode, filter } = getMigrationFlags(process.argv);
+
+  if (filter?.length > 0) {
+    migrations = filterMigrations(migrations)(filter);
+  }
+
   return db.transaction(async (client) => {
     for (const migration of sortMigrations(migrations)) {
-      await migration(client);
+      await migration()[mode](client);
     }
   });
 }
@@ -57,11 +67,11 @@ function main(migrations) {
 main(migrations)
   .then(() => {
     // eslint-disable-next-line no-console
-    console.log("Database migrations completed.");
+    console.log("Success.");
   })
   .catch((e) => {
     // eslint-disable-next-line no-console
-    console.error("Error migrating database", e);
+    console.error("Operation failed.", e);
   })
   .finally(() => {
     process.exit();

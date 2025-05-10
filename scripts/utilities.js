@@ -21,14 +21,10 @@ function appendLineToFile({ path, match, content }) {
     var lineNum =
       fileContent.findIndex((index) => match.test(index)) + 1;
 
-    if (lineNum) {
+    if (lineNum !== -1) {
       fileContent.splice(lineNum, 0, content);
       fs.writeFileSync(path, fileContent.join("\n"));
-    } else {
-      console.info(`Pattern "${match}" not found in file "${path}"`);
     }
-  } else {
-    console.info(`File "${path}" is empty`);
   }
 }
 
@@ -38,14 +34,10 @@ function replaceLineInFile({ path, match, content }) {
   if (fileContent?.length > 0) {
     var lineNum = fileContent.findIndex((index) => match === index);
 
-    if (lineNum) {
+    if (lineNum !== -1) {
       fileContent.splice(lineNum, 1, content);
       fs.writeFileSync(path, fileContent.join("\n"));
-    } else {
-      console.info(`Pattern "${match}" not found in file "${path}"`);
     }
-  } else {
-    console.info(`File "${path}" is empty`);
   }
 }
 

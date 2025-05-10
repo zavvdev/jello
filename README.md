@@ -40,7 +40,7 @@
 
 `make db-setup` - execute initial database migrations
 
-`make db-migrate` - execute database migrations
+`make db-migrate rollback=<true|false> filter=<migration1,migration2>` - execute database migrations
 
 `make db-stop` - stop database container
 

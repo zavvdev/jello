@@ -13,6 +13,25 @@ var sortMigrations = (migrations) => {
   return next;
 };
 
+var filterMigrations = (migrations) => (filter) =>
+  migrations.filter((m) => filter.find((x) => m.name.includes(x)));
+
+var getMigrationFlags = (args) => {
+  var filter = args
+    .find((arg) => arg.startsWith("--filter="))
+    ?.split("=")[1]
+    ?.split(",")
+    ?.map((arg) => arg.trim())
+    ?.filter(Boolean);
+
+  return {
+    mode: args.includes("--rollback=true") ? "down" : "up",
+    filter,
+  };
+};
+
 module.exports = {
   sortMigrations,
+  filterMigrations,
+  getMigrationFlags,
 };
